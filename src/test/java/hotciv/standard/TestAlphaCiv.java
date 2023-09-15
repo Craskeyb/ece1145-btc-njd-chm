@@ -54,6 +54,7 @@ public class TestAlphaCiv {
     assertThat(game, is(notNullValue()));
     assertThat(game.getPlayerInTurn(), is(Player.RED));
   }
+  @Test
   public void populationIsOne(){
     assertThat(city, is(notNullValue()));
     assertThat(city.getSize(), is(1));

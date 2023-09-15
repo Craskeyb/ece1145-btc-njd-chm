@@ -38,11 +38,13 @@ import java.util.*;
 */
 public class TestAlphaCiv {
   private Game game;
+  private Unit unit;
   private City city;
   /** Fixture for alphaciv testing. */
   @Before
   public void setUp() {
     game = new GameImpl();
+    unit = new UnitImpl();
     city = new CityImpl();
   }
 
@@ -50,13 +52,14 @@ public class TestAlphaCiv {
   @Test
   public void shouldBeRedAsStartingPlayer() {
     assertThat(game, is(notNullValue()));
-    // TODO: reenable the assert below to get started...
-    // assertThat(game.getPlayerInTurn(), is(Player.RED));
+    assertThat(game.getPlayerInTurn(), is(Player.RED));
   }
   public void populationIsOne(){
     assertThat(city, is(notNullValue()));
     assertThat(city.getSize(), is(1));
   }
+
+
 
   /** REMOVE ME. Not a test of HotCiv, just an example of what
       matchers the hamcrest library has... */

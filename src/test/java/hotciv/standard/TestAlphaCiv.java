@@ -38,11 +38,12 @@ import java.util.*;
 */
 public class TestAlphaCiv {
   private Game game;
-
+  private City city;
   /** Fixture for alphaciv testing. */
   @Before
   public void setUp() {
     game = new GameImpl();
+    city = new CityImpl();
   }
 
   // FRS p. 455 states that 'Red is the first player to take a turn'.
@@ -51,6 +52,10 @@ public class TestAlphaCiv {
     assertThat(game, is(notNullValue()));
     // TODO: reenable the assert below to get started...
     // assertThat(game.getPlayerInTurn(), is(Player.RED));
+  }
+  public void populationIsOne(){
+    assertThat(city, is(notNullValue()));
+    assertThat(city.getSize(), is(1));
   }
 
   /** REMOVE ME. Not a test of HotCiv, just an example of what

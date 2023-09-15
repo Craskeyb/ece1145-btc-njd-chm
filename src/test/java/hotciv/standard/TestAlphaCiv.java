@@ -38,20 +38,23 @@ import java.util.*;
 */
 public class TestAlphaCiv {
   private Game game;
+  private Unit unit;
 
   /** Fixture for alphaciv testing. */
   @Before
   public void setUp() {
     game = new GameImpl();
+    unit = new UnitImpl();
   }
 
   // FRS p. 455 states that 'Red is the first player to take a turn'.
   @Test
   public void shouldBeRedAsStartingPlayer() {
     assertThat(game, is(notNullValue()));
-    // TODO: reenable the assert below to get started...
-    // assertThat(game.getPlayerInTurn(), is(Player.RED));
+    assertThat(game.getPlayerInTurn(), is(Player.RED));
   }
+
+
 
   /** REMOVE ME. Not a test of HotCiv, just an example of what
       matchers the hamcrest library has... */

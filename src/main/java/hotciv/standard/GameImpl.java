@@ -32,9 +32,11 @@ import java.util.HashMap;
 */
 
 public class GameImpl implements Game {
+  
   private HashMap<Position,Tile> map = new HashMap<Position, Tile>();
   private HashMap<Position,Unit> unitMap = new HashMap<Position, Unit>();
   private HashMap<Position,City> cityMap = new HashMap<Position, City>();
+  
   public GameImpl(){
     for(int i=0;i<=GameConstants.WORLDSIZE;i++){
       for(int j=0;j<=GameConstants.WORLDSIZE;j++){
@@ -68,19 +70,24 @@ public class GameImpl implements Game {
       }
     }
   }
+
   public Tile getTileAt( Position p ) { return map.get(p);}
   public Unit getUnitAt( Position p ) { return unitMap.get(p); }
   public City getCityAt( Position p ) { return cityMap.get(p); }
   public Player getPlayerInTurn() { return Player.RED; }
   public Player getWinner() { return null; }
   public int getAge() { return 0; }
+  
   public boolean moveUnit( Position from, Position to ) {
-    if(from.getRow() == 3 && from.getColumn() == 2){
+    if(this.getUnitAt(from).getOwner() != this.getPlayerInTurn()){
       return false;
     }
     return true;
   }
-  public void endOfTurn() {}
+
+  public void endOfTurn() {
+
+  }
   public void changeWorkForceFocusInCityAt( Position p, String balance ) {}
   public void changeProductionInCityAt( Position p, String unitType ) {}
   public void performUnitActionAt( Position p ) {}

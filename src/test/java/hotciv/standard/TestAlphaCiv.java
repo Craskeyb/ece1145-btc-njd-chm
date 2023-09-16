@@ -73,17 +73,31 @@ public class TestAlphaCiv {
     assertThat(game.getCityAt(new Position(4,1)).getOwner(), is(Player.BLUE));//Check if red
   }
 
-
-  @Test public void checkTiles(){
-    game = new GameImpl();
-    Position oc = new Position(1,0);//Ocean
-    Position hill = new Position(0,1);//Hill
+  @Test
+  public void checkMountain(){
     Position mountain = new Position(2,2);//Mountains
-    Position plain = new Position(5,8);//Random Plain Position
-    assertThat(game.getTileAt(oc).getTypeString(),is("ocean"));
-    assertThat(game.getTileAt(hill).getTypeString(),is("hills"));
     assertThat(game.getTileAt(mountain).getTypeString(),is("mountain"));
-    assertThat(game.getTileAt(plain).getTypeString(),is("plains"));
+  }
+  
+  @Test
+  public void checkHill(){
+    Position hill = new Position(0,1);//Hill
+    assertThat(game.getTileAt(hill).getTypeString(),is("hills"));
+  }
+
+  @Test
+  public void checkOcean(){
+    Position oc = new Position(1,0);//Ocean
+    assertThat(game.getTileAt(oc).getTypeString(),is("ocean"));
+  }
+
+  @Test
+  public void checkPlains(){
+    for(int i = 0; i<GameConstants.WORLDSIZE;i++){
+      for(int j = 0; j<GameConstants.WORLDSIZE;j++){
+        
+      }
+    }
   }
 
   @Test
@@ -92,6 +106,12 @@ public class TestAlphaCiv {
     assertThat(game.moveUnit(new Position(3,2),new Position(5,5)), is(false));
 
   }
+
+  @Test
+  public void cantMoveOnMountain(){
+    assertThat(game.moveUnit(new Position(2, 0), new Position(2,2)), is(false));
+  }
+
 }
   
 

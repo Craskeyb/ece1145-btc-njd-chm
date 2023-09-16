@@ -2,6 +2,8 @@ package hotciv.standard;
 
 import hotciv.framework.*;
 
+import java.util.HashMap;
+
 /** Skeleton implementation of HotCiv.
  
    This source code is from the book 
@@ -30,9 +32,45 @@ import hotciv.framework.*;
 */
 
 public class GameImpl implements Game {
-  public Tile getTileAt( Position p ) { return null; }
-  public Unit getUnitAt( Position p ) { return null; }
-  public City getCityAt( Position p ) { return null; }
+  private HashMap<Position,Tile> map = new HashMap<Position, Tile>();
+  private HashMap<Position,Unit> unitMap = new HashMap<Position, Unit>();
+  private HashMap<Position,City> cityMap = new HashMap<Position, City>();
+  public GameImpl(){
+    for(int i=0;i<=GameConstants.WORLDSIZE;i++){
+      for(int j=0;j<=GameConstants.WORLDSIZE;j++){
+        if (i == 1 && j == 0){
+          map.put(new Position(i,j),new TileImpl(GameConstants.OCEANS));
+        }
+        else if (i == 0 && j == 1){
+          map.put(new Position(i,j),new TileImpl(GameConstants.HILLS));
+        }
+        else if (i == 2 && j == 2){
+          map.put(new Position(i,j),new TileImpl(GameConstants.MOUNTAINS));
+        }
+        else {
+          map.put(new Position(i,j),new TileImpl(GameConstants.PLAINS));
+        }
+        if (i == 2 && j == 0){
+          unitMap.put(new Position(i,j),new UnitImpl(Player.RED, GameConstants.ARCHER));
+        }
+        else if (i == 3 && j == 2){
+          unitMap.put(new Position(i,j),new UnitImpl(Player.BLUE, GameConstants.LEGION));
+        }
+        else if (i == 4 && j == 3){
+          unitMap.put(new Position(i,j),new UnitImpl(Player.RED, GameConstants.SETTLER));
+        }
+        if (i == 1 && j == 1){
+          cityMap.put(new Position(i,j),new CityImpl(Player.RED));
+        }
+        else if (i == 4 && j == 1){
+          cityMap.put(new Position(i,j),new CityImpl(Player.BLUE));
+        }
+      }
+    }
+  }
+  public Tile getTileAt( Position p ) { return map.get(p);}
+  public Unit getUnitAt( Position p ) { return unitMap.get(p); }
+  public City getCityAt( Position p ) { return cityMap.get(p); }
   public Player getPlayerInTurn() { return Player.RED; }
   public Player getWinner() { return null; }
   public int getAge() { return 0; }

@@ -37,26 +37,14 @@ import java.util.*;
 
 */
 public class TestAlphaCiv {
+  
   private Game game;
-
-  private Unit unit;
-  private City redCity;
-  private City blueCity;
-
-  private City city;
 
 
   /** Fixture for alphaciv testing. */
   @Before
   public void setUp() {
     game = new GameImpl();
-
-    unit = new UnitImpl(Player.RED,"ARCHER");
-    redCity = new CityImpl(Player.RED);
-    blueCity = new CityImpl(Player.BLUE);
-
-    city = new CityImpl();
-
   }
 
   // FRS p. 455 states that 'Red is the first player to take a turn'.
@@ -68,26 +56,21 @@ public class TestAlphaCiv {
 
   @Test
   public void populationIsOne(){
-    assertThat(redCity, is(notNullValue()));
-    assertThat(redCity.getSize(), is(1));
+    assertThat(game.getCityAt(new Position(1,1)), is(notNullValue()));
+    assertThat(game.getCityAt(new Position(1,1)).getSize(), is(1));
   }
   @Test
   public void redPositionCorrect(){
     assertThat(game, is(notNullValue()));
-    assertThat(redCity, is(notNullValue()));
-    assertThat(redCity.getOwner(), is(Player.RED));//Check if red
-    Position testPos = redCity.getPosition();
-    String pos = testPos.toString();
-    assertThat(pos, is("[1,1]"));
+    assertThat(game.getCityAt(new Position(1,1)), is(notNullValue()));
+    assertThat(game.getCityAt(new Position(1,1)).getOwner(), is(Player.RED));//Check if red
   }
+
   @Test
   public void bluePositionCorrect(){
     assertThat(game, is(notNullValue()));
-    assertThat(blueCity, is(notNullValue()));
-    assertThat(blueCity.getOwner(), is(Player.BLUE));//Check if red
-    Position testPos = blueCity.getPosition();
-    String pos = testPos.toString();
-    assertThat(pos, is("[4,1]"));
+    assertThat(game.getCityAt(new Position(4, 1)), is(notNullValue()));
+    assertThat(game.getCityAt(new Position(4,1)).getOwner(), is(Player.BLUE));//Check if red
   }
 
 
@@ -101,6 +84,7 @@ public class TestAlphaCiv {
     assertThat(game.getTileAt(hill).getTypeString(),is("hills"));
     assertThat(game.getTileAt(mountain).getTypeString(),is("mountain"));
     assertThat(game.getTileAt(plain).getTypeString(),is("plains"));
+  }
 
   @Test
   public void redCantMoveBlueUnits(){
@@ -108,31 +92,32 @@ public class TestAlphaCiv {
     assertThat(game.moveUnit(new Position(3,2),new Position(5,5)), is(false));
 
   }
-
+}
+  
 
   /** REMOVE ME. Not a test of HotCiv, just an example of what
       matchers the hamcrest library has... */
-  @Test
-  public void shouldDefinetelyBeRemoved() {
-    // Matching null and not null values
-    // 'is' require an exact match
-    String s = null;
-    assertThat(s, is(nullValue()));
-    s = "Ok";
-    assertThat(s, is(notNullValue()));
-    assertThat(s, is("Ok"));
+//   @Test
+//   public void shouldDefinetelyBeRemoved() {
+//     // Matching null and not null values
+//     // 'is' require an exact match
+//     String s = null;
+//     assertThat(s, is(nullValue()));
+//     s = "Ok";
+//     assertThat(s, is(notNullValue()));
+//     assertThat(s, is("Ok"));
 
-    // If you only validate substrings, use containsString
-    assertThat("This is a dummy test", containsString("dummy"));
+//     // If you only validate substrings, use containsString
+//     assertThat("This is a dummy test", containsString("dummy"));
 
-    // Match contents of Lists
-    List<String> l = new ArrayList<String>();
-    l.add("Bimse");
-    l.add("Bumse");
-    // Note - ordering is ignored when matching using hasItems
-    assertThat(l, hasItems(new String[] {"Bumse","Bimse"}));
+//     // Match contents of Lists
+//     List<String> l = new ArrayList<String>();
+//     l.add("Bimse");
+//     l.add("Bumse");
+//     // Note - ordering is ignored when matching using hasItems
+//     assertThat(l, hasItems(new String[] {"Bumse","Bimse"}));
 
-    // Matchers may be combined, like is-not
-    assertThat(l.get(0), is(not("Bumse")));
-  }
-}
+//     // Matchers may be combined, like is-not
+//     assertThat(l.get(0), is(not("Bumse")));
+//   }
+// }

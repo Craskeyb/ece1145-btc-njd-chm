@@ -38,13 +38,12 @@ import java.util.*;
 */
 public class TestAlphaCiv {
   private Game game;
-  private Unit unit;
   private City city;
+
   /** Fixture for alphaciv testing. */
   @Before
   public void setUp() {
     game = new GameImpl();
-    unit = new UnitImpl();
     city = new CityImpl();
   }
 
@@ -54,11 +53,18 @@ public class TestAlphaCiv {
     assertThat(game, is(notNullValue()));
     assertThat(game.getPlayerInTurn(), is(Player.RED));
   }
+  
+  @Test
   public void populationIsOne(){
     assertThat(city, is(notNullValue()));
     assertThat(city.getSize(), is(1));
   }
 
+  @Test
+  public void redCantMoveBlueUnits(){
+    assertThat(game.getPlayerInTurn(),is(Player.RED));
+    assertThat(game.moveUnit(new Position(3,2),new Position(5,5)), is(false));
+  }
 
 
   /** REMOVE ME. Not a test of HotCiv, just an example of what

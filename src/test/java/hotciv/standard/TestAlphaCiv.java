@@ -90,15 +90,7 @@ public class TestAlphaCiv {
     Position oc = new Position(1,0);//Ocean
     assertThat(game.getTileAt(oc).getTypeString(),is("ocean"));
   }
-
-  @Test
-  public void checkPlains(){
-    for(int i = 0; i<GameConstants.WORLDSIZE;i++){
-      for(int j = 0; j<GameConstants.WORLDSIZE;j++){
-        
-      }
-    }
-  }
+  
 
   @Test
   public void redCantMoveBlueUnits(){

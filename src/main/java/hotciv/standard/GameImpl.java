@@ -36,8 +36,14 @@ public class GameImpl implements Game {
   private HashMap<Position,Tile> map = new HashMap<Position, Tile>();
   private HashMap<Position,Unit> unitMap = new HashMap<Position, Unit>();
   private HashMap<Position,City> cityMap = new HashMap<Position, City>();
+  private Player playerInTurn;
+  private int gameAge;
   
   public GameImpl(){
+
+    playerInTurn = Player.RED;
+    gameAge = 4000;
+
     for(int i=0;i<=GameConstants.WORLDSIZE;i++){
       for(int j=0;j<=GameConstants.WORLDSIZE;j++){
         if (i == 1 && j == 0){
@@ -74,9 +80,16 @@ public class GameImpl implements Game {
   public Tile getTileAt( Position p ) { return map.get(p);}
   public Unit getUnitAt( Position p ) { return unitMap.get(p); }
   public City getCityAt( Position p ) { return cityMap.get(p); }
-  public Player getPlayerInTurn() { return Player.RED; }
-  public Player getWinner() { return null; }
-  public int getAge() { return 0; }
+  public Player getPlayerInTurn() { return playerInTurn; }
+  
+  public Player getWinner() { 
+    if(this.getAge() == 3000){
+      return Player.RED;
+    }
+    return null; 
+  }
+  
+  public int getAge() { return gameAge;}
   
   public boolean moveUnit( Position from, Position to ) {
     if(this.getUnitAt(from).getOwner() != this.getPlayerInTurn()){
@@ -86,7 +99,13 @@ public class GameImpl implements Game {
   }
 
   public void endOfTurn() {
-
+    if(this.getPlayerInTurn() == Player.RED){
+      playerInTurn = Player.BLUE;
+    }
+    else{
+      playerInTurn = Player.RED;
+    }
+    gameAge -= 100;
   }
   public void changeWorkForceFocusInCityAt( Position p, String balance ) {}
   public void changeProductionInCityAt( Position p, String unitType ) {}

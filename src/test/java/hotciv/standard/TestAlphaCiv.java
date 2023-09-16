@@ -112,6 +112,36 @@ public class TestAlphaCiv {
     assertThat(game.moveUnit(new Position(2, 0), new Position(2,2)), is(false));
   }
 
+  @Test
+  public void gameStartsAt4000(){
+    assertThat(game.getAge(), is(4000));
+  }
+
+  @Test
+  public void blueIsAfterRedInTurn(){
+    game.endOfTurn();
+    assertThat(game.getPlayerInTurn(),is(Player.BLUE));
+  }
+
+  @Test
+  public void gameAges100(){
+    Game newGame = new GameImpl();
+    assertThat(newGame.getAge(), is(4000));
+    newGame.endOfTurn();
+    assertThat(newGame.getAge(),is(3900));
+  }
+
+  @Test
+  public void redWinsAt3000(){
+    Game newGame = new GameImpl();
+    for(int i = 0; i<10;i++){
+      assertThat(newGame.getWinner(),is(nullValue()));
+      newGame.endOfTurn();
+    }
+    assertThat(newGame.getAge(),is(3000));
+    assertThat(newGame.getWinner(), is(Player.RED));
+  }
+
 }
   
 

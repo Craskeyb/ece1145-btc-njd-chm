@@ -2,6 +2,8 @@ package hotciv.standard;
 
 import hotciv.framework.*;
 
+import java.util.HashMap;
+
 /** Skeleton implementation of HotCiv.
 
  This source code is from the book
@@ -30,7 +32,10 @@ import hotciv.framework.*;
  */
 
 public class TileImpl implements Tile {
-
-    public String getTypeString() {return null;}
+    private String type;
+    public TileImpl(String type){
+        this.type = type;
+    }
+    public String getTypeString() {return this.type;}
 
 }

@@ -39,13 +39,16 @@ import java.util.*;
 public class TestAlphaCiv {
   private Game game;
   private Unit unit;
-  private City city;
+  private City redCity;
+  private City blueCity;
+
   /** Fixture for alphaciv testing. */
   @Before
   public void setUp() {
     game = new GameImpl();
-    unit = new UnitImpl();
-    city = new CityImpl();
+    unit = new UnitImpl(Player.RED,"ARCHER");
+    redCity = new CityImpl(Player.RED);
+    blueCity = new CityImpl(Player.BLUE);
   }
 
   // FRS p. 455 states that 'Red is the first player to take a turn'.
@@ -56,10 +59,39 @@ public class TestAlphaCiv {
   }
   @Test
   public void populationIsOne(){
-    assertThat(city, is(notNullValue()));
-    assertThat(city.getSize(), is(1));
+    assertThat(redCity, is(notNullValue()));
+    assertThat(redCity.getSize(), is(1));
+  }
+  @Test
+  public void redPositionCorrect(){
+    assertThat(game, is(notNullValue()));
+    assertThat(redCity, is(notNullValue()));
+    assertThat(redCity.getOwner(), is(Player.RED));//Check if red
+    Position testPos = redCity.getPosition();
+    String pos = testPos.toString();
+    assertThat(pos, is("[1,1]"));
+  }
+  @Test
+  public void bluePositionCorrect(){
+    assertThat(game, is(notNullValue()));
+    assertThat(blueCity, is(notNullValue()));
+    assertThat(blueCity.getOwner(), is(Player.BLUE));//Check if red
+    Position testPos = blueCity.getPosition();
+    String pos = testPos.toString();
+    assertThat(pos, is("[4,1]"));
   }
 
+  @Test public void checkTiles(){
+    game = new GameImpl();
+    Position oc = new Position(1,0);//Ocean
+    Position hill = new Position(0,1);//Hill
+    Position mountain = new Position(2,2);//Mountains
+    Position plain = new Position(5,8);//Random Plain Position
+    assertThat(game.getTileAt(oc).getTypeString(),is("ocean"));
+    assertThat(game.getTileAt(hill).getTypeString(),is("hills"));
+    assertThat(game.getTileAt(mountain).getTypeString(),is("mountain"));
+    assertThat(game.getTileAt(plain).getTypeString(),is("plains"));
+  }
 
 
   /** REMOVE ME. Not a test of HotCiv, just an example of what

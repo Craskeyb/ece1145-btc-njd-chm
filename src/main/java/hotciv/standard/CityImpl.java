@@ -1,11 +1,16 @@
 package hotciv.standard;
 
-import hotciv.framework.*;
+import hotciv.framework.City;
+import hotciv.framework.Player;
 
-public class CityImpl implements City{
+Citypublic class CityImpl implements City{
     public Player getOwner() { return null;}
     public int getSize(){ return 1;}
     public int getTreasury(){ return 0;}
-    public String getProduction(){ return null;}
     public String getWorkforceFocus(){ return null;}
+
+
+     public String getProduction() {
+        return production;
+    }
 }

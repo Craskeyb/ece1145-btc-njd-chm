@@ -38,17 +38,25 @@ import java.util.*;
 */
 public class TestAlphaCiv {
   private Game game;
+
   private Unit unit;
   private City redCity;
   private City blueCity;
+
+  private City city;
+
 
   /** Fixture for alphaciv testing. */
   @Before
   public void setUp() {
     game = new GameImpl();
+
     unit = new UnitImpl(Player.RED,"ARCHER");
     redCity = new CityImpl(Player.RED);
     blueCity = new CityImpl(Player.BLUE);
+
+    city = new CityImpl();
+
   }
 
   // FRS p. 455 states that 'Red is the first player to take a turn'.
@@ -57,6 +65,7 @@ public class TestAlphaCiv {
     assertThat(game, is(notNullValue()));
     assertThat(game.getPlayerInTurn(), is(Player.RED));
   }
+
   @Test
   public void populationIsOne(){
     assertThat(redCity, is(notNullValue()));
@@ -81,6 +90,7 @@ public class TestAlphaCiv {
     assertThat(pos, is("[4,1]"));
   }
 
+
   @Test public void checkTiles(){
     game = new GameImpl();
     Position oc = new Position(1,0);//Ocean
@@ -91,6 +101,12 @@ public class TestAlphaCiv {
     assertThat(game.getTileAt(hill).getTypeString(),is("hills"));
     assertThat(game.getTileAt(mountain).getTypeString(),is("mountain"));
     assertThat(game.getTileAt(plain).getTypeString(),is("plains"));
+
+  @Test
+  public void redCantMoveBlueUnits(){
+    assertThat(game.getPlayerInTurn(),is(Player.RED));
+    assertThat(game.moveUnit(new Position(3,2),new Position(5,5)), is(false));
+
   }
 
 

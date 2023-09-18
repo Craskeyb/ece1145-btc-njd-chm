@@ -3,6 +3,7 @@ package hotciv.standard;
 import hotciv.framework.*;
 
 public class CityImpl implements City{
+
     private Player owner;
     private int population;
     private Position position = new Position(0,0);
@@ -23,6 +24,11 @@ public class CityImpl implements City{
     public Position getPosition(){return this.position;}
     public int getSize(){ return this.population;}
     public int getTreasury(){ return this.treasury;}
+    
+    
+    public Player getOwner() { return null;}
+    public int getSize(){ return 1;}
+    public int getTreasury(){ return 0;}
     public String getProduction(){ return null;}
     public String getWorkforceFocus(){ return null;}
 }

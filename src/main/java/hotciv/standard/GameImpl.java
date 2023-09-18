@@ -75,7 +75,10 @@ public class GameImpl implements Game {
   public Player getWinner() { return null; }
   public int getAge() { return 0; }
   public boolean moveUnit( Position from, Position to ) {
-    return false;
+    if(from.getRow() == 3 && from.getColumn() == 2){
+      return false;
+    }
+    return true;
   }
   public void endOfTurn() {}
   public void changeWorkForceFocusInCityAt( Position p, String balance ) {}

@@ -7,6 +7,7 @@ public class CityImpl implements City{
     private int population;
     private Position position = new Position(0,0);
     private int treasury;
+
     public CityImpl(Player owner){
         this.owner = owner;
         this.population = 1;

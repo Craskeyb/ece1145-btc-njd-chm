@@ -95,6 +95,9 @@ public class GameImpl implements Game {
     if(this.getUnitAt(from).getOwner() != this.getPlayerInTurn()){
       return false;
     }
+    else if(this.getTileAt(to).getTypeString() == GameConstants.MOUNTAINS){
+      return false;
+    }
     return true;
   }
 

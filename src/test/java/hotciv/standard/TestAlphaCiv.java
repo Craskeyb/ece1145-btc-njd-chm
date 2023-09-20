@@ -101,7 +101,8 @@ public class TestAlphaCiv {
 
   @Test
   public void cantMoveOnMountain(){
-    assertThat(game.moveUnit(new Position(2, 0), new Position(2,2)), is(false));
+    Game newGame = new GameImpl();
+    assertThat(newGame.moveUnit(new Position(2, 0), new Position(2,2)), is(false));
   }
 
   @Test
@@ -133,6 +134,13 @@ public class TestAlphaCiv {
     assertThat(newGame.getAge(),is(3000));
     assertThat(newGame.getWinner(), is(Player.RED));
   }
+
+  // @Test
+  // public void redHasArcherAt2_0(){
+  //   Game newGame = new GameImpl();
+  //   assertThat(newGame.getUnitAt(new Position(2,0)).getOwner(), is(Player.RED));
+  //   assertThat(newGame.getUnitAt(new Position(2,0)).getTypeString(), is(GameConstants.ARCHER));
+  // }
 
 }
   

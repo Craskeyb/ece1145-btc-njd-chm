@@ -89,6 +89,7 @@ public class TestAlphaCiv {
   }
 
 
+<<<<<<< Updated upstream
   @Test public void checkTiles(){
     game = new GameImpl();
     Position oc = new Position(1,0);//Ocean
@@ -106,6 +107,11 @@ public class TestAlphaCiv {
     assertThat(game.moveUnit(new Position(3,2),new Position(5,5)), is(false));
 
   }
+
+@Test
+public void productionEndOfRound() {
+  assertThat(game, is(notNullValue()));
+  assertThat(game.getProduction(), is(6));
 
 
   /** REMOVE ME. Not a test of HotCiv, just an example of what

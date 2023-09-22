@@ -10,8 +10,8 @@ public class UnitImpl implements Unit {
         this.owner = owner;
         this.type = type;
     }
-    public String getTypeString() {return null;}
-    public Player getOwner() {return null;}
+    public String getTypeString() {return this.type;}
+    public Player getOwner() {return this.owner;}
     public int getMoveCount() {return -1;}
     public int getDefensiveStrength() {return -1;}
     public int getAttackingStrength() {return -1;}

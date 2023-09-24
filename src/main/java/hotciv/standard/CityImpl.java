@@ -7,7 +7,7 @@ public class CityImpl implements City{
     private Player owner;
     private int population;
     private int treasury;
-    
+
     public CityImpl(Player owner){
         this.owner = owner;
         this.population = 1;

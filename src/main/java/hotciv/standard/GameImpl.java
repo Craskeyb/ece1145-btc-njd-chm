@@ -33,7 +33,12 @@ import java.util.HashMap;
 
 public class GameImpl implements Game {
   private int production;
+ private Player winner = Player.RED;
+  private int turnCount = 0;
+  private int gameAge = -4000;
   private Player currentPlayer = Player.RED;
+
+  private int prod = 0;
 
   private HashMap<Position,Tile> map = new HashMap<Position, Tile>();
   private HashMap<Position,Unit> unitMap = new HashMap<Position, Unit>();
@@ -76,8 +81,10 @@ public class GameImpl implements Game {
   public City getCityAt( Position p ) { return cityMap.get(p); }
 
   public Player getPlayerInTurn() { return currentPlayer; }
-  public Player getWinner() { return null; }
-  public int getAge() { return 0; }
+  public Player getWinner() {
+    return winner; }
+  public int getAge() {
+    return gameAge; }
   public boolean moveUnit( Position from, Position to ) {
     if(from.getRow() == 3 && from.getColumn() == 2){
       return false;
@@ -85,13 +92,37 @@ public class GameImpl implements Game {
     return true;
   }
   public void endOfTurn() {
-  currentPlayer = Player.BLUE;
+    if(turnCount == 0) {
+      currentPlayer = Player.BLUE;
+      turnCount++;
+    }
+    else if (turnCount == 1)
+    {
+              turnCount = 0;
+              endOfRound();
+    }
+
+  }
+
+  public void endOfRound(){
+gameAge = gameAge+100;
+currentPlayer = Player.RED;
+
+
+
+
+    /**
+     * 100 years pass each round
+     * A) restore all units' move counts
+     * B) produce food and production in all cities
+     * C) produce units in all cities (if enough production)
+     * D) increase population size in all cities (if enough food)
+     * E) increment the world age.
+     */
+
   }
   public void changeWorkForceFocusInCityAt( Position p, String balance ) {}
   public void changeProductionInCityAt( Position p, String unitType ) {}
   public void performUnitActionAt( Position p ) {}
-   public String getProduction() {
-return "string";
 
-    }
 }

@@ -4,7 +4,8 @@ import hotciv.framework.*;
 
 import org.junit.*;
 import static org.junit.Assert.*;
-import static org.hamcrest.CoreMatchers.*;
+import static org.hamcrest.Matchers.*;
+
 
 import java.util.*;
 
@@ -68,6 +69,8 @@ public class TestAlphaCiv {
   public void populationIsOne(){
     assertThat(redCity, is(notNullValue()));
     assertThat(redCity.getSize(), is(1));
+    assertThat(blueCity, is(notNullValue()));
+    assertThat(blueCity.getSize(), is(1));
   }
   @Test
   public void redPositionCorrect(){
@@ -103,6 +106,12 @@ public class TestAlphaCiv {
   }
 
   @Test
+  public void cantMoveOverMountain() {
+  //todo
+
+  }
+
+  @Test
   public void redCantMoveBlueUnits(){
     assertThat(game.getPlayerInTurn(),is(Player.RED));
     assertThat(game.moveUnit(new Position(3,2),new Position(5,5)), is(false));
@@ -116,12 +125,50 @@ public class TestAlphaCiv {
 
     }
 
+  @Test
+  public void redAfterRound() {
+    game.endOfTurn();
+    game.endOfTurn();
+    assertThat(game.getPlayerInTurn(), is(Player.RED));
+
+  }
+  @Test
+  public void moveCountRestoreAfterRound() {
+//todo
+  }
+  
+  
+  
 @Test
 public void productionEndOfRound() {
-  game.endOfTurn();
- // assertThat(game.getProduction(), is(6));
+//todo
+// assertThat(game.getProduction(), is(6));
 }
 
+  @Test
+  public void redWins3000() {
+    assertThat(game.getAge(), is(notNullValue()));
+   for(int x = 0; x<20; x++)
+    {
+      game.endOfTurn();
+    }
+    assertThat(game.getAge(), is(-3000));
+    assertThat(game.getWinner(), is(Player.RED));
+  }
+
+  @Test
+  public void from4000BCto100BCRoundAre100Years() {
+    int prevAge = game.getAge();
+    assertThat(prevAge, is(notNullValue()));
+    assertThat(prevAge, greaterThanOrEqualTo(-4000));
+    System.out.println(prevAge);
+    assertThat(prevAge, lessThanOrEqualTo(-100));
+    game.endOfTurn();
+    game.endOfTurn();
+    assertThat(game.getAge(), is(prevAge+100));
+
+
+  }
 
   @Test
   public void shouldDefinetelyBeRemoved() {
@@ -147,4 +194,6 @@ public void productionEndOfRound() {
     assertThat(l.get(0), is(not("Bumse")));
   }
 }
+
+
 

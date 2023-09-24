@@ -32,13 +32,12 @@ import java.util.HashMap;
 */
 
 public class GameImpl implements Game {
-  private int production;
  private Player winner = Player.RED;
   private int turnCount = 0;
   private int gameAge = -4000;
   private Player currentPlayer = Player.RED;
 
-  private int prod = 0;
+  private int production = 0;
 
   private HashMap<Position,Tile> map = new HashMap<Position, Tile>();
   private HashMap<Position,Unit> unitMap = new HashMap<Position, Unit>();

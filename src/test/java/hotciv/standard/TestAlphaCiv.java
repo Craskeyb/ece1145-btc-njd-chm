@@ -141,9 +141,10 @@ public class TestAlphaCiv {
   
 @Test
 public void productionEndOfRound() {
-//todo
-// assertThat(game.getProduction(), is(6));
-}
+/*endOfTurn();
+endOfTurn();
+assertThat(game.getProduction(), is(6));
+*/}
 
   @Test
   public void redWins3000() {

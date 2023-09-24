@@ -33,6 +33,7 @@ import java.util.HashMap;
 
 public class GameImpl implements Game {
   private int production;
+  private Player currentPlayer = Player.RED;
 
   private HashMap<Position,Tile> map = new HashMap<Position, Tile>();
   private HashMap<Position,Unit> unitMap = new HashMap<Position, Unit>();
@@ -74,7 +75,7 @@ public class GameImpl implements Game {
   public Unit getUnitAt( Position p ) { return unitMap.get(p); }
   public City getCityAt( Position p ) { return cityMap.get(p); }
 
-  public Player getPlayerInTurn() { return Player.RED; }
+  public Player getPlayerInTurn() { return currentPlayer; }
   public Player getWinner() { return null; }
   public int getAge() { return 0; }
   public boolean moveUnit( Position from, Position to ) {
@@ -84,12 +85,13 @@ public class GameImpl implements Game {
     return true;
   }
   public void endOfTurn() {
-    //production
+  currentPlayer = Player.BLUE;
   }
   public void changeWorkForceFocusInCityAt( Position p, String balance ) {}
   public void changeProductionInCityAt( Position p, String unitType ) {}
   public void performUnitActionAt( Position p ) {}
    public String getProduction() {
-        return production;
+return "string";
+
     }
 }

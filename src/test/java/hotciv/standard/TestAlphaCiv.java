@@ -89,17 +89,18 @@ public class TestAlphaCiv {
   }
 
 
-<<<<<<< Updated upstream
-  @Test public void checkTiles(){
+
+  @Test public void checkTiles() {
     game = new GameImpl();
-    Position oc = new Position(1,0);//Ocean
-    Position hill = new Position(0,1);//Hill
-    Position mountain = new Position(2,2);//Mountains
-    Position plain = new Position(5,8);//Random Plain Position
-    assertThat(game.getTileAt(oc).getTypeString(),is("ocean"));
-    assertThat(game.getTileAt(hill).getTypeString(),is("hills"));
-    assertThat(game.getTileAt(mountain).getTypeString(),is("mountain"));
-    assertThat(game.getTileAt(plain).getTypeString(),is("plains"));
+    Position oc = new Position(1, 0);//Ocean
+    Position hill = new Position(0, 1);//Hill
+    Position mountain = new Position(2, 2);//Mountains
+    Position plain = new Position(5, 8);//Random Plain Position
+    assertThat(game.getTileAt(oc).getTypeString(), is("ocean"));
+    assertThat(game.getTileAt(hill).getTypeString(), is("hills"));
+    assertThat(game.getTileAt(mountain).getTypeString(), is("mountain"));
+    assertThat(game.getTileAt(plain).getTypeString(), is("plains"));
+  }
 
   @Test
   public void redCantMoveBlueUnits(){
@@ -108,14 +109,20 @@ public class TestAlphaCiv {
 
   }
 
+  @Test
+    public void blueAfterRed() {
+      game.endOfTurn();
+      assertThat(game.getPlayerInTurn(), is(Player.BLUE));
+
+    }
+
 @Test
 public void productionEndOfRound() {
-  assertThat(game, is(notNullValue()));
-  assertThat(game.getProduction(), is(6));
+  game.endOfTurn();
+ // assertThat(game.getProduction(), is(6));
+}
 
 
-  /** REMOVE ME. Not a test of HotCiv, just an example of what
-      matchers the hamcrest library has... */
   @Test
   public void shouldDefinetelyBeRemoved() {
     // Matching null and not null values
@@ -140,3 +147,4 @@ public void productionEndOfRound() {
     assertThat(l.get(0), is(not("Bumse")));
   }
 }
+

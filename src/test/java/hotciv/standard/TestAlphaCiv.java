@@ -134,6 +134,21 @@ public class TestAlphaCiv {
     assertThat(newGame.getAge(),is(3000));
     assertThat(newGame.getWinner(), is(Player.RED));
   }
+@Test
+  public void produceSixProduction() {
+  Game newGame = new GameImpl();
+  Position redCity = new Position(1,1);
+  Position blueCity = new Position(4,1);
+  assertThat(newGame.getCityAt(redCity).getTreasury(),is(0));
+  assertThat(newGame.getCityAt(blueCity).getTreasury(),is(0));
+  newGame.endOfTurn();
+  assertThat(newGame.getCityAt(redCity).getTreasury(),is(6));
+  assertThat(newGame.getCityAt(blueCity).getTreasury(),is(0));
+  newGame.endOfTurn();
+  assertThat(newGame.getCityAt(redCity).getTreasury(),is(6));
+  assertThat(newGame.getCityAt(blueCity).getTreasury(),is(6));
+}
+
 
   // @Test
   // public void redHasArcherAt2_0(){

@@ -92,12 +92,25 @@ public class GameImpl implements Game {
   public int getAge() { return gameAge;}
   
   public boolean moveUnit( Position from, Position to ) {
+    
+    //Trying to move another player's units
     if(this.getUnitAt(from).getOwner() != this.getPlayerInTurn()){
       return false;
     }
+    //Trying to move on a mountain
     else if(this.getTileAt(to).getTypeString() == GameConstants.MOUNTAINS){
       return false;
     }
+    //Initiating an attack
+    else if(this.getUnitAt(to).getOwner() != this.getPlayerInTurn()){
+      unitMap.put(to,this.getUnitAt(from));
+      unitMap.remove(from);
+      return true;
+    }
+    
+    //Default case, will move the unit from original position to new position
+    unitMap.put(to,this.getUnitAt(from));
+    unitMap.remove(from);
     return true;
   }
 

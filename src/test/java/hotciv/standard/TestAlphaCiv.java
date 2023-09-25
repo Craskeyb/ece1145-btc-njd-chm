@@ -150,13 +150,76 @@ public class TestAlphaCiv {
 }
 
 
-  // @Test
-  // public void redHasArcherAt2_0(){
-  //   Game newGame = new GameImpl();
-  //   assertThat(newGame.getUnitAt(new Position(2,0)).getOwner(), is(Player.RED));
-  //   assertThat(newGame.getUnitAt(new Position(2,0)).getTypeString(), is(GameConstants.ARCHER));
-  // }
 
+  @Test
+  public void redHasArcherAt2_0(){
+    Game newGame = new GameImpl();
+    assertThat(newGame.getUnitAt(new Position(2,0)).getOwner(), is(Player.RED));
+    assertThat(newGame.getUnitAt(new Position(2,0)).getTypeString(), is(GameConstants.ARCHER));
+  }
+
+  @Test
+  public void blueHasLegionAt3_2(){
+    Game newGame = new GameImpl();
+    assertThat(newGame.getUnitAt(new Position(3,2)).getTypeString(), is(GameConstants.LEGION));
+    assertThat(newGame.getUnitAt(new Position(3,2)).getOwner(), is(Player.BLUE));
+  }
+
+  @Test
+  public void redHasSettlerAt4_3(){
+    Game newGame = new GameImpl();
+    assertThat(newGame.getUnitAt(new Position(4,3)).getOwner(), is(Player.RED));
+    assertThat(newGame.getUnitAt(new Position(4,3)).getTypeString(), is(GameConstants.SETTLER));
+  }
+
+  @Test
+  public void attackerAlwaysWins(){
+    //Testing that red unit wins
+    Game newGame = new GameImpl();
+    assertThat(newGame.moveUnit(new Position(2,0),new Position(3,2)),is(true));
+    assertThat(newGame.getUnitAt(new Position(3,2)).getTypeString(), is(GameConstants.ARCHER));
+    assertThat(newGame.getUnitAt(new Position(3,2)).getOwner(), is(Player.RED));
+
+
+    //Testing that blue unit wins
+    Game newGame2 = new GameImpl();
+    newGame2.endOfTurn();
+    assertThat(newGame2.moveUnit(new Position(3,2),new Position(2,0)),is(true));
+    assertThat(newGame2.getUnitAt(new Position(2,0)).getTypeString(), is(GameConstants.LEGION));
+    assertThat(newGame2.getUnitAt(new Position(2,0)).getOwner(), is(Player.BLUE));
+  }
+
+  @Test
+  public void newUnitSpawns(){
+    Game newGame = new GameImpl();
+    assertThat(newGame.getUnitAt(new Position(1,1)), is(nullValue()));
+    assertThat(newGame.getCityAt(new Position(1,1)).getTreasury(), is(0));
+    
+    //Need to end turn twice to signal a new round starting
+    newGame.endOfTurn();
+    newGame.endOfTurn();
+
+    assertThat(newGame.getUnitAt(new Position(1,1)), is(nullValue()));
+    assertThat(newGame.getCityAt(new Position(1,1)).getTreasury(), is(6));
+    
+    newGame.endOfTurn();
+    newGame.endOfTurn();
+
+    assertThat(newGame.getUnitAt(new Position(1,1)).getTypeString(), is(GameConstants.ARCHER));
+    assertThat(newGame.getCityAt(new Position(1,1)).getTreasury(), is(2));
+
+    newGame.endOfTurn();
+    newGame.endOfTurn();
+
+    assertThat(newGame.getUnitAt(new Position(0,1)), is(nullValue()));
+    assertThat(newGame.getCityAt(new Position(1,1)).getTreasury(), is(8));
+    
+    newGame.endOfTurn();
+    newGame.endOfTurn();
+
+    assertThat(newGame.getUnitAt(new Position(0,1)).getTypeString(), is(GameConstants.ARCHER));
+    assertThat(newGame.getCityAt(new Position(1,1)).getTreasury(), is(4));
+  }
 }
   
 

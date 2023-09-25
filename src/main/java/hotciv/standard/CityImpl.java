@@ -29,5 +29,10 @@ public class CityImpl implements City{
     }
     
     public String getProduction(){ return production;}
+
+    public void changeProduction(String type){
+        this.production = type;
+    }
+
     public String getWorkforceFocus(){ return null;}
 }

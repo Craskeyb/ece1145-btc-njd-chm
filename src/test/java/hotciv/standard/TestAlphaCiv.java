@@ -189,7 +189,37 @@ public class TestAlphaCiv {
     assertThat(newGame2.getUnitAt(new Position(2,0)).getOwner(), is(Player.BLUE));
   }
 
+  @Test
+  public void newUnitSpawns(){
+    Game newGame = new GameImpl();
+    assertThat(newGame.getUnitAt(new Position(1,1)), is(nullValue()));
+    assertThat(newGame.getCityAt(new Position(1,1)).getTreasury(), is(0));
+    
+    //Need to end turn twice to signal a new round starting
+    newGame.endOfTurn();
+    newGame.endOfTurn();
 
+    assertThat(newGame.getUnitAt(new Position(1,1)), is(nullValue()));
+    assertThat(newGame.getCityAt(new Position(1,1)).getTreasury(), is(6));
+    
+    newGame.endOfTurn();
+    newGame.endOfTurn();
+
+    assertThat(newGame.getUnitAt(new Position(1,1)).getTypeString(), is(GameConstants.ARCHER));
+    assertThat(newGame.getCityAt(new Position(1,1)).getTreasury(), is(2));
+
+    newGame.endOfTurn();
+    newGame.endOfTurn();
+
+    assertThat(newGame.getUnitAt(new Position(0,1)), is(nullValue()));
+    assertThat(newGame.getCityAt(new Position(1,1)).getTreasury(), is(8));
+    
+    newGame.endOfTurn();
+    newGame.endOfTurn();
+
+    assertThat(newGame.getUnitAt(new Position(0,1)).getTypeString(), is(GameConstants.ARCHER));
+    assertThat(newGame.getCityAt(new Position(1,1)).getTreasury(), is(4));
+  }
 }
   
 

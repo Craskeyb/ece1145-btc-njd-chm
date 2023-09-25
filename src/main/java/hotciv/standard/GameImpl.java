@@ -117,9 +117,11 @@ public class GameImpl implements Game {
   public void endOfTurn() {
     if(this.getPlayerInTurn() == Player.RED){
       playerInTurn = Player.BLUE;
+      this.getCityAt(new Position(1,1)).increaseTreasury();
     }
     else{
       playerInTurn = Player.RED;
+      this.getCityAt(new Position(4,1)).increaseTreasury();
     }
     gameAge -= 100;
   }

@@ -61,5 +61,8 @@ public interface City {
    * for valid return values.
    */
   public String getWorkforceFocus();
+  public void increaseTreasury();
   
 }
+
+

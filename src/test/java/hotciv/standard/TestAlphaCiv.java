@@ -220,6 +220,13 @@ public class TestAlphaCiv {
     assertThat(newGame.getUnitAt(new Position(0,1)).getTypeString(), is(GameConstants.ARCHER));
     assertThat(newGame.getCityAt(new Position(1,1)).getTreasury(), is(4));
   }
+
+  @Test
+  public void cityProductionChange(){
+    assertThat(game.getCityAt(new Position(1,1)).getProduction(),is(GameConstants.ARCHER));
+    game.changeProductionInCityAt(new Position(1,1), GameConstants.LEGION);
+    assertThat(game.getCityAt(new Position(1,1)).getProduction(),is(GameConstants.LEGION));
+  }
 }
   
 

@@ -62,7 +62,8 @@ public interface City {
    */
   public String getWorkforceFocus();
   public void increaseTreasury();
-  
+
+  public void decreaseTreasury(int cost);
 }
 
 

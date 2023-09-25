@@ -4,6 +4,8 @@ import hotciv.framework.*;
 
 import java.util.HashMap;
 
+/* This is the hotfix for release 2.1 */
+
 /** Skeleton implementation of HotCiv.
  
    This source code is from the book 

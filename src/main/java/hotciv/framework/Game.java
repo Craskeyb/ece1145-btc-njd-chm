@@ -134,4 +134,11 @@ public interface Game {
    * Nothing happens in case the unit has no associated action.
    */
   public void performUnitActionAt( Position p );  
+
+  /** checks for positions on or around the city to place production units
+   * 
+   * @return the first clockwise open position around the city at a given position
+   */
+  public Position getOpenPosition(Position cityLoc);
 }
+

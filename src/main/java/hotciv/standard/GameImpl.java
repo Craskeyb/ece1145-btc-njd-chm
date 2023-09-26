@@ -4,6 +4,8 @@ import hotciv.framework.*;
 
 import java.util.HashMap;
 
+/* This is the hotfix for release 2.1 */
+
 /** Skeleton implementation of HotCiv.
  
    This source code is from the book 
@@ -32,17 +34,23 @@ import java.util.HashMap;
 */
 
 public class GameImpl implements Game {
- private Player winner = Player.RED;
-  private int turnCount = 0;
-  private int gameAge = -4000;
-  private Player currentPlayer = Player.RED;
-
-  private int production = 0;
 
   private HashMap<Position,Tile> map = new HashMap<Position, Tile>();
   private HashMap<Position,Unit> unitMap = new HashMap<Position, Unit>();
   private HashMap<Position,City> cityMap = new HashMap<Position, City>();
+  private HashMap<String,Integer> unitCosts = new HashMap<String,Integer>();
+  private Player playerInTurn;
+  private int gameAge;
+  
   public GameImpl(){
+
+    playerInTurn = Player.RED;
+    gameAge = 4000;
+
+    unitCosts.put(GameConstants.ARCHER,10);
+    unitCosts.put(GameConstants.LEGION,15);
+    unitCosts.put(GameConstants.SETTLER,30);
+
     for(int i=0;i<=GameConstants.WORLDSIZE;i++){
       for(int j=0;j<=GameConstants.WORLDSIZE;j++){
         if (i == 1 && j == 0){
@@ -75,53 +83,120 @@ public class GameImpl implements Game {
       }
     }
   }
+
   public Tile getTileAt( Position p ) { return map.get(p);}
   public Unit getUnitAt( Position p ) { return unitMap.get(p); }
   public City getCityAt( Position p ) { return cityMap.get(p); }
 
-  public Player getPlayerInTurn() { return currentPlayer; }
-  public Player getWinner() {
-    return winner; }
-  public int getAge() {
-    return gameAge; }
+  public Player getPlayerInTurn() { return playerInTurn; }
+  
+  public Player getWinner() { 
+    if(this.getAge() == 3000){
+      return Player.RED;
+    }
+    return null; 
+  }
+  
+  public int getAge() { return gameAge;}
+  
+
   public boolean moveUnit( Position from, Position to ) {
-    if(from.getRow() == 3 && from.getColumn() == 2){
+    
+    //Trying to move another player's units
+    if(this.getUnitAt(from).getOwner() != this.getPlayerInTurn()){
       return false;
     }
+    //Trying to move on a mountain
+    else if(this.getTileAt(to).getTypeString() == GameConstants.MOUNTAINS){
+      return false;
+    }
+    //Initiating an attack
+    else if(this.getUnitAt(to).getOwner() != this.getPlayerInTurn()){
+      unitMap.put(to,this.getUnitAt(from));
+      unitMap.remove(from);
+      return true;
+    }
+    
+    //Default case, will move the unit from original position to new position
+    unitMap.put(to,this.getUnitAt(from));
+    unitMap.remove(from);
     return true;
   }
+
+
   public void endOfTurn() {
-    if(turnCount == 0) {
-      currentPlayer = Player.BLUE;
-      turnCount++;
+    if(this.getPlayerInTurn() == Player.RED){
+      playerInTurn = Player.BLUE;
+      City redCity = this.getCityAt(new Position(1,1));
+      redCity.increaseTreasury();
+      if(redCity.getTreasury() >= unitCosts.get(redCity.getProduction())){
+        redCity.decreaseTreasury(unitCosts.get(redCity.getProduction()));
+        Position firstOpen = getOpenPosition(new Position(1,1));
+        if(firstOpen.getColumn() != -1 && firstOpen.getRow() != -1){
+          unitMap.put(firstOpen, new UnitImpl(Player.RED, redCity.getProduction()));
+        }
+      }
     }
-    else if (turnCount == 1)
-    {
-              turnCount = 0;
-              endOfRound();
+    else{
+      playerInTurn = Player.RED;
+      City blueCity = this.getCityAt(new Position(4,1));
+      blueCity.increaseTreasury();
+      if(blueCity.getTreasury() >= unitCosts.get(blueCity.getProduction())){
+        blueCity.decreaseTreasury(unitCosts.get(blueCity.getProduction()));
+        Position firstOpen = getOpenPosition(new Position(4,1));
+        if(firstOpen.getColumn() != -1 && firstOpen.getRow() != -1){
+          unitMap.put(firstOpen, new UnitImpl(Player.BLUE, blueCity.getProduction()));
+        }
+      }
     }
-
+    gameAge -= 100;
   }
 
-  public void endOfRound(){
-gameAge = gameAge+100;
-currentPlayer = Player.RED;
 
-
-
-
-    /**
-     * 100 years pass each round
-     * A) restore all units' move counts
-     * B) produce food and production in all cities
-     * C) produce units in all cities (if enough production)
-     * D) increase population size in all cities (if enough food)
-     * E) increment the world age.
-     */
-
-  }
   public void changeWorkForceFocusInCityAt( Position p, String balance ) {}
-  public void changeProductionInCityAt( Position p, String unitType ) {}
+
+  public void changeProductionInCityAt( Position p, String unitType ) {
+    this.getCityAt(p).changeProduction(unitType);
+  }
+
   public void performUnitActionAt( Position p ) {}
+
+
+
+  public Position getOpenPosition(Position cityLoc){
+    Position pos = new Position(-1,-1);
+    int cityR = cityLoc.getRow();
+    int cityC = cityLoc.getColumn();
+    if(this.getUnitAt(cityLoc) == null){
+      return cityLoc;
+    }
+    else{
+      if(this.getUnitAt(new Position(cityR-1,cityC)) == null){
+        return new Position(cityR-1,cityC);
+      }
+      if(this.getUnitAt(new Position(cityR-1,cityC+1)) == null){
+        return new Position(cityR-1,cityC+1);
+      }
+      if(this.getUnitAt(new Position(cityR,cityC+1)) == null){
+        return new Position(cityR,cityC+1);
+      }
+      if(this.getUnitAt(new Position(cityR+1,cityC+1)) == null){
+        return new Position(cityR+1,cityC+1);
+      }
+      if(this.getUnitAt(new Position(cityR+1,cityC)) == null){
+        return new Position(cityR+1,cityC);
+      }
+      if(this.getUnitAt(new Position(cityR+1,cityC-1)) == null){
+        return new Position(cityR+1,cityC-1);
+      }
+      if(this.getUnitAt(new Position(cityR,cityC-1)) == null){
+        return new Position(cityR,cityC-1);
+      }
+      if(this.getUnitAt(new Position(cityR-1,cityC-1)) == null){
+        return new Position(cityR-1,cityC-1);
+      }
+    }
+    return pos;
+  }
 
 }

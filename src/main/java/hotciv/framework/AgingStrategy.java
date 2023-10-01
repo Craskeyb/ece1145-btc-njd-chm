@@ -1,6 +1,5 @@
 package hotciv.framework;
 
-public class AgingStrategy {
+public interface AgingStrategy {
     public int ageWorld(int currentAge);
-
 }

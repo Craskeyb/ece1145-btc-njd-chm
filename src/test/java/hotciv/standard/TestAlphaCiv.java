@@ -136,7 +136,6 @@ public class TestAlphaCiv {
     s = "Ok";
     assertThat(s, is(notNullValue()));
     assertThat(s, is("Ok"));
-=======
   public void cantMoveOnMountain(){
     Game newGame = new GameImpl();
     assertThat(newGame.moveUnit(new Position(2, 0), new Position(2,2)), is(false));

@@ -17,4 +17,6 @@ public class UnitImpl implements Unit {
     public int getMoveCount() {return -1;}
     public int getDefensiveStrength() {return -1;}
     public int getAttackingStrength() {return -1;}
+    public void setDefensiveStrength(int strength){}
+    public void setAttackingStrength(int strength){}
 }

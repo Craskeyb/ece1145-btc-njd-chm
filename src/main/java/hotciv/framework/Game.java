@@ -140,5 +140,8 @@ public interface Game {
    * @return the first clockwise open position around the city at a given position
    */
   public Position getOpenPosition(Position cityLoc);
+
+  public void createCity(Position p);
+  public void removeUnit(Position p);
 }
 

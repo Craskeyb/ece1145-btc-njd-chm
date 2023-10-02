@@ -159,6 +159,7 @@ public class GameImpl implements Game {
     this.getCityAt(p).changeProduction(unitType);
   }
 
+
   public void performUnitActionAt( Position p ) {}
 
 
@@ -197,6 +198,14 @@ public class GameImpl implements Game {
       }
     }
     return pos;
+  }
+
+
+  public void createCity(Position p){
+    cityMap.put(p,new CityImpl(playerInTurn));
+  }
+  public void removeUnit(Position p){
+    unitMap.remove(p);
   }
 
 }

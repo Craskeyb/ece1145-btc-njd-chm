@@ -1,7 +1,13 @@
-package hotciv.strategies;
+package hotciv.framework;
 
-import hotciv.standard.GameImpl;
+import hotciv.standard.MapImpl;
+
+import java.util.HashMap;
 
 public interface GameSetupStrategy {
-    void setUpBoard(GameImpl Game);
+    void setUpBoard();
+    HashMap<Position,City> getCityMap();
+    HashMap<Position,Tile> getTileMap();
+    HashMap<Position,Unit> getUnitMap();
+
 }

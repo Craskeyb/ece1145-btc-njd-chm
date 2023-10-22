@@ -2,6 +2,8 @@ package hotciv.standard;
 
 import hotciv.framework.*;
 
+
+
 public class CityImpl implements City{
 
     private Player owner;
@@ -19,6 +21,7 @@ public class CityImpl implements City{
     public Player getOwner() { return this.owner;}
     public int getSize(){ return this.population;}
     public int getTreasury(){ return this.treasury;}
+
     
     public void increaseTreasury(){
         this.treasury += 6;
@@ -34,5 +37,8 @@ public class CityImpl implements City{
         this.production = type;
     }
 
+
     public String getWorkforceFocus(){ return null;}
+
+
 }

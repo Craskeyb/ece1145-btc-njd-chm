@@ -4,6 +4,8 @@ import hotciv.framework.*;
 
 import java.util.HashMap;
 
+/* This is the hotfix for release 2.1 */
+
 /** Skeleton implementation of HotCiv.
  
    This source code is from the book 
@@ -84,6 +86,7 @@ public class GameImpl implements Game {
   public Tile getTileAt( Position p ) { return map.get(p);}
   public Unit getUnitAt( Position p ) { return unitMap.get(p); }
   public City getCityAt( Position p ) { return cityMap.get(p); }
+
   public Player getPlayerInTurn() { return playerInTurn; }
   
   public Player getWinner() { 
@@ -95,6 +98,7 @@ public class GameImpl implements Game {
   
   public int getAge() { return gameAge;}
   
+
   public boolean moveUnit( Position from, Position to ) {
     
     //Trying to move another player's units
@@ -117,6 +121,7 @@ public class GameImpl implements Game {
     unitMap.remove(from);
     return true;
   }
+
 
   public void endOfTurn() {
     if(this.getPlayerInTurn() == Player.RED){
@@ -146,13 +151,16 @@ public class GameImpl implements Game {
     gameAge -= 100;
   }
 
+
   public void changeWorkForceFocusInCityAt( Position p, String balance ) {}
 
   public void changeProductionInCityAt( Position p, String unitType ) {
     this.getCityAt(p).changeProduction(unitType);
   }
 
+
   public void performUnitActionAt( Position p ) {}
+
 
 
   public Position getOpenPosition(Position cityLoc){
@@ -190,5 +198,14 @@ public class GameImpl implements Game {
     }
     return pos;
   }
+
+
+  public void createCity(Position p){
+    cityMap.put(p,new CityImpl(playerInTurn));
+  }
+  public void removeUnit(Position p){
+    unitMap.remove(p);
+  }
+
 }
 

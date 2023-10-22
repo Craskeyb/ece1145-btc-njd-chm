@@ -93,7 +93,7 @@ public interface Game {
    */
   boolean moveUnit(Position from, Position to);
   
-  /** Tell the game that the current player has
+  /** endOfTurn Tell the game that the current player has
    * finished his/her turn. The next player is then 
    * in turn. If all players have had their turns
    * then do end-of-round processing:
@@ -103,16 +103,17 @@ public interface Game {
    * D) increase population size in all cities (if enough food)
    * E) increment the world age.
    */
-  void endOfTurn();
-  
+
+  public void endOfTurn();
+
   /** change the work force's focus in a city, i.e. what
    * kind of production there will be emphasis on in the city.
    * Precondition: there is a city at location 'p'.
-   * @param p the position of the city whose focus 
-   * should be changed. 
+   * @param p the position of the city whose focus
+   * should be changed.
    * @param balance a string defining the focus of the work
-   * force in a city. Valid values are at least 
-   * GameConstants.productionFocus and 
+   * force in a city. Valid values are at least
+   * GameConstants.productionFocus and
    * GameConstants.foodFocus.
    */
   void changeWorkForceFocusInCityAt(Position p, String balance);
@@ -139,6 +140,10 @@ public interface Game {
    * 
    * @return the first clockwise open position around the city at a given position
    */
-  Position getOpenPosition(Position cityLoc);
+
+  public Position getOpenPosition(Position cityLoc);
+
+  public void createCity(Position p);
+  public void removeUnit(Position p);
 }
 

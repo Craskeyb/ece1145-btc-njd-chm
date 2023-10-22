@@ -10,34 +10,34 @@ import java.util.*;
 
 /** Skeleton class for AlphaCiv test cases
 
-    Updated Oct 2015 for using Hamcrest matchers
+ Updated Oct 2015 for using Hamcrest matchers
 
-   This source code is from the book 
-     "Flexible, Reliable Software:
-       Using Patterns and Agile Development"
-     published 2010 by CRC Press.
-   Author: 
-     Henrik B Christensen 
-     Department of Computer Science
-     Aarhus University
-   
-   Please visit http://www.baerbak.com/ for further information.
+ This source code is from the book
+ "Flexible, Reliable Software:
+ Using Patterns and Agile Development"
+ published 2010 by CRC Press.
+ Author:
+ Henrik B Christensen
+ Department of Computer Science
+ Aarhus University
 
-   Licensed under the Apache License, Version 2.0 (the "License");
-   you may not use this file except in compliance with the License.
-   You may obtain a copy of the License at
- 
-       http://www.apache.org/licenses/LICENSE-2.0
- 
-   Unless required by applicable law or agreed to in writing, software
-   distributed under the License is distributed on an "AS IS" BASIS,
-   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   See the License for the specific language governing permissions and
-   limitations under the License.
+ Please visit http://www.baerbak.com/ for further information.
 
-*/
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+
+ */
 public class TestAlphaCiv {
-  
+
   private Game game;
 
 
@@ -78,7 +78,7 @@ public class TestAlphaCiv {
     Position mountain = new Position(2,2);//Mountains
     assertThat(game.getTileAt(mountain).getTypeString(),is("mountain"));
   }
-  
+
   @Test
   public void checkHill(){
     Position hill = new Position(0,1);//Hill
@@ -90,7 +90,7 @@ public class TestAlphaCiv {
     Position oc = new Position(1,0);//Ocean
     assertThat(game.getTileAt(oc).getTypeString(),is("ocean"));
   }
-  
+
 
   @Test
   public void redCantMoveBlueUnits(){
@@ -100,6 +100,7 @@ public class TestAlphaCiv {
   }
 
   @Test
+
   public void cantMoveOnMountain(){
     Game newGame = new GameImpl();
     assertThat(newGame.moveUnit(new Position(2, 0), new Position(2,2)), is(false));
@@ -134,20 +135,20 @@ public class TestAlphaCiv {
     assertThat(newGame.getAge(),is(3000));
     assertThat(newGame.getWinner(), is(Player.RED));
   }
-@Test
+  @Test
   public void produceSixProduction() {
-  Game newGame = new GameImpl();
-  Position redCity = new Position(1,1);
-  Position blueCity = new Position(4,1);
-  assertThat(newGame.getCityAt(redCity).getTreasury(),is(0));
-  assertThat(newGame.getCityAt(blueCity).getTreasury(),is(0));
-  newGame.endOfTurn();
-  assertThat(newGame.getCityAt(redCity).getTreasury(),is(6));
-  assertThat(newGame.getCityAt(blueCity).getTreasury(),is(0));
-  newGame.endOfTurn();
-  assertThat(newGame.getCityAt(redCity).getTreasury(),is(6));
-  assertThat(newGame.getCityAt(blueCity).getTreasury(),is(6));
-}
+    Game newGame = new GameImpl();
+    Position redCity = new Position(1,1);
+    Position blueCity = new Position(4,1);
+    assertThat(newGame.getCityAt(redCity).getTreasury(),is(0));
+    assertThat(newGame.getCityAt(blueCity).getTreasury(),is(0));
+    newGame.endOfTurn();
+    assertThat(newGame.getCityAt(redCity).getTreasury(),is(6));
+    assertThat(newGame.getCityAt(blueCity).getTreasury(),is(0));
+    newGame.endOfTurn();
+    assertThat(newGame.getCityAt(redCity).getTreasury(),is(6));
+    assertThat(newGame.getCityAt(blueCity).getTreasury(),is(6));
+  }
 
 
 
@@ -194,14 +195,14 @@ public class TestAlphaCiv {
     Game newGame = new GameImpl();
     assertThat(newGame.getUnitAt(new Position(1,1)), is(nullValue()));
     assertThat(newGame.getCityAt(new Position(1,1)).getTreasury(), is(0));
-    
+
     //Need to end turn twice to signal a new round starting
     newGame.endOfTurn();
     newGame.endOfTurn();
 
     assertThat(newGame.getUnitAt(new Position(1,1)), is(nullValue()));
     assertThat(newGame.getCityAt(new Position(1,1)).getTreasury(), is(6));
-    
+
     newGame.endOfTurn();
     newGame.endOfTurn();
 
@@ -213,7 +214,7 @@ public class TestAlphaCiv {
 
     assertThat(newGame.getUnitAt(new Position(0,1)), is(nullValue()));
     assertThat(newGame.getCityAt(new Position(1,1)).getTreasury(), is(8));
-    
+
     newGame.endOfTurn();
     newGame.endOfTurn();
 
@@ -228,10 +229,10 @@ public class TestAlphaCiv {
     assertThat(game.getCityAt(new Position(1,1)).getProduction(),is(GameConstants.LEGION));
   }
 }
-  
 
-  /** REMOVE ME. Not a test of HotCiv, just an example of what
-      matchers the hamcrest library has... */
+
+/** REMOVE ME. Not a test of HotCiv, just an example of what
+ matchers the hamcrest library has... */
 //   @Test
 //   public void shouldDefinetelyBeRemoved() {
 //     // Matching null and not null values

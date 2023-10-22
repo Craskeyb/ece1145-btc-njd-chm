@@ -62,5 +62,9 @@ public interface Unit {
   /** return the attack strength of this unit
    * @return attack strength
    */
-  int getAttackingStrength();
+
+  public int getAttackingStrength();
+
+  public void setDefensiveStrength(int strength);
+  public void setAttackingStrength(int strength);
 }

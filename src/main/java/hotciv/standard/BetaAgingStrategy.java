@@ -3,6 +3,8 @@ package hotciv.standard;
 import hotciv.framework.AgingStrategy;
 
 public class BetaAgingStrategy implements AgingStrategy {
+
+    @Override
     public int ageWorld(int currentAge) {
         if (currentAge < -100) {
             // Between -4000 BC and -100 BC, 100 years pass per round

@@ -34,6 +34,7 @@ import java.util.HashMap;
 */
 
 public class GameImpl implements Game {
+
   private Player playerInTurn;
   private int gameAge;
   private GameSetupStrategy map;
@@ -170,3 +171,4 @@ public class GameImpl implements Game {
   }
 
 }
+

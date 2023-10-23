@@ -100,6 +100,7 @@ public class TestAlphaCiv {
   }
 
   @Test
+
   public void cantMoveOnMountain(){
     Game newGame = new GameImpl();
     assertThat(newGame.moveUnit(new Position(2, 0), new Position(2,2)), is(false));

@@ -34,7 +34,6 @@ import java.util.HashMap;
 */
 
 public class GameImpl implements Game {
-
   private HashMap<Position,Tile> map = new HashMap<Position, Tile>();
   private HashMap<Position,Unit> unitMap = new HashMap<Position, Unit>();
   private HashMap<Position,City> cityMap = new HashMap<Position, City>();
@@ -209,3 +208,4 @@ public class GameImpl implements Game {
   }
 
 }
+

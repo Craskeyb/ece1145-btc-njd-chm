@@ -37,5 +37,5 @@ public interface Tile {
    * engine, as they correspond to named image files.
    * @return the type type as string
    */
-  public String getTypeString(); 
+  String getTypeString();
 }

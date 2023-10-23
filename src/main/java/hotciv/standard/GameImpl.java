@@ -45,19 +45,16 @@ public class GameImpl implements Game {
     map.setUpBoard();
   }
 
-  public Tile getTileAt( Position p ) { return map.getTileMap().get(p); }
-  public Unit getUnitAt( Position p ) { return  map.getUnitMap().get(p); }
-  public City getCityAt( Position p ) { return  map.getCityMap().get(p); }
-
-
-  @Override
-  public Unit getUnitAt(Position p) {
-    return unitMap.get(p);
+  public Tile getTileAt( Position p ) { 
+    return map.getTileMap().get(p); 
   }
 
-  @Override
-  public City getCityAt(Position p) {
-    return cityMap.get(p);
+  public Unit getUnitAt( Position p ) { 
+    return  map.getUnitMap().get(p); 
+  }
+
+  public City getCityAt( Position p ) { 
+    return  map.getCityMap().get(p); 
   }
 
   @Override
@@ -150,6 +147,7 @@ public class GameImpl implements Game {
 
 
   public Position getOpenPosition(Position cityLoc) {
+    Position pos = new Position(-1,-1);
     int cityR = cityLoc.getRow();
     int cityC = cityLoc.getColumn();
     if (this.getUnitAt(cityLoc) == null) {

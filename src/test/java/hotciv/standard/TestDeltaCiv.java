@@ -14,7 +14,7 @@ public class TestDeltaCiv {
     private GameSetupStrategy delta;
     @Before
     public void setUp() {
-        delta = new MapImpl();
+        delta = new DeltaMapImpl();
     }
 
     @Test

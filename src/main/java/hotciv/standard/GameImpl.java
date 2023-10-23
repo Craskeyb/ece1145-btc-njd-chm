@@ -34,59 +34,20 @@ import java.util.HashMap;
 */
 
 public class GameImpl implements Game {
-
-  private HashMap<Position,Tile> map = new HashMap<Position, Tile>();
-  private HashMap<Position,Unit> unitMap = new HashMap<Position, Unit>();
-  private HashMap<Position,City> cityMap = new HashMap<Position, City>();
-  private HashMap<String,Integer> unitCosts = new HashMap<String,Integer>();
   private Player playerInTurn;
   private int gameAge;
+  private GameSetupStrategy map;
   
   public GameImpl(){
-
     playerInTurn = Player.RED;
     gameAge = 4000;
-
-    unitCosts.put(GameConstants.ARCHER,10);
-    unitCosts.put(GameConstants.LEGION,15);
-    unitCosts.put(GameConstants.SETTLER,30);
-
-    for(int i=0;i<=GameConstants.WORLDSIZE;i++){
-      for(int j=0;j<=GameConstants.WORLDSIZE;j++){
-        if (i == 1 && j == 0){
-          map.put(new Position(i,j),new TileImpl(GameConstants.OCEANS));
-        }
-        else if (i == 0 && j == 1){
-          map.put(new Position(i,j),new TileImpl(GameConstants.HILLS));
-        }
-        else if (i == 2 && j == 2){
-          map.put(new Position(i,j),new TileImpl(GameConstants.MOUNTAINS));
-        }
-        else {
-          map.put(new Position(i,j),new TileImpl(GameConstants.PLAINS));
-        }
-        if (i == 2 && j == 0){
-          unitMap.put(new Position(i,j),new UnitImpl(Player.RED, GameConstants.ARCHER));
-        }
-        else if (i == 3 && j == 2){
-          unitMap.put(new Position(i,j),new UnitImpl(Player.BLUE, GameConstants.LEGION));
-        }
-        else if (i == 4 && j == 3){
-          unitMap.put(new Position(i,j),new UnitImpl(Player.RED, GameConstants.SETTLER));
-        }
-        if (i == 1 && j == 1){
-          cityMap.put(new Position(i,j),new CityImpl(Player.RED));
-        }
-        else if (i == 4 && j == 1){
-          cityMap.put(new Position(i,j),new CityImpl(Player.BLUE));
-        }
-      }
-    }
+    map = new MapImpl();
+    map.setUpBoard();
   }
 
-  public Tile getTileAt( Position p ) { return map.get(p);}
-  public Unit getUnitAt( Position p ) { return unitMap.get(p); }
-  public City getCityAt( Position p ) { return cityMap.get(p); }
+  public Tile getTileAt( Position p ) { return map.getTileMap().get(p); }
+  public Unit getUnitAt( Position p ) { return  map.getUnitMap().get(p); }
+  public City getCityAt( Position p ) { return  map.getCityMap().get(p); }
 
   public Player getPlayerInTurn() { return playerInTurn; }
   
@@ -112,14 +73,14 @@ public class GameImpl implements Game {
     }
     //Initiating an attack
     else if(this.getUnitAt(to).getOwner() != this.getPlayerInTurn()){
-      unitMap.put(to,this.getUnitAt(from));
-      unitMap.remove(from);
+      map.getUnitMap().put(to,this.getUnitAt(from));
+      map.getUnitMap().remove(from);
       return true;
     }
     
     //Default case, will move the unit from original position to new position
-    unitMap.put(to,this.getUnitAt(from));
-    unitMap.remove(from);
+    map.getUnitMap().put(to,this.getUnitAt(from));
+    map.getUnitMap().remove(from);
     return true;
   }
 
@@ -129,11 +90,11 @@ public class GameImpl implements Game {
       playerInTurn = Player.BLUE;
       City redCity = this.getCityAt(new Position(1,1));
       redCity.increaseTreasury();
-      if(redCity.getTreasury() >= unitCosts.get(redCity.getProduction())){
-        redCity.decreaseTreasury(unitCosts.get(redCity.getProduction()));
+      if(redCity.getTreasury() >= map.getUnitCosts().get(redCity.getProduction())){
+        redCity.decreaseTreasury(map.getUnitCosts().get(redCity.getProduction()));
         Position firstOpen = getOpenPosition(new Position(1,1));
         if(firstOpen.getColumn() != -1 && firstOpen.getRow() != -1){
-          unitMap.put(firstOpen, new UnitImpl(Player.RED, redCity.getProduction()));
+          map.getUnitMap().put(firstOpen, new UnitImpl(Player.RED, redCity.getProduction()));
         }
       }
     }
@@ -141,11 +102,11 @@ public class GameImpl implements Game {
       playerInTurn = Player.RED;
       City blueCity = this.getCityAt(new Position(4,1));
       blueCity.increaseTreasury();
-      if(blueCity.getTreasury() >= unitCosts.get(blueCity.getProduction())){
-        blueCity.decreaseTreasury(unitCosts.get(blueCity.getProduction()));
+      if(blueCity.getTreasury() >= map.getUnitCosts().get(blueCity.getProduction())){
+        blueCity.decreaseTreasury(map.getUnitCosts().get(blueCity.getProduction()));
         Position firstOpen = getOpenPosition(new Position(4,1));
         if(firstOpen.getColumn() != -1 && firstOpen.getRow() != -1){
-          unitMap.put(firstOpen, new UnitImpl(Player.BLUE, blueCity.getProduction()));
+          map.getUnitMap().put(firstOpen, new UnitImpl(Player.BLUE, blueCity.getProduction()));
         }
       }
     }
@@ -202,10 +163,10 @@ public class GameImpl implements Game {
 
 
   public void createCity(Position p){
-    cityMap.put(p,new CityImpl(playerInTurn));
+    map.getCityMap().put(p,new CityImpl(playerInTurn));
   }
   public void removeUnit(Position p){
-    unitMap.remove(p);
+    map.getUnitMap().remove(p);
   }
 
 }

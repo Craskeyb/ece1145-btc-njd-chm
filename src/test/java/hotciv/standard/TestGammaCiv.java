@@ -44,7 +44,7 @@ public class TestGammaCiv {
   /** Fixture for gammaciv testing. */
   @Before
   public void setUp() {
-    game = new GameImpl();
+    game = new GameImpl(new GammaCivFactory());
   }
 
   /*Tests for GammaCiv architecture. Utilizes strategy implementation for Archer and Settler 
@@ -56,19 +56,20 @@ public class TestGammaCiv {
 
   @Test
   public void settlerAction() {
-    SettlerImpl settler = new SettlerImpl(game.getPlayerInTurn());
     //Red settler is at 4,3
-    settler.buildCity(game, new Position(4,3));
+    game.performUnitActionAt(new Position(4,3));
     assertThat(game.getUnitAt(new Position(4,3)), is(nullValue(null)));
     assertThat(game.getCityAt(new Position(4,3)).getOwner(), is(game.getPlayerInTurn()));
   }
 
   @Test
   public void archerAction() {
-    ArcherImpl archer = new ArcherImpl(game.getPlayerInTurn());
+    Unit archer = game.getUnitAt(new Position(3,2));
     assertThat(archer.getDefensiveStrength(), is(3));
-    archer.fortify();
+    game.performUnitActionAt(new Position(3,2));
     assertThat(archer.getDefensiveStrength(),is(6));
+    game.performUnitActionAt(new Position(3,2));
+    assertThat(archer.getDefensiveStrength(), is(3));
   }
 }
 

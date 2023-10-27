@@ -6,7 +6,7 @@ import hotciv.framework.GameSetupStrategy;
 import hotciv.framework.WinningStrategy;
 import hotciv.framework.UnitActionStrategy;
 
-public class DeltaCivFactory implements AbstractFactory {
+public class EpsilonCivFactory implements AbstractFactory {
     @Override
     public AgingStrategy createAgingStrategy() {
         return null;
@@ -14,12 +14,12 @@ public class DeltaCivFactory implements AbstractFactory {
 
     @Override
     public GameSetupStrategy createGameSetup() {
-        return new DeltaMapImpl();
+        return new MapImpl();
     }
 
     @Override
     public WinningStrategy createWinningStrategy() {
-        return null;
+        return new EpsilonWinningStrategy();
     }
     
     @Override

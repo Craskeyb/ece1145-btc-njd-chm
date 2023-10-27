@@ -16,7 +16,7 @@ public class TestEpsilonCiv {
   /** Fixture for EpsilonCiv testing. */
   @Before
   public void setUp() {
-    game = new GameImpl();
+    game = new GameImpl(new EpsilonCivFactory());
   }
 
 

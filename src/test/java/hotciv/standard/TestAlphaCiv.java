@@ -44,7 +44,7 @@ public class TestAlphaCiv {
   /** Fixture for alphaciv testing. */
   @Before
   public void setUp() {
-    game = new GameImpl();
+    game = new GameImpl(new AlphaCivFactory());
   }
 
   // FRS p. 455 states that 'Red is the first player to take a turn'.
@@ -102,7 +102,7 @@ public class TestAlphaCiv {
   @Test
 
   public void cantMoveOnMountain(){
-    Game newGame = new GameImpl();
+    Game newGame = new GameImpl(new AlphaCivFactory());
     assertThat(newGame.moveUnit(new Position(2, 0), new Position(2,2)), is(false));
   }
 
@@ -119,7 +119,7 @@ public class TestAlphaCiv {
 
   @Test
   public void gameAges100(){
-    Game newGame = new GameImpl();
+    Game newGame = new GameImpl(new AlphaCivFactory());
     assertThat(newGame.getAge(), is(4000));
     newGame.endOfTurn();
     assertThat(newGame.getAge(),is(3900));
@@ -127,7 +127,7 @@ public class TestAlphaCiv {
 
   @Test
   public void redWinsAt3000(){
-    Game newGame = new GameImpl();
+    Game newGame = new GameImpl(new AlphaCivFactory());
     for(int i = 0; i<10;i++){
       assertThat(newGame.getWinner(),is(nullValue()));
       newGame.endOfTurn();
@@ -137,7 +137,7 @@ public class TestAlphaCiv {
   }
   @Test
   public void produceSixProduction() {
-    Game newGame = new GameImpl();
+    Game newGame = new GameImpl(new AlphaCivFactory());
     Position redCity = new Position(1,1);
     Position blueCity = new Position(4,1);
     assertThat(newGame.getCityAt(redCity).getTreasury(),is(0));
@@ -154,21 +154,21 @@ public class TestAlphaCiv {
 
   @Test
   public void redHasArcherAt2_0(){
-    Game newGame = new GameImpl();
+    Game newGame = new GameImpl(new AlphaCivFactory());
     assertThat(newGame.getUnitAt(new Position(2,0)).getOwner(), is(Player.RED));
     assertThat(newGame.getUnitAt(new Position(2,0)).getTypeString(), is(GameConstants.ARCHER));
   }
 
   @Test
   public void blueHasLegionAt3_2(){
-    Game newGame = new GameImpl();
+    Game newGame = new GameImpl(new AlphaCivFactory());
     assertThat(newGame.getUnitAt(new Position(3,2)).getTypeString(), is(GameConstants.LEGION));
     assertThat(newGame.getUnitAt(new Position(3,2)).getOwner(), is(Player.BLUE));
   }
 
   @Test
   public void redHasSettlerAt4_3(){
-    Game newGame = new GameImpl();
+    Game newGame = new GameImpl(new AlphaCivFactory());
     assertThat(newGame.getUnitAt(new Position(4,3)).getOwner(), is(Player.RED));
     assertThat(newGame.getUnitAt(new Position(4,3)).getTypeString(), is(GameConstants.SETTLER));
   }
@@ -176,14 +176,14 @@ public class TestAlphaCiv {
   @Test
   public void attackerAlwaysWins(){
     //Testing that red unit wins
-    Game newGame = new GameImpl();
+    Game newGame = new GameImpl(new AlphaCivFactory());
     assertThat(newGame.moveUnit(new Position(2,0),new Position(3,2)),is(true));
     assertThat(newGame.getUnitAt(new Position(3,2)).getTypeString(), is(GameConstants.ARCHER));
     assertThat(newGame.getUnitAt(new Position(3,2)).getOwner(), is(Player.RED));
 
 
     //Testing that blue unit wins
-    Game newGame2 = new GameImpl();
+    Game newGame2 = new GameImpl(new AlphaCivFactory());
     newGame2.endOfTurn();
     assertThat(newGame2.moveUnit(new Position(3,2),new Position(2,0)),is(true));
     assertThat(newGame2.getUnitAt(new Position(2,0)).getTypeString(), is(GameConstants.LEGION));
@@ -192,7 +192,7 @@ public class TestAlphaCiv {
 
   @Test
   public void newUnitSpawns(){
-    Game newGame = new GameImpl();
+    Game newGame = new GameImpl(new AlphaCivFactory());
     assertThat(newGame.getUnitAt(new Position(1,1)), is(nullValue()));
     assertThat(newGame.getCityAt(new Position(1,1)).getTreasury(), is(0));
 

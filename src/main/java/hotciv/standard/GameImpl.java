@@ -37,9 +37,11 @@ public class GameImpl implements Game {
   private Player playerInTurn;
   private int gameAge;
   private GameSetupStrategy mapStrategy;
-  //private UnitActionStrategy unitStrategy;
+  private UnitActionStrategy unitStrategy;
   private AgingStrategy ageStrategy;
   private WinningStrategy winStrategy;
+  private int redAttacks = 0;
+  private int blueAttacks = 0;
   
   public GameImpl(AbstractFactory factory){
     playerInTurn = Player.RED;
@@ -48,7 +50,7 @@ public class GameImpl implements Game {
     mapStrategy.setUpBoard();
     winStrategy = factory.createWinningStrategy();
     ageStrategy = factory.createAgingStrategy();
-    //unitStrategy = createUnitActionStrategy();
+    unitStrategy = factory.createUnitActionStrategy();
   }
 
   public Tile getTileAt( Position p ) { 
@@ -147,11 +149,9 @@ public class GameImpl implements Game {
     this.getCityAt(p).changeProduction(unitType);
   }
 
-
-
-  public void performUnitActionAt( Position p ) {}
-
-
+  public void performUnitActionAt( Position p ) {
+    unitStrategy.performUnitActionAt(p, mapStrategy.getUnitMap(), this);
+  }
 
   public Position getOpenPosition(Position cityLoc) {
     Position pos = new Position(-1,-1);

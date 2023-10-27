@@ -145,5 +145,8 @@ public interface Game {
 
   public void createCity(Position p);
   public void removeUnit(Position p);
+
+  public int getRedAttacks();
+  public int getBlueAttacks();
 }
 

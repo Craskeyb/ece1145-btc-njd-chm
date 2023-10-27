@@ -37,9 +37,12 @@ public class GameImpl implements Game {
   private Player playerInTurn;
   private int gameAge;
   private GameSetupStrategy mapStrategy;
-  //private UnitActionStrategy unitStrategy;
+  private UnitActionStrategy unitStrategy;
   private AgingStrategy ageStrategy;
   private WinningStrategy winStrategy;
+  private AttackStrategy attackStrategy;
+  private int redAttacks = 0;
+  private int blueAttacks = 0;
   
   public GameImpl(AbstractFactory factory){
     playerInTurn = Player.RED;
@@ -48,7 +51,8 @@ public class GameImpl implements Game {
     mapStrategy.setUpBoard();
     winStrategy = factory.createWinningStrategy();
     ageStrategy = factory.createAgingStrategy();
-    //unitStrategy = createUnitActionStrategy();
+    unitStrategy = factory.createUnitActionStrategy();
+    attackStrategy = factory.createAttackStrategy();
   }
 
   public Tile getTileAt( Position p ) { 
@@ -70,11 +74,7 @@ public class GameImpl implements Game {
 
   @Override
   public Player getWinner() {
-    return winStrategy.getWinner(gameAge,mapStrategy.getCityMap());
-    /*if (this.getAge() == 3000) {
-      return Player.RED;
-    }
-    return null;*/
+    return winStrategy.getWinner(gameAge,mapStrategy.getCityMap(), this);
   }
 
   @Override
@@ -84,6 +84,7 @@ public class GameImpl implements Game {
 
   @Override
   public boolean moveUnit(Position from, Position to) {
+
     // Trying to move another player's units
     if (this.getUnitAt(from).getOwner() != this.getPlayerInTurn()) {
       return false;
@@ -92,12 +93,9 @@ public class GameImpl implements Game {
     else if (this.getTileAt(to).getTypeString() == GameConstants.MOUNTAINS) {
       return false;
     }
-
     //Initiating an attack
     else if(this.getUnitAt(to).getOwner() != this.getPlayerInTurn()){
-      mapStrategy.getUnitMap().put(to,this.getUnitAt(from));
-      mapStrategy.getUnitMap().remove(from);
-      return true;
+      return attackStrategy.decideAttack(this, mapStrategy, to, from);
     }
     
     //Default case, will move the unit from original position to new position
@@ -147,11 +145,9 @@ public class GameImpl implements Game {
     this.getCityAt(p).changeProduction(unitType);
   }
 
-
-
-  public void performUnitActionAt( Position p ) {}
-
-
+  public void performUnitActionAt( Position p ) {
+    unitStrategy.performUnitActionAt(p, mapStrategy.getUnitMap(), this);
+  }
 
   public Position getOpenPosition(Position cityLoc) {
     Position pos = new Position(-1,-1);
@@ -193,5 +189,11 @@ public class GameImpl implements Game {
     mapStrategy.getUnitMap().remove(p);
   }
 
+  public int getRedAttacks(){
+    return redAttacks;
+  }
+  public int getBlueAttacks(){
+    return blueAttacks;
+  }
 }
 

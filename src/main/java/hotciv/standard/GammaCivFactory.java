@@ -4,13 +4,14 @@ import hotciv.framework.AbstractFactory;
 import hotciv.framework.AgingStrategy;
 import hotciv.framework.AttackStrategy;
 import hotciv.framework.GameSetupStrategy;
-import hotciv.framework.WinningStrategy;
 import hotciv.framework.UnitActionStrategy;
+import hotciv.framework.WinningStrategy;
 
-public class BetaCivFactory implements AbstractFactory {
-
+public class GammaCivFactory implements AbstractFactory{
     @Override
-    public AgingStrategy createAgingStrategy() {return new BetaAgingStrategy();}
+    public AgingStrategy createAgingStrategy() {
+        return new AlphaAgingStrategy();
+    }
 
     @Override
     public GameSetupStrategy createGameSetup() {
@@ -18,11 +19,13 @@ public class BetaCivFactory implements AbstractFactory {
     }
 
     @Override
-    public WinningStrategy createWinningStrategy() {return new BetaWinningStrategy();}
+    public WinningStrategy createWinningStrategy() {
+        return new AlphaWinningStrategy();
+    }
      
     @Override
     public UnitActionStrategy createUnitActionStrategy() {
-        return new AlphaUnitActionStrategy();
+        return new GammaUnitActionStrategy();
     }
     
     @Override

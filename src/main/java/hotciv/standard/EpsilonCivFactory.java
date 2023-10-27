@@ -7,10 +7,11 @@ import hotciv.framework.GameSetupStrategy;
 import hotciv.framework.WinningStrategy;
 import hotciv.framework.UnitActionStrategy;
 
-public class BetaCivFactory implements AbstractFactory {
-
+public class EpsilonCivFactory implements AbstractFactory {
     @Override
-    public AgingStrategy createAgingStrategy() {return new BetaAgingStrategy();}
+    public AgingStrategy createAgingStrategy() {
+        return null;
+    }
 
     @Override
     public GameSetupStrategy createGameSetup() {
@@ -18,8 +19,10 @@ public class BetaCivFactory implements AbstractFactory {
     }
 
     @Override
-    public WinningStrategy createWinningStrategy() {return new BetaWinningStrategy();}
-     
+    public WinningStrategy createWinningStrategy() {
+        return new EpsilonWinningStrategy();
+    }
+    
     @Override
     public UnitActionStrategy createUnitActionStrategy() {
         return new AlphaUnitActionStrategy();

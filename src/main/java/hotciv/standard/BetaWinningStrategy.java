@@ -1,5 +1,6 @@
 package hotciv.standard;
 
+import hotciv.framework.Game;
 import hotciv.framework.City;
 import hotciv.framework.Player;
 import hotciv.framework.Position;
@@ -10,7 +11,7 @@ import java.util.HashMap;
 public class BetaWinningStrategy implements WinningStrategy {
 
     @Override
-    public Player getWinner(int year, HashMap<Position, City> cities) {
+    public Player getWinner(int year, HashMap<Position, City> cities, Game game) {
         Player lastOwner = null;
 
         // Iterate through all the cities on the map

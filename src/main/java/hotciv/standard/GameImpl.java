@@ -40,6 +40,7 @@ public class GameImpl implements Game {
   private UnitActionStrategy unitStrategy;
   private AgingStrategy ageStrategy;
   private WinningStrategy winStrategy;
+  private AttackStrategy attackStrategy;
   private int redAttacks = 0;
   private int blueAttacks = 0;
   
@@ -51,6 +52,7 @@ public class GameImpl implements Game {
     winStrategy = factory.createWinningStrategy();
     ageStrategy = factory.createAgingStrategy();
     unitStrategy = factory.createUnitActionStrategy();
+    attackStrategy = factory.createAttackStrategy();
   }
 
   public Tile getTileAt( Position p ) { 
@@ -72,11 +74,7 @@ public class GameImpl implements Game {
 
   @Override
   public Player getWinner() {
-    return winStrategy.getWinner(gameAge,mapStrategy.getCityMap());
-    /*if (this.getAge() == 3000) {
-      return Player.RED;
-    }
-    return null;*/
+    return winStrategy.getWinner(gameAge,mapStrategy.getCityMap(), this);
   }
 
   @Override
@@ -86,6 +84,7 @@ public class GameImpl implements Game {
 
   @Override
   public boolean moveUnit(Position from, Position to) {
+
     // Trying to move another player's units
     if (this.getUnitAt(from).getOwner() != this.getPlayerInTurn()) {
       return false;
@@ -94,12 +93,9 @@ public class GameImpl implements Game {
     else if (this.getTileAt(to).getTypeString() == GameConstants.MOUNTAINS) {
       return false;
     }
-
     //Initiating an attack
     else if(this.getUnitAt(to).getOwner() != this.getPlayerInTurn()){
-      mapStrategy.getUnitMap().put(to,this.getUnitAt(from));
-      mapStrategy.getUnitMap().remove(from);
-      return true;
+      return attackStrategy.decideAttack(this, mapStrategy, to, from);
     }
     
     //Default case, will move the unit from original position to new position
@@ -193,5 +189,11 @@ public class GameImpl implements Game {
     mapStrategy.getUnitMap().remove(p);
   }
 
+  public int getRedAttacks(){
+    return redAttacks;
+  }
+  public int getBlueAttacks(){
+    return blueAttacks;
+  }
 }
 

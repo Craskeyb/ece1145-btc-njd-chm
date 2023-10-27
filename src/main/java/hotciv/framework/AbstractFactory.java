@@ -5,4 +5,5 @@ public interface AbstractFactory {
     GameSetupStrategy createGameSetup();
     WinningStrategy createWinningStrategy();
     UnitActionStrategy createUnitActionStrategy();
+    AttackStrategy createAttackStrategy();
 }

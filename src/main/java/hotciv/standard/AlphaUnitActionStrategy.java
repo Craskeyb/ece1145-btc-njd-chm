@@ -8,6 +8,6 @@ import hotciv.framework.Position;
 import hotciv.framework.Unit;
 import hotciv.framework.UnitActionStrategy;
 
-public class AlphaCivUnitActionStrategy implements UnitActionStrategy{
+public class AlphaUnitActionStrategy implements UnitActionStrategy{
     public void performUnitActionAt(Position p, HashMap<Position, Unit> unitMap, Game game){/*Does nothing for alphaciv*/}
 }

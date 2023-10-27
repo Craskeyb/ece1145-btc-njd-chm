@@ -64,11 +64,11 @@ public class TestGammaCiv {
 
   @Test
   public void archerAction() {
-    Unit archer = game.getUnitAt(new Position(3,2));
+    Unit archer = game.getUnitAt(new Position(2,0));
     assertThat(archer.getDefensiveStrength(), is(3));
-    game.performUnitActionAt(new Position(3,2));
+    game.performUnitActionAt(new Position(2,0));
     assertThat(archer.getDefensiveStrength(),is(6));
-    game.performUnitActionAt(new Position(3,2));
+    game.performUnitActionAt(new Position(2,0));
     assertThat(archer.getDefensiveStrength(), is(3));
   }
 }

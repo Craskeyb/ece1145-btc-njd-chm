@@ -1,5 +1,6 @@
 package hotciv.standard;
 
+import hotciv.framework.Game;
 import hotciv.framework.AgingStrategy;
 import hotciv.framework.City;
 import hotciv.framework.Player;
@@ -37,11 +38,13 @@ import static org.junit.Assert.assertNull;
 public class TestBetaCiv {
     private AgingStrategy agingStrategy;
     private WinningStrategy winningStrategy;
+    private Game game;
 
     @Before
     public void setUp() {
         agingStrategy = new BetaAgingStrategy();
         winningStrategy = new BetaWinningStrategy();
+        game = new GameImpl(new BetaCivFactory());
     }
 
     @Test
@@ -83,7 +86,7 @@ public class TestBetaCiv {
         cities.put(new Position(1, 1), new CityImpl(Player.RED));
         cities.put(new Position(1, 2), new CityImpl(Player.BLUE));
 
-        assertNull(winningStrategy.getWinner(0, cities));
+        assertNull(winningStrategy.getWinner(0, cities, game));
     }
 
     @Test
@@ -92,6 +95,6 @@ public class TestBetaCiv {
         cities.put(new Position(1, 1), new CityImpl(Player.RED));
         cities.put(new Position(1, 2), new CityImpl(Player.RED));
 
-        assertEquals(Player.RED, winningStrategy.getWinner(0, cities));
+        assertEquals(Player.RED, winningStrategy.getWinner(0, cities, game));
     }
 }

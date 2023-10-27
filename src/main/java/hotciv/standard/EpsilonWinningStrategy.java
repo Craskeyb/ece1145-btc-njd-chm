@@ -1,5 +1,6 @@
 package hotciv.standard;
 
+import hotciv.framework.Game;
 import hotciv.framework.City;
 import hotciv.framework.Player;
 import hotciv.framework.Position;
@@ -12,25 +13,16 @@ public class EpsilonWinningStrategy implements WinningStrategy {
     @Override
     public Player getWinner(int year, HashMap<Position, City> cities, Game game) {
         
-        if(redAttacks < 3 && blueAttacks < 3){
+        if(game.getRedAttacks() < 3 && game.getBlueAttacks() < 3){
             return null;
         }
         else{
-            if(redAttacks == 3){
+            if(game.getRedAttacks() == 3){
                 return Player.RED;
             }
             else{
                 return Player.BLUE;
             }
-        }
-    }
-
-    public void incrementSuccessfulAttacks(Player attacker){
-        if(attacker == Player.RED){
-            redAttacks++;
-        }
-        else{
-            blueAttacks++;
         }
     }
 }

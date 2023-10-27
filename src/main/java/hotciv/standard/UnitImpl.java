@@ -6,8 +6,8 @@ public class UnitImpl implements Unit {
 
     private Player owner;
     private String type;
-    private int defStr;
-    private int attStr;
+    private int defStr = 0;
+    private int attStr = 0;
     
     public UnitImpl(Player owner,String type)
     {
@@ -34,6 +34,6 @@ public class UnitImpl implements Unit {
     public int getMoveCount() {return -1;}
     public int getDefensiveStrength() {return defStr;}
     public int getAttackingStrength() {return attStr;}
-    public void setDefensiveStrength(int strength){}
-    public void setAttackingStrength(int strength){}
+    public void setDefensiveStrength(int strength){ defStr = strength;}
+    public void setAttackingStrength(int strength){ attStr = strength;}
 }

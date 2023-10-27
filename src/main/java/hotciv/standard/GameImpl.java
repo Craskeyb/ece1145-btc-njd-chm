@@ -36,25 +36,31 @@ public class GameImpl implements Game {
 
   private Player playerInTurn;
   private int gameAge;
-  private GameSetupStrategy map;
+  private GameSetupStrategy mapStrategy;
+  //private UnitActionStrategy unitStrategy;
+  private AgingStrategy ageStrategy;
+  private WinningStrategy winStrategy;
   
-  public GameImpl(){
+  public GameImpl(AbstractFactory factory){
     playerInTurn = Player.RED;
     gameAge = 4000;
-    map = new MapImpl();
-    map.setUpBoard();
+    mapStrategy = factory.createGameSetup();
+    mapStrategy.setUpBoard();
+    winStrategy = factory.createWinningStrategy();
+    ageStrategy = factory.createAgingStrategy();
+    //unitStrategy = createUnitActionStrategy();
   }
 
   public Tile getTileAt( Position p ) { 
-    return map.getTileMap().get(p); 
+    return mapStrategy.getTileMap().get(p);
   }
 
   public Unit getUnitAt( Position p ) { 
-    return  map.getUnitMap().get(p); 
+    return  mapStrategy.getUnitMap().get(p);
   }
 
   public City getCityAt( Position p ) { 
-    return  map.getCityMap().get(p); 
+    return  mapStrategy.getCityMap().get(p);
   }
 
   @Override
@@ -64,10 +70,11 @@ public class GameImpl implements Game {
 
   @Override
   public Player getWinner() {
-    if (this.getAge() == 3000) {
+    return winStrategy.getWinner(gameAge,mapStrategy.getCityMap());
+    /*if (this.getAge() == 3000) {
       return Player.RED;
     }
-    return null;
+    return null;*/
   }
 
   @Override
@@ -88,14 +95,14 @@ public class GameImpl implements Game {
 
     //Initiating an attack
     else if(this.getUnitAt(to).getOwner() != this.getPlayerInTurn()){
-      map.getUnitMap().put(to,this.getUnitAt(from));
-      map.getUnitMap().remove(from);
+      mapStrategy.getUnitMap().put(to,this.getUnitAt(from));
+      mapStrategy.getUnitMap().remove(from);
       return true;
     }
     
     //Default case, will move the unit from original position to new position
-    map.getUnitMap().put(to,this.getUnitAt(from));
-    map.getUnitMap().remove(from);
+    mapStrategy.getUnitMap().put(to,this.getUnitAt(from));
+    mapStrategy.getUnitMap().remove(from);
 
     return true;
   }
@@ -107,11 +114,11 @@ public class GameImpl implements Game {
       City redCity = this.getCityAt(new Position(1, 1));
       redCity.increaseTreasury();
 
-      if(redCity.getTreasury() >= map.getUnitCosts().get(redCity.getProduction())){
-        redCity.decreaseTreasury(map.getUnitCosts().get(redCity.getProduction()));
+      if(redCity.getTreasury() >= mapStrategy.getUnitCosts().get(redCity.getProduction())){
+        redCity.decreaseTreasury(mapStrategy.getUnitCosts().get(redCity.getProduction()));
         Position firstOpen = getOpenPosition(new Position(1,1));
         if(firstOpen.getColumn() != -1 && firstOpen.getRow() != -1){
-          map.getUnitMap().put(firstOpen, new UnitImpl(Player.RED, redCity.getProduction()));
+          mapStrategy.getUnitMap().put(firstOpen, new UnitImpl(Player.RED, redCity.getProduction()));
 
         }
       }
@@ -120,16 +127,16 @@ public class GameImpl implements Game {
       City blueCity = this.getCityAt(new Position(4, 1));
       blueCity.increaseTreasury();
 
-      if(blueCity.getTreasury() >= map.getUnitCosts().get(blueCity.getProduction())){
-        blueCity.decreaseTreasury(map.getUnitCosts().get(blueCity.getProduction()));
+      if(blueCity.getTreasury() >= mapStrategy.getUnitCosts().get(blueCity.getProduction())){
+        blueCity.decreaseTreasury(mapStrategy.getUnitCosts().get(blueCity.getProduction()));
         Position firstOpen = getOpenPosition(new Position(4,1));
         if(firstOpen.getColumn() != -1 && firstOpen.getRow() != -1){
-          map.getUnitMap().put(firstOpen, new UnitImpl(Player.BLUE, blueCity.getProduction()));
+          mapStrategy.getUnitMap().put(firstOpen, new UnitImpl(Player.BLUE, blueCity.getProduction()));
 
         }
       }
     }
-    gameAge -= 100;
+    gameAge = ageStrategy.ageWorld(gameAge);
   }
 
   @Override
@@ -180,10 +187,10 @@ public class GameImpl implements Game {
 
 
   public void createCity(Position p){
-    map.getCityMap().put(p,new CityImpl(playerInTurn));
+    mapStrategy.getCityMap().put(p,new CityImpl(playerInTurn));
   }
   public void removeUnit(Position p){
-    map.getUnitMap().remove(p);
+    mapStrategy.getUnitMap().remove(p);
   }
 
 }

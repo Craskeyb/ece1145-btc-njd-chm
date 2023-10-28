@@ -22,10 +22,12 @@ public class TestZetaCiv {
 
     @Test
     public void shouldDeclareRedAsWinnerWhenRedOwnsAllCities() {
-        CityImpl city = (CityImpl) game.getCityAt(new Position(4,1));
-        if (city != null) {
-            city.setOwner(Player.RED);
-        }
+        game.getCityAt(new Position(4,1)).setOwner(Player.RED);
+        //CityImpl city = (CityImpl) game.getCityAt(new Position(4,1));
+        //if (city != null) {
+        //    city.setOwner(Player.RED);
+        //}
+        assertThat(game.getAge(), is(-4000));
         assertThat(game.getWinner(), is(Player.RED));
     }
 
@@ -38,17 +40,17 @@ public class TestZetaCiv {
     @Test
     public void shouldDeclareWinnerAfter20RoundsBasedOnFirstThreeAttacks() {
         progressRounds(21);
-        incrementAttackCountForPlayer(Player.RED, 3);
+        game.setAttacks(3, 0);
         assertThat(game.getWinner(), is(Player.RED));
     }
 
     @Test
     public void attackCountShouldBeConsideredOnlyAfter20Rounds() {
-        incrementAttackCountForPlayer(Player.RED, 3);
+        game.setAttacks(3, 0);
         progressRounds(20);
         assertNull(game.getWinner());
 
-        incrementAttackCountForPlayer(Player.BLUE, 3);
+        game.setAttacks(0, 3);
         endOfRound();
         assertThat(game.getWinner(), is(Player.BLUE));
     }

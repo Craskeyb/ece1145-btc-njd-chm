@@ -10,8 +10,5 @@ public interface WinningStrategy {
      * cities: a HashMap containing the positions of cities on the map.
      * @return the Player object representing the winner, or null if there is no winner yet.
      */
-    public Player getWinner(int year, HashMap<Position, City> cities, GameImpl game);
-
-
-
+    Player getWinner(int year, HashMap<Position, City> cities, Game game);
 }

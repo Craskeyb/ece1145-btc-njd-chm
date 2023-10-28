@@ -15,10 +15,8 @@ public class ZetaCivFactory implements AbstractFactory {
     }
 
     @Override
-    public GameSetupStrategy createGameSetup() {
-        // Uncomment the next line if you have the `AlphaCivGameSetupStrategy` defined and available
-        // return new AlphaCivGameSetupStrategy();
-        return null;
+    public GameSetupStrategy createGameSetup(){
+        return new MapImpl();
     }
 
     @Override
@@ -30,8 +28,7 @@ public class ZetaCivFactory implements AbstractFactory {
 
     @Override
     public AttackStrategy createAttackStrategy() {
-        // Uncomment the next line if you have the `AlphaWorldAttackStrategy` defined and available
-        // return new AlphaWorldAttackStrategy();
-        return null;
+        return new AlphaAttackStrategy();
+
     }
 }

@@ -17,7 +17,7 @@ public class ZetaWinningStrategy implements WinningStrategy {
     }
 
     @Override
-    public Player getWinner(int year, HashMap<Position, City> cities, GameImpl game) {
+    public Player getWinner(int year, HashMap<Position, City> cities, Game game) {
         int round = game.getAge();
 
         if (round < 20) {

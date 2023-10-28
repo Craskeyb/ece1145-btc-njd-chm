@@ -8,7 +8,7 @@ import hotciv.framework.WinningStrategy;
 
 import java.util.HashMap;
 
-public abstract class BetaWinningStrategy implements WinningStrategy {
+public class BetaWinningStrategy implements WinningStrategy {
 
     @Override
     public Player getWinner(int year, HashMap<Position, City> cities, Game game) {

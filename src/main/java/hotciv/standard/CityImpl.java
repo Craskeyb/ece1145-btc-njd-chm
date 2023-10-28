@@ -19,6 +19,11 @@ public class CityImpl implements City{
         this.treasury = 0;
     }
     public Player getOwner() { return this.owner;}
+
+    public void setOwner(Player owner) {
+        this.owner = owner;
+    }
+
     public int getSize(){ return this.population;}
     public int getTreasury(){ return this.treasury;}
 

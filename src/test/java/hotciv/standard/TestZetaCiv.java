@@ -15,20 +15,34 @@ public class TestZetaCiv {
         game = new GameImpl(new ZetaCivFactory());
     }
 
+    private void progressRounds(int rounds) {
+        for (int i = 0; i < rounds; i++) {
+            endOfRound();
+        }
+    }
+
+    private void endOfRound() {
+        game.endOfTurn();
+        game.endOfTurn();
+    }
+
     @Test
-    public void shouldHaveNoWinnerWhenNotAllCitiesAreConquered() {
+    public void shouldHaveNoWinnerAtGameStart() {
         assertNull(game.getWinner());
     }
 
     @Test
     public void shouldDeclareRedAsWinnerWhenRedOwnsAllCities() {
-        game.getCityAt(new Position(4,1)).setOwner(Player.RED);
-        //CityImpl city = (CityImpl) game.getCityAt(new Position(4,1));
-        //if (city != null) {
-        //    city.setOwner(Player.RED);
-        //}
+        game.getCityAt(new Position(4, 1)).setOwner(Player.RED);
         assertThat(game.getAge(), is(-4000));
         assertThat(game.getWinner(), is(Player.RED));
+    }
+
+    @Test
+    public void shouldDeclareBlueAsWinnerWhenBlueOwnsAllCities() {
+        game.getCityAt(new Position(1, 1)).setOwner(Player.BLUE);
+        assertThat(game.getAge(), is(-4000));
+        assertThat(game.getWinner(), is(Player.BLUE));
     }
 
     @Test
@@ -55,14 +69,27 @@ public class TestZetaCiv {
         assertThat(game.getWinner(), is(Player.BLUE));
     }
 
-    private void progressRounds(int rounds) {
-        for(int i=0; i<rounds; i++) {
-            endOfRound();
-        }
+    @Test
+    public void shouldDeclareWinnerAfter20RoundsBasedOnBlueFirstThreeAttacks() {
+        progressRounds(21);
+        game.setAttacks(0, 3);
+        assertThat(game.getWinner(), is(Player.BLUE));
     }
 
-    private void endOfRound() {
-        game.endOfTurn();
-        game.endOfTurn();
+    @Test
+    public void blueShouldBeWinnerIfTheyHaveMoreAttacksAfter20Rounds() {
+        progressRounds(21);
+        game.setAttacks(2, 3);
+        assertThat(game.getWinner(), is(Player.BLUE));
     }
+
+
+    @Test
+    public void tiesInAttackCountAfter20RoundsShouldNotDeclareAWinner() {
+        progressRounds(21);
+        game.setAttacks(2, 2);
+        assertNull(game.getWinner());
+    }
+
+
 }

@@ -21,8 +21,6 @@ public class ZetaCivFactory implements AbstractFactory {
 
     @Override
     public UnitActionStrategy createUnitActionStrategy() {
-        // Uncomment the next line if you have the `AlphaCivActionStrategy` defined and available
-        // return new AlphaCivActionStrategy();
         return null;
     }
 

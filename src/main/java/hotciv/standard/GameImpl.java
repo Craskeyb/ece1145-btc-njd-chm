@@ -46,7 +46,7 @@ public class GameImpl implements Game {
   
   public GameImpl(AbstractFactory factory){
     playerInTurn = Player.RED;
-    gameAge = 4000;
+    gameAge = -4000;
     mapStrategy = factory.createGameSetup();
     mapStrategy.setUpBoard();
     winStrategy = factory.createWinningStrategy();
@@ -54,6 +54,7 @@ public class GameImpl implements Game {
     unitStrategy = factory.createUnitActionStrategy();
     attackStrategy = factory.createAttackStrategy();
   }
+
 
   public Tile getTileAt( Position p ) { 
     return mapStrategy.getTileMap().get(p);
@@ -195,5 +196,6 @@ public class GameImpl implements Game {
   public int getBlueAttacks(){
     return blueAttacks;
   }
+  public void setAttacks(int red, int blue){ redAttacks = red; blueAttacks = blue;}
 }
 

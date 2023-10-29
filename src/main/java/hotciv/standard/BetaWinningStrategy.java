@@ -20,7 +20,7 @@ public class BetaWinningStrategy implements WinningStrategy {
                 // If it's the first city, set lastOwner to the city's owner
                 lastOwner = city.getOwner();
             } else {
-                // If the city's owner is different from the last city's owner, than no winner yet
+                // If the city's owner is different from the last city's owner, then no winner yet
                 if (city.getOwner() != lastOwner) {
                     return null;
                 }

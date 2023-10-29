@@ -1,5 +1,5 @@
 package hotciv.framework;
-
+import hotciv.standard.GameImpl;
 import java.util.HashMap;
 
 public interface WinningStrategy {
@@ -10,5 +10,5 @@ public interface WinningStrategy {
      * cities: a HashMap containing the positions of cities on the map.
      * @return the Player object representing the winner, or null if there is no winner yet.
      */
-    public Player getWinner(int year, HashMap<Position, City> cities, Game game);
+    Player getWinner(int year, HashMap<Position, City> cities, Game game);
 }

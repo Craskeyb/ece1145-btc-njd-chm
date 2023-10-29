@@ -35,6 +35,7 @@ public interface City {
    * @return the player that controls this city.
    */
   Player getOwner();
+  public void setOwner(Player owner);
   
   /** return the size of the population.
    * @return population size.

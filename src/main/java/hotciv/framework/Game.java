@@ -148,5 +148,6 @@ public interface Game {
 
   public int getRedAttacks();
   public int getBlueAttacks();
+  public void setAttacks(int red, int blue);
 }
 

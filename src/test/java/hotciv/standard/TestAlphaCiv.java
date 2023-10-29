@@ -108,7 +108,7 @@ public class TestAlphaCiv {
 
   @Test
   public void gameStartsAt4000(){
-    assertThat(game.getAge(), is(4000));
+    assertThat(game.getAge(), is(-4000));
   }
 
   @Test
@@ -120,9 +120,9 @@ public class TestAlphaCiv {
   @Test
   public void gameAges100(){
     Game newGame = new GameImpl(new AlphaCivFactory());
-    assertThat(newGame.getAge(), is(4000));
+    assertThat(newGame.getAge(), is(-4000));
     newGame.endOfTurn();
-    assertThat(newGame.getAge(),is(3900));
+    assertThat(newGame.getAge(),is(-3900));
   }
 
   @Test
@@ -132,7 +132,7 @@ public class TestAlphaCiv {
       assertThat(newGame.getWinner(),is(nullValue()));
       newGame.endOfTurn();
     }
-    assertThat(newGame.getAge(),is(3000));
+    assertThat(newGame.getAge(),is(-3000));
     assertThat(newGame.getWinner(), is(Player.RED));
   }
   @Test

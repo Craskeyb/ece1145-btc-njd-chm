@@ -60,7 +60,7 @@ public class TestEpsilonCiv {
   }
 
   @Test public void shouldGiveStrength4forRedAtP3_2() {
-    assertThat("Red unit at (3,2) should have a total attack strength of 3", epsilonAttack.combinedStrength(game, new Position(3,2)), is(3));
+    assertThat("Red unit at (3,2) should have a total attack strength of 4", epsilonAttack.combinedStrength(game, new Position(3,2)), is(4));
   }
 
   @Test public void shouldGiveStrength3forRedAtP3_3() {

@@ -45,13 +45,15 @@ public class Utility2 {
    *         neighborhood.
    */
   public int getFriendlySupport(Game game, Position position, Player player) {
-    //Iterator<Position> neighborhood = Utility.get8neighborhoodIterator(position);
     int support = 0;
     int unitR = position.getRow();
     int unitC = position.getColumn();
     
     //Looping through adjacent tiles for support
     if (game.getUnitAt(new Position(unitR - 1, unitC)) != null && game.getUnitAt(new Position(unitR - 1, unitC)).getOwner() == player) {
+        support++;
+    }
+    if (game.getUnitAt(new Position(unitR - 1, unitC + 1)) != null && game.getUnitAt(new Position(unitR - 1, unitC + 1)).getOwner() == player) {
         support++;
     }
     if(game.getUnitAt(new Position(unitR,unitC+1)) != null && game.getUnitAt(new Position(unitR,unitC+1)).getOwner() == player){

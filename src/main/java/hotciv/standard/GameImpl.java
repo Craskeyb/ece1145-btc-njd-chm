@@ -41,6 +41,7 @@ public class GameImpl implements Game {
   private AgingStrategy ageStrategy;
   private WinningStrategy winStrategy;
   private AttackStrategy attackStrategy;
+  //private WorkforceStrategy workforceStrategy;
   private int redAttacks = 0;
   private int blueAttacks = 0;
   
@@ -53,6 +54,7 @@ public class GameImpl implements Game {
     ageStrategy = factory.createAgingStrategy();
     unitStrategy = factory.createUnitActionStrategy();
     attackStrategy = factory.createAttackStrategy();
+    //workforceStrategy = factory.createWorkforceStrategy();
   }
 
 
@@ -109,31 +111,45 @@ public class GameImpl implements Game {
   @Override
   public void endOfTurn() {
     if (this.getPlayerInTurn() == Player.RED) {
+      for(int i=0;i<GameConstants.WORLDSIZE; i++){
+        for (int j=0; j<GameConstants.WORLDSIZE; j++) {
+          if (this.getCityAt(new Position(i, j)) != null){
+            Player ownerOfCity = this.getCityAt(new Position(i, j)).getOwner();
+          if (ownerOfCity == Player.RED) {
+            City redCity = this.getCityAt(new Position(i, j));
+            redCity.increaseTreasury();
+            if (redCity.getTreasury() >= mapStrategy.getUnitCosts().get(redCity.getProduction())) {
+              redCity.decreaseTreasury(mapStrategy.getUnitCosts().get(redCity.getProduction()));
+              Position firstOpen = getOpenPosition(new Position(i, j));
+              if (firstOpen.getColumn() != -1 && firstOpen.getRow() != -1) {
+                mapStrategy.getUnitMap().put(firstOpen, new UnitImpl(Player.RED, redCity.getProduction()));
+              }
+            }
+          }
+        }
+        }
+      }
       playerInTurn = Player.BLUE;
-      City redCity = this.getCityAt(new Position(1, 1));
-      redCity.increaseTreasury();
-
-      if(redCity.getTreasury() >= mapStrategy.getUnitCosts().get(redCity.getProduction())){
-        redCity.decreaseTreasury(mapStrategy.getUnitCosts().get(redCity.getProduction()));
-        Position firstOpen = getOpenPosition(new Position(1,1));
-        if(firstOpen.getColumn() != -1 && firstOpen.getRow() != -1){
-          mapStrategy.getUnitMap().put(firstOpen, new UnitImpl(Player.RED, redCity.getProduction()));
-
-        }
-      }
     } else {
-      playerInTurn = Player.RED;
-      City blueCity = this.getCityAt(new Position(4, 1));
-      blueCity.increaseTreasury();
-
-      if(blueCity.getTreasury() >= mapStrategy.getUnitCosts().get(blueCity.getProduction())){
-        blueCity.decreaseTreasury(mapStrategy.getUnitCosts().get(blueCity.getProduction()));
-        Position firstOpen = getOpenPosition(new Position(4,1));
-        if(firstOpen.getColumn() != -1 && firstOpen.getRow() != -1){
-          mapStrategy.getUnitMap().put(firstOpen, new UnitImpl(Player.BLUE, blueCity.getProduction()));
-
+      for (int i = 0; i < GameConstants.WORLDSIZE; i++) {
+        for (int j = 0; j < GameConstants.WORLDSIZE; j++) {
+          if (this.getCityAt(new Position(i, j)) != null) {
+            Player ownerOfCity = this.getCityAt(new Position(i, j)).getOwner();
+            if (ownerOfCity == Player.BLUE) {
+              City blueCity = this.getCityAt(new Position(i, j));
+              blueCity.increaseTreasury();
+              if (blueCity.getTreasury() >= mapStrategy.getUnitCosts().get(blueCity.getProduction())) {
+                blueCity.decreaseTreasury(mapStrategy.getUnitCosts().get(blueCity.getProduction()));
+                Position firstOpen = getOpenPosition(new Position(i, j));
+                if (firstOpen.getColumn() != -1 && firstOpen.getRow() != -1) {
+                  mapStrategy.getUnitMap().put(firstOpen, new UnitImpl(Player.BLUE, blueCity.getProduction()));
+                }
+              }
+            }
+          }
         }
       }
+      playerInTurn = Player.RED;
     }
     gameAge = ageStrategy.ageWorld(gameAge);
   }

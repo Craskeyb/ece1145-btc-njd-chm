@@ -169,6 +169,17 @@ class GameStubForBattleTesting implements Game {
         }
         public void decreaseTreasury(int amount) {}
         public void changeProduction(String prod) {}
+
+        @Override
+        public void setTreasury(int value) {
+
+        }
+
+        @Override
+        public void setWorkforceFocus(String balance) {
+
+        }
+
         public void setOwner(Player p) {}
         public void increaseTreasury() {}
       };}
@@ -187,6 +198,17 @@ class GameStubForBattleTesting implements Game {
         }
         public void decreaseTreasury(int amount) {}
         public void changeProduction(String prod) {}
+
+        @Override
+        public void setTreasury(int value) {
+
+        }
+
+        @Override
+        public void setWorkforceFocus(String balance) {
+
+        }
+
         public void setOwner(Player p) {}
         public void increaseTreasury() {}
       };

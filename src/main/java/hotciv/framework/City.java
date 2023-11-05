@@ -61,10 +61,14 @@ public interface City {
    * @return a string type defining the focus, see GameConstants
    * for valid return values.
    */
-  String getWorkforceFocus();
+
   void increaseTreasury();
   void decreaseTreasury(int cost);
   void changeProduction(String type);
+  void setTreasury(int value);
+  void setWorkforceFocus(String balance);
+  String getWorkforceFocus();
+
 }
 
 

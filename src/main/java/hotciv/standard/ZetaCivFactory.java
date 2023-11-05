@@ -21,12 +21,14 @@ public class ZetaCivFactory implements AbstractFactory {
 
     @Override
     public UnitActionStrategy createUnitActionStrategy() {
-        return null;
+        return new AlphaUnitActionStrategy();
     }
 
     @Override
     public AttackStrategy createAttackStrategy() {
         return new AlphaAttackStrategy();
-
     }
+
+    @Override
+    public WorkforceStrategy createWorkforceStrategy(){return new AlphaWorkforceStrategy();}
 }

@@ -1,11 +1,6 @@
 package hotciv.standard;
 
-import hotciv.framework.AbstractFactory;
-import hotciv.framework.AgingStrategy;
-import hotciv.framework.AttackStrategy;
-import hotciv.framework.GameSetupStrategy;
-import hotciv.framework.WinningStrategy;
-import hotciv.framework.UnitActionStrategy;
+import hotciv.framework.*;
 
 public class DeltaCivFactory implements AbstractFactory {
     @Override
@@ -32,4 +27,7 @@ public class DeltaCivFactory implements AbstractFactory {
     public AttackStrategy createAttackStrategy() {
         return new AlphaAttackStrategy();
     }
+
+    @Override
+    public WorkforceStrategy createWorkforceStrategy(){return new AlphaWorkforceStrategy();}
 }

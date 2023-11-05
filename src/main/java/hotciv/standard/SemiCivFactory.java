@@ -2,32 +2,29 @@ package hotciv.standard;
 
 import hotciv.framework.*;
 
-public class EpsilonCivFactory implements AbstractFactory {
+public class SemiCivFactory implements AbstractFactory {
     @Override
     public AgingStrategy createAgingStrategy() {
-        return null;
+        return new BetaAgingStrategy();
     }
 
     @Override
-    public GameSetupStrategy createGameSetup() {
-        return new MapImpl();
-    }
+    public GameSetupStrategy createGameSetup() {return new DeltaMapImpl();}
 
     @Override
     public WinningStrategy createWinningStrategy() {
         return new EpsilonWinningStrategy();
     }
-    
+
     @Override
     public UnitActionStrategy createUnitActionStrategy() {
-        return new AlphaUnitActionStrategy();
-    }
-    
-    @Override
-    public AttackStrategy createAttackStrategy() {
-        return new AlphaAttackStrategy();
+        return new GammaUnitActionStrategy();
     }
 
     @Override
+    public AttackStrategy createAttackStrategy() {return new EpsilonAttackStrategy();}
+
+    @Override
     public WorkforceStrategy createWorkforceStrategy(){return new AlphaWorkforceStrategy();}
+
 }

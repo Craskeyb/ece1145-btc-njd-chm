@@ -19,6 +19,8 @@ public class EpsilonAttackStrategy implements AttackStrategy {
         Random rand = new Random();
         int attRand = rand.nextInt(1,6);
         int defRand = rand.nextInt(1,6);
+        //int attRand = rand.nextInt(1,6);
+        //int defRand = rand.nextInt(1,6);
 
         //Performing outcome calculation wtih random values & combined strength values
         if(attRand*combinedAttack > defRand*combinedDefense){

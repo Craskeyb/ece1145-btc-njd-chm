@@ -2,7 +2,8 @@ package hotciv.standard;
 
 import hotciv.framework.*;
 
-public class EpsilonCivFactory implements AbstractFactory {
+public class ThetaCivFactory implements AbstractFactory {
+
     @Override
     public AgingStrategy createAgingStrategy() {
         return new AlphaAgingStrategy();
@@ -15,12 +16,12 @@ public class EpsilonCivFactory implements AbstractFactory {
 
     @Override
     public WinningStrategy createWinningStrategy() {
-        return new EpsilonWinningStrategy();
+        return new AlphaWinningStrategy();
     }
     
     @Override
     public UnitActionStrategy createUnitActionStrategy() {
-        return new AlphaUnitActionStrategy();
+        return new ThetaUnitActionStrategy();
     }
     
     @Override
@@ -35,6 +36,6 @@ public class EpsilonCivFactory implements AbstractFactory {
 
     @Override 
     public ProductionChangeStrategy createProductionChangeStrategy(){
-        return new AlphaProductionChangeStrategy();
+        return new ThetaProductionChangeStrategy();
     }
 }

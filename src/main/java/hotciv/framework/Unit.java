@@ -53,6 +53,8 @@ public interface Unit {
    * @return the move count
    */
   int getMoveCount();
+  void resetMoveCount();
+  void decreaseMoveCount();
   
   /** return the defensive strength of this unit
    * @return defensive strength

@@ -2,6 +2,7 @@ package hotciv.standard;
 
 import hotciv.framework.*;
 import java.util.HashMap;
+import java.lang.Math;
 
 /**
  * This is the hotfix for release 2.1
@@ -41,6 +42,7 @@ public class GameImpl implements Game {
   private AgingStrategy ageStrategy;
   private WinningStrategy winStrategy;
   private AttackStrategy attackStrategy;
+  private ProductionChangeStrategy productionChangeStrategy;
   //private WorkforceStrategy workforceStrategy;
   private int redAttacks = 0;
   private int blueAttacks = 0;
@@ -54,6 +56,7 @@ public class GameImpl implements Game {
     ageStrategy = factory.createAgingStrategy();
     unitStrategy = factory.createUnitActionStrategy();
     attackStrategy = factory.createAttackStrategy();
+    productionChangeStrategy = factory.createProductionChangeStrategy();
     //workforceStrategy = factory.createWorkforceStrategy();
   }
 
@@ -88,22 +91,33 @@ public class GameImpl implements Game {
   @Override
   public boolean moveUnit(Position from, Position to) {
 
+    String unitType = this.getUnitAt(from).getTypeString();
+
     // Trying to move another player's units
     if (this.getUnitAt(from).getOwner() != this.getPlayerInTurn()) {
       return false;
     }
+    if(this.getUnitAt(from).getMoveCount() == 0){
+      return false;
+    }
+    //Trying to move more than one tile length away
+    if(Math.abs(to.getColumn()-from.getColumn()) > 1 || Math.abs(to.getRow()-from.getRow())>1){
+      return false;
+    }
     // Trying to move on a mountain
-    else if (this.getTileAt(to).getTypeString() == GameConstants.MOUNTAINS) {
+    if ((this.getTileAt(to).getTypeString() == GameConstants.MOUNTAINS || this.getTileAt(to).getTypeString() == GameConstants.OCEANS) && (unitType == GameConstants.ARCHER || unitType == GameConstants.LEGION || unitType == GameConstants.SETTLER)) {
       return false;
     }
     //Initiating an attack
-    else if(this.getUnitAt(to).getOwner() != this.getPlayerInTurn()){
+    if(this.getUnitAt(to) != null && this.getUnitAt(to).getOwner() != this.getPlayerInTurn()){
       return attackStrategy.decideAttack(this, mapStrategy, to, from);
     }
-    
-    //Default case, will move the unit from original position to new position
-    mapStrategy.getUnitMap().put(to,this.getUnitAt(from));
-    mapStrategy.getUnitMap().remove(from);
+    else{
+      //Default case, will move the unit from original position to new position
+      mapStrategy.getUnitMap().put(to,this.getUnitAt(from));
+      mapStrategy.getUnitMap().remove(from);
+      this.getUnitAt(to).decreaseMoveCount();
+    }
 
     return true;
   }
@@ -152,6 +166,15 @@ public class GameImpl implements Game {
       playerInTurn = Player.RED;
     }
     gameAge = ageStrategy.ageWorld(gameAge);
+    
+    //Resetting move counts
+    for (int i = 0; i < GameConstants.WORLDSIZE; i++) {
+        for (int j = 0; j < GameConstants.WORLDSIZE; j++) {
+          if(this.getUnitAt(new Position(i,j)) != null){
+            this.getUnitAt(new Position(i,j)).resetMoveCount();
+          }
+        }
+      }
   }
 
   @Override
@@ -159,7 +182,7 @@ public class GameImpl implements Game {
 
   @Override
   public void changeProductionInCityAt(Position p, String unitType) {
-    this.getCityAt(p).changeProduction(unitType);
+    productionChangeStrategy.changeProduction(this, p, unitType);
   }
 
   public void performUnitActionAt( Position p ) {
@@ -205,6 +228,9 @@ public class GameImpl implements Game {
   public void removeUnit(Position p){
     mapStrategy.getUnitMap().remove(p);
   }
+  public void removeCity(Position p){
+    mapStrategy.getCityMap().remove(p);
+  }
 
   public int getRedAttacks(){
     return redAttacks;
@@ -212,6 +238,9 @@ public class GameImpl implements Game {
   public int getBlueAttacks(){
     return blueAttacks;
   }
-  public void setAttacks(int red, int blue){ redAttacks = red; blueAttacks = blue;}
+  public void setAttacks(int red, int blue){ 
+    redAttacks = red; blueAttacks = blue;
+  }
+
 }
 

@@ -15,6 +15,7 @@ public class MapImpl implements GameSetupStrategy {
         unitCosts.put(GameConstants.ARCHER,10);
         unitCosts.put(GameConstants.LEGION,15);
         unitCosts.put(GameConstants.SETTLER,30);
+        unitCosts.put("ufo",60);
 
         for (int i = 0; i <= GameConstants.WORLDSIZE; i++) {
             for (int j = 0; j <= GameConstants.WORLDSIZE; j++) {

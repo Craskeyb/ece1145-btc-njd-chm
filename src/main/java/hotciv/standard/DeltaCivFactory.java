@@ -4,8 +4,7 @@ import hotciv.framework.*;
 
 public class DeltaCivFactory implements AbstractFactory {
     @Override
-    public AgingStrategy createAgingStrategy() {
-        return null;
+    public AgingStrategy createAgingStrategy() {return new AlphaAgingStrategy();
     }
 
     @Override
@@ -15,7 +14,7 @@ public class DeltaCivFactory implements AbstractFactory {
 
     @Override
     public WinningStrategy createWinningStrategy() {
-        return null;
+        return new AlphaWinningStrategy();
     }
     
     @Override

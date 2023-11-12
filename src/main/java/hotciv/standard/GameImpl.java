@@ -41,7 +41,7 @@ public class GameImpl implements Game {
   private AgingStrategy ageStrategy;
   private WinningStrategy winStrategy;
   private AttackStrategy attackStrategy;
-  //private WorkforceStrategy workforceStrategy;
+  private WorkforceStrategy workforceStrategy;
   private int redAttacks = 0;
   private int blueAttacks = 0;
   
@@ -54,7 +54,7 @@ public class GameImpl implements Game {
     ageStrategy = factory.createAgingStrategy();
     unitStrategy = factory.createUnitActionStrategy();
     attackStrategy = factory.createAttackStrategy();
-    //workforceStrategy = factory.createWorkforceStrategy();
+    workforceStrategy = factory.createWorkforceStrategy();
   }
 
 

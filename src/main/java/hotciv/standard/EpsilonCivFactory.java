@@ -5,7 +5,7 @@ import hotciv.framework.*;
 public class EpsilonCivFactory implements AbstractFactory {
     @Override
     public AgingStrategy createAgingStrategy() {
-        return null;
+        return new AlphaAgingStrategy();
     }
 
     @Override

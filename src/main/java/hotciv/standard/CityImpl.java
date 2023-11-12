@@ -21,14 +21,24 @@ public class CityImpl implements City{
         treasury = 0;
         focus = GameConstants.productionFocus;
     }
-    public Player getOwner() { return this.owner;}
+    public Player getOwner() { 
+        return this.owner;
+    }
 
-    public void setOwner(Player owner) {this.owner = owner;}
+    public void setOwner(Player owner) {
+        this.owner = owner;
+    }
 
-    public int getSize(){ return this.population;}
-    public int getTreasury(){ return this.treasury;}
+    public int getSize(){ 
+        return this.population;
+    }
+    public int getTreasury(){ 
+        return this.treasury;
+    }
 
-    public void setTreasury(int value){treasury = value;}
+    public void setTreasury(int value){
+        treasury = value;
+    }
 
     public void increaseTreasury(){
         this.treasury += 6;
@@ -38,14 +48,20 @@ public class CityImpl implements City{
         this.treasury -= cost;
     }
     
-    public String getProduction(){ return production;}
+    public String getProduction(){ 
+        return production;
+    }
 
     public void changeProduction(String type){
         this.production = type;
     }
 
-    public void setWorkforceFocus(String balance){focus = balance;}
-    public String getWorkforceFocus(){ return focus;}
+    public void setWorkforceFocus(String balance){
+        focus = balance;
+    }
+    public String getWorkforceFocus(){ 
+        return focus;
+    }
 
 
 }

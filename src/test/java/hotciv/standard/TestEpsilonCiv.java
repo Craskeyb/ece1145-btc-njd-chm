@@ -87,6 +87,7 @@ class StubTile implements Tile {
   private String type;
   public StubTile(String type, int r, int c) { this.type = type; }
   public String getTypeString() { return type; }
+  public void setTypeString(String type) { this.type = type; }
 }
 
 class StubUnit implements Unit {
@@ -94,6 +95,7 @@ class StubUnit implements Unit {
   private Player owner;
   private int defStr;
   private int attStr;
+  private int moveCt;
   public StubUnit(String type, Player owner) {
     this.type = type; 
     this.owner = owner;
@@ -109,14 +111,17 @@ class StubUnit implements Unit {
             defStr = 2;
             attStr = 4;
         }
+        moveCt = 1;
   }
   public String getTypeString() { return type; }
   public Player getOwner() { return owner; }
-  public int getMoveCount() { return 0; }
+  public int getMoveCount() { return moveCt; }
+  public void resetMoveCount() { this.moveCt = 1; }
   public int getDefensiveStrength() { return defStr; }
   public int getAttackingStrength() { return attStr; }
   public void setAttackingStrength(int strength) {}
   public void setDefensiveStrength(int strength) {}
+  public void decreaseMoveCount() {}
 }
 
 
@@ -231,4 +236,5 @@ class GameStubForBattleTesting implements Game {
   public void createCity(Position p) {}
   public Position getOpenPosition(Position p) {return new Position(0,0);} 
   public void setAttacks(int red, int blue) {redAttacks = red; blueAttacks = blue;}
+  public void removeCity(Position p) {}
 }

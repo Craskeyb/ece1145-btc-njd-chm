@@ -27,4 +27,8 @@ public class SemiCivFactory implements AbstractFactory {
     @Override
     public WorkforceStrategy createWorkforceStrategy(){return new AlphaWorkforceStrategy();}
 
+    @Override 
+    public ProductionChangeStrategy createProductionChangeStrategy(){
+        return new AlphaProductionChangeStrategy();
+    }
 }

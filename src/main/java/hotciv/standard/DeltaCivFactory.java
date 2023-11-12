@@ -4,7 +4,8 @@ import hotciv.framework.*;
 
 public class DeltaCivFactory implements AbstractFactory {
     @Override
-    public AgingStrategy createAgingStrategy() {return new AlphaAgingStrategy();
+    public AgingStrategy createAgingStrategy() {
+        return new AlphaAgingStrategy();
     }
 
     @Override
@@ -28,5 +29,12 @@ public class DeltaCivFactory implements AbstractFactory {
     }
 
     @Override
-    public WorkforceStrategy createWorkforceStrategy(){return new AlphaWorkforceStrategy();}
+    public WorkforceStrategy createWorkforceStrategy(){
+        return new AlphaWorkforceStrategy();
+    }
+
+    @Override 
+    public ProductionChangeStrategy createProductionChangeStrategy(){
+        return new AlphaProductionChangeStrategy();
+    }
 }

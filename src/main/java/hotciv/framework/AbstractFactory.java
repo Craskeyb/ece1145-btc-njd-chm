@@ -7,4 +7,5 @@ public interface AbstractFactory {
     UnitActionStrategy createUnitActionStrategy();
     AttackStrategy createAttackStrategy();
     WorkforceStrategy createWorkforceStrategy();
+    ProductionChangeStrategy createProductionChangeStrategy();
 }

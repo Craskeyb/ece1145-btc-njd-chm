@@ -103,7 +103,10 @@ public class TestAlphaCiv {
 
   public void cantMoveOnMountain(){
     Game newGame = new GameImpl(new AlphaCivFactory());
-    assertThat(newGame.moveUnit(new Position(2, 0), new Position(2,2)), is(false));
+    newGame.moveUnit(new Position(2,0), new Position(2,1));
+    newGame.endOfTurn();
+    newGame.endOfTurn();
+    assertThat(newGame.moveUnit(new Position(2, 1), new Position(2,2)), is(false));
   }
 
   @Test
@@ -177,7 +180,11 @@ public class TestAlphaCiv {
   public void attackerAlwaysWins(){
     //Testing that red unit wins
     Game newGame = new GameImpl(new AlphaCivFactory());
-    assertThat(newGame.moveUnit(new Position(2,0),new Position(3,2)),is(true));
+
+    assertThat(newGame.moveUnit(new Position(2,0), new Position(3,1)), is(true));
+    newGame.endOfTurn();
+    newGame.endOfTurn();
+    assertThat(newGame.moveUnit(new Position(3,1),new Position(3,2)),is(true));
     assertThat(newGame.getUnitAt(new Position(3,2)).getTypeString(), is(GameConstants.ARCHER));
     assertThat(newGame.getUnitAt(new Position(3,2)).getOwner(), is(Player.RED));
 
@@ -185,7 +192,10 @@ public class TestAlphaCiv {
     //Testing that blue unit wins
     Game newGame2 = new GameImpl(new AlphaCivFactory());
     newGame2.endOfTurn();
-    assertThat(newGame2.moveUnit(new Position(3,2),new Position(2,0)),is(true));
+    assertThat(newGame2.moveUnit(new Position(3,2), new Position(2,1)), is(true));
+    newGame2.endOfTurn();
+    newGame2.endOfTurn();
+    assertThat(newGame2.moveUnit(new Position(2,1),new Position(2,0)),is(true));
     assertThat(newGame2.getUnitAt(new Position(2,0)).getTypeString(), is(GameConstants.LEGION));
     assertThat(newGame2.getUnitAt(new Position(2,0)).getOwner(), is(Player.BLUE));
   }

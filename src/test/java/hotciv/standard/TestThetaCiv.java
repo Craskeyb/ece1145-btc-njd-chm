@@ -51,8 +51,16 @@ public class TestThetaCiv {
         game.endOfTurn();
     }
     assertThat(game.getUnitAt(new Position(1,1)).getTypeString(), is("ufo"));
+
+    game.toggleTranscripts();
     assertThat(game.moveUnit(new Position(1,1), new Position(1,2)), is(true));
+    TranscriptObserver transcript = (TranscriptObserver)game.getTranscript();
+    String action = transcript.getTranscript().get(0);
+    assertEquals(action, "Player RED moves ufo at (1,1) to (1,2).");
+
     assertThat(game.moveUnit(new Position(1,2), new Position(1,3)), is(true));
+    String action2 = transcript.getTranscript().get(1);
+    assertEquals(action2, "Player RED moves ufo at (1,2) to (1,3).");
   }
 
   @Test
@@ -155,33 +163,94 @@ public class TestThetaCiv {
     assertThat(game.getUnitAt(new Position(3,2)).getOwner(), is(Player.RED));
     assertThat(game.getUnitAt(new Position(3,2)).getTypeString(), is("ufo"));
   }
+
+  @Test
+  public void ufoTurnsForestToPlains(){
+    GameStubForUFOTesting game = new GameStubForUFOTesting();
+    
+    assertThat(game.getTileAt(new Position(1,1)).getTypeString(), is(GameConstants.FOREST));
+    game.performUnitActionAt(new Position(1,1));
+    assertThat(game.getTileAt(new Position(1,1)).getTypeString(), is(GameConstants.PLAINS));
+  }
 }
 
-  /** REMOVE ME. Not a test of HotCiv, just an example of what
-      matchers the hamcrest library has... */
-//   @Test
-//   public void shouldDefinetelyBeRemoved() {
-//     // Matching null and not null values
-//     // 'is' require an exact match
-//     String s = null;
-//     assertThat(s, is(nullValue()));
-//     s = "Ok";
-//     assertThat(s, is(notNullValue()));
-//     assertThat(s, is("Ok"));
+class GameStubForUFOTesting implements Game {
+  private int redAttacks;
+  private int blueAttacks;
+  private Tile forestTest = new TileImpl(GameConstants.FOREST);
+  private HashMap<Position, Unit> unitMap = new HashMap<Position, Unit>();
+  private UnitActionStrategy thetaStrat = new ThetaUnitActionStrategy();
+  
+  public Tile getTileAt(Position p) {
+    return forestTest;
+  }
+  public Unit getUnitAt(Position p) {
+    if ( p.getRow() == 2 && p.getColumn() == 3 ||
+            p.getRow() == 3 && p.getColumn() == 2 ||
+            p.getRow() == 3 && p.getColumn() == 3 ) {
+      return new StubUnit(GameConstants.ARCHER, Player.RED);
+    }
+    if ( p.getRow() == 4 && p.getColumn() == 4 ) {
+      return new StubUnit(GameConstants.ARCHER, Player.BLUE);
+    }
+    return null;
+  }
+  public City getCityAt(Position p) {
+    if ( p.getRow() == 1 && p.getColumn() == 1 ) {
+      return new City() {
+        public Player getOwner() { return Player.RED; }
+        public int getSize() { return 1; }
+        public int getTreasury() {return 0;}
+        public String getProduction() {return null;}
+        public String getWorkforceFocus() {return null;}
+        public void decreaseTreasury(int amount) {}
+        public void changeProduction(String prod) {}
+        @Override
+        public void setTreasury(int value) {}
+        @Override
+        public void setWorkforceFocus(String balance) {}
+        public void setOwner(Player p) {}
+        public void increaseTreasury() {}
+      };}
+      else if ( p.getRow() == 4 && p.getColumn() == 4) {}
+      // return new City() {
+      //   public Player getOwner() { return Player.BLUE; }
+      //   public int getSize() { return 1; }
+      //   public int getTreasury() {return 0;}
+      //   public String getProduction() {return null;}
+      //   public String getWorkforceFocus() {return null;}
+      //   public void decreaseTreasury(int amount) {}
+      //   public void changeProduction(String prod) {}
+      //   public void setTreasury(int value) {}
+      //   public void setWorkforceFocus(String balance) {}
 
-//     // If you only validate substrings, use containsString
-//     assertThat("This is a dummy test", containsString("dummy"));
+      //   public void setOwner(Player p) {}
+      //   public void increaseTreasury() {}
+      // };}
+    return null;
+  }
 
-//     // Match contents of Lists
-//     List<String> l = new ArrayList<String>();
-//     l.add("Bimse");
-//     l.add("Bumse");
-//     // Note - ordering is ignored when matching using hasItems
-//     assertThat(l, hasItems(new String[] {"Bumse","Bimse"}));
+  // the rest is unused test stub methods...
+  public void changeProductionInCityAt(Position p, String unitType) {}
+  public void changeWorkForceFocusInCityAt(Position p, String balance) {}
+  public void endOfTurn() {}
+  public Player getPlayerInTurn() {return Player.RED;}
+  public Player getWinner() {return null;}
+  public int getAge() { return 0; }
+  public boolean moveUnit(Position from, Position to) {return false;}
 
-//     // Matchers may be combined, like is-not
-//     assertThat(l.get(0), is(not("Bumse")));
-//   }
-// }
+  public void performUnitActionAt( Position p ) {
+    unitMap.put(new Position(1,1), new UnitImpl(Player.RED, "ufo"));
+    thetaStrat.performUnitActionAt(p, unitMap, this);
+  }
 
-
+  public int getRedAttacks() {return redAttacks;}
+  public int getBlueAttacks() {return blueAttacks;}
+  public void removeUnit(Position p) {}
+  public void createCity(Position p) {}
+  public Position getOpenPosition(Position p) {return new Position(0,0);} 
+  public void setAttacks(int red, int blue) {redAttacks = red; blueAttacks = blue;}
+  public void removeCity(Position p) {}
+  public void toggleTranscripts() {}
+  public TranscriptObserver getTranscript() {return new TranscriptObserver();}
+}

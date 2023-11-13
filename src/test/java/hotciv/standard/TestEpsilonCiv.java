@@ -3,6 +3,7 @@ import hotciv.framework.*;
 import org.junit.Before;
 import org.junit.Test;
 import java.util.HashMap;
+import java.util.ArrayList;
 
 import static org.junit.Assert.*;
 import static org.hamcrest.CoreMatchers.*;
@@ -237,4 +238,6 @@ class GameStubForBattleTesting implements Game {
   public Position getOpenPosition(Position p) {return new Position(0,0);} 
   public void setAttacks(int red, int blue) {redAttacks = red; blueAttacks = blue;}
   public void removeCity(Position p) {}
+  public void toggleTranscripts() {}
+  public Observer getTranscript() {return new TranscriptObserver();}
 }

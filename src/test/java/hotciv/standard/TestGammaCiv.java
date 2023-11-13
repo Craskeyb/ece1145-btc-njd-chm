@@ -66,8 +66,16 @@ public class TestGammaCiv {
   public void archerAction() {
     Unit archer = game.getUnitAt(new Position(2,0));
     assertThat(archer.getDefensiveStrength(), is(3));
+    
+    game.toggleTranscripts();
+    
     game.performUnitActionAt(new Position(2,0));
     assertThat(archer.getDefensiveStrength(),is(6));
+
+    TranscriptObserver transcript = (TranscriptObserver)game.getTranscript();
+    String action = transcript.getTranscript().get(0);
+    assertEquals(action,"Player RED performs unit action at (2,0) for archer unit.");
+    
     game.performUnitActionAt(new Position(2,0));
     assertThat(archer.getDefensiveStrength(), is(3));
   }

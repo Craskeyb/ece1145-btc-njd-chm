@@ -31,7 +31,7 @@ public class ThetaUnitActionStrategy implements UnitActionStrategy {
             if(game.getCityAt(p) != null){
                 game.removeCity(p);
             }
-            else if(game.getTileAt(p).getTypeString() == GameConstants.FOREST){
+            if(game.getTileAt(p).getTypeString() == GameConstants.FOREST){
                 game.getTileAt(p).setTypeString(GameConstants.PLAINS);
             }
         }

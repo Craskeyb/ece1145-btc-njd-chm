@@ -3,6 +3,7 @@ package hotciv.standard;
 import hotciv.framework.*;
 import java.util.HashMap;
 import java.lang.Math;
+import java.util.ArrayList;
 
 /**
  * This is the hotfix for release 2.1
@@ -43,9 +44,11 @@ public class GameImpl implements Game {
   private WinningStrategy winStrategy;
   private AttackStrategy attackStrategy;
   private ProductionChangeStrategy productionChangeStrategy;
+  private Observer transcriptObserver;
   //private WorkforceStrategy workforceStrategy;
   private int redAttacks = 0;
   private int blueAttacks = 0;
+  private Boolean transcriptMode = false;
   
   public GameImpl(AbstractFactory factory){
     playerInTurn = Player.RED;
@@ -58,6 +61,7 @@ public class GameImpl implements Game {
     attackStrategy = factory.createAttackStrategy();
     productionChangeStrategy = factory.createProductionChangeStrategy();
     //workforceStrategy = factory.createWorkforceStrategy();
+    transcriptObserver = new TranscriptObserver();
   }
 
 
@@ -126,6 +130,11 @@ public class GameImpl implements Game {
       this.getUnitAt(to).decreaseMoveCount();
     }
 
+    //Transcript for a successful move
+    if(transcriptMode == true){
+      String transcription = "Player " + getPlayerInTurn() + " moves " + getUnitAt(to).getTypeString() + " at (" + from.getRow() + "," + from.getColumn() + ") to (" + to.getRow() + "," + to.getColumn() + ")."; 
+      transcriptObserver.update(transcription);
+    }
     return true;
   }
 
@@ -150,7 +159,14 @@ public class GameImpl implements Game {
         }
         }
       }
+
+      //Transcript for if red ends their turn
+      if(transcriptMode == true){
+        String transcription = "Player " + getPlayerInTurn() + " ends turn."; 
+        transcriptObserver.update(transcription);
+      }
       playerInTurn = Player.BLUE;
+
     } else {
       for (int i = 0; i < GameConstants.WORLDSIZE; i++) {
         for (int j = 0; j < GameConstants.WORLDSIZE; j++) {
@@ -170,7 +186,14 @@ public class GameImpl implements Game {
           }
         }
       }
+
+      //Transcript for when blue ends their turn
+      if(transcriptMode == true){
+          String transcription = "Player " + getPlayerInTurn() + " ends turn."; 
+          transcriptObserver.update(transcription);
+        }
       playerInTurn = Player.RED;
+
     }
     gameAge = ageStrategy.ageWorld(gameAge);
     
@@ -185,15 +208,33 @@ public class GameImpl implements Game {
   }
 
   @Override
-  public void changeWorkForceFocusInCityAt(Position p, String balance) {}
+  public void changeWorkForceFocusInCityAt(Position p, String balance) {
+      //Transcription for workforce focus change
+      if(transcriptMode == true){
+        String transcription = "Player " + getPlayerInTurn() + " changes work force focus in city at (" + p.getRow() + "," + p.getColumn() + ") to " + balance; 
+        transcriptObserver.update(transcription);
+      }
+  }
 
   @Override
   public void changeProductionInCityAt(Position p, String unitType) {
     productionChangeStrategy.changeProduction(this, p, unitType);
+
+    //Transcription for production change
+    if(transcriptMode == true){
+      String transcription = "Player " + getPlayerInTurn() + " changes production in city at (" + p.getRow() + "," + p.getColumn() + ") to " + unitType + "."; 
+      transcriptObserver.update(transcription);
+    }
   }
 
   public void performUnitActionAt( Position p ) {
     unitStrategy.performUnitActionAt(p, mapStrategy.getUnitMap(), this);
+
+    //Transcription for workforce focus change
+    if(transcriptMode == true){
+      String transcription = "Player " + getPlayerInTurn() + " performs unit action at (" + p.getRow() + "," + p.getColumn() + ") for " + getUnitAt(p).getTypeString() + " unit."; 
+      transcriptObserver.update(transcription);
+    }
   }
 
   public Position getOpenPosition(Position cityLoc) {
@@ -249,5 +290,17 @@ public class GameImpl implements Game {
     redAttacks = red; blueAttacks = blue;
   }
 
+  public void toggleTranscripts(){
+    if(transcriptMode == false){
+      transcriptMode = true;
+    }
+    else{
+      transcriptMode = false;
+    }
+  }
+
+  public Observer getTranscript(){
+    return (TranscriptObserver)transcriptObserver;
+  }
 }
 

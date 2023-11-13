@@ -116,7 +116,13 @@ public class TestAlphaCiv {
 
   @Test
   public void blueIsAfterRedInTurn(){
+    game.toggleTranscripts();
     game.endOfTurn();
+    
+    TranscriptObserver transcript = (TranscriptObserver)game.getTranscript();
+    String action = transcript.getTranscript().get(0);
+    assertEquals(action,"Player RED ends turn.");
+  
     assertThat(game.getPlayerInTurn(),is(Player.BLUE));
   }
 
@@ -235,7 +241,13 @@ public class TestAlphaCiv {
   @Test
   public void cityProductionChange(){
     assertThat(game.getCityAt(new Position(1,1)).getProduction(),is(GameConstants.ARCHER));
+    
+    game.toggleTranscripts();
     game.changeProductionInCityAt(new Position(1,1), GameConstants.LEGION);
+    TranscriptObserver transcript = (TranscriptObserver)game.getTranscript();
+    String action = transcript.getTranscript().get(0);
+    assertEquals(action,"Player RED changes production in city at (1,1) to legion.");
+
     assertThat(game.getCityAt(new Position(1,1)).getProduction(),is(GameConstants.LEGION));
   }
 }

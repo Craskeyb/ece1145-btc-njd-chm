@@ -238,7 +238,75 @@ public class TestAlphaCiv {
     game.changeProductionInCityAt(new Position(1,1), GameConstants.LEGION);
     assertThat(game.getCityAt(new Position(1,1)).getProduction(),is(GameConstants.LEGION));
   }
+  @Test
+  public void cantMoveUnitToOccupiedTile(){
+    assertThat(game.moveUnit(new Position(3,2), new Position(4,3)),is(false));
+  }
+
+  @Test
+  public void cantMoveOnOcean(){
+    assertThat(game.moveUnit(new Position(2,0), new Position(1,0)),is(false));
+  }
+
+  @Test
+  public void cantMoveFurtherThanOneTile(){
+    assertThat(game.moveUnit(new Position(2,0), new Position(4,0)),is(false));
+    assertThat(game.moveUnit(new Position(2,0), new Position(2,5)),is(false));
+  }
+
+  @Test
+  public void cantMoveMoreThanOncePerTurn(){
+    game.moveUnit(new Position(2,0),new Position(2,1));
+    assertThat(game.moveUnit(new Position(2,1), new Position(2,0)),is(false));
+    game.endOfTurn();
+    game.endOfTurn();
+    assertThat(game.moveUnit(new Position(2,1), new Position(2,0)),is(true));
+  }
+
+  @Test
+  public void cantMoveOutOfBounds(){
+    game.endOfTurn();
+    game.moveUnit(new Position(3,2), new Position(4,2));
+    game.endOfTurn();
+    game.endOfTurn();
+    game.moveUnit(new Position(4,2), new Position(5,2));
+    game.endOfTurn();
+    game.endOfTurn();
+    game.moveUnit(new Position(5,2), new Position(6,2));
+    game.endOfTurn();
+    game.endOfTurn();
+    game.moveUnit(new Position(6,2), new Position(7,2));
+    game.endOfTurn();
+    game.endOfTurn();
+    game.moveUnit(new Position(7,2), new Position(8,2));
+    game.endOfTurn();
+    game.endOfTurn();
+    game.moveUnit(new Position(8,2), new Position(9,2));
+    game.endOfTurn();
+    game.endOfTurn();
+    game.moveUnit(new Position(9,2), new Position(10,2));
+    game.endOfTurn();
+    game.endOfTurn();
+    game.moveUnit(new Position(10,2), new Position(11,2));
+    game.endOfTurn();
+    game.endOfTurn();
+    game.moveUnit(new Position(11,2), new Position(12,2));
+    game.endOfTurn();
+    game.endOfTurn();
+    game.moveUnit(new Position(12,2), new Position(13,2));
+    game.endOfTurn();
+    game.endOfTurn();
+    game.moveUnit(new Position(13,2), new Position(14,2));
+    game.endOfTurn();
+    game.endOfTurn();
+    game.moveUnit(new Position(14,2), new Position(15,2));
+    game.endOfTurn();
+    game.endOfTurn();
+    assertThat(game.moveUnit(new Position(15,2), new Position(16,2)),is(false));
+  }
 }
+
+
 
 
 /** REMOVE ME. Not a test of HotCiv, just an example of what

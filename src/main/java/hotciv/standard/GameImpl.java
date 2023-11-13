@@ -104,8 +104,15 @@ public class GameImpl implements Game {
     if(Math.abs(to.getColumn()-from.getColumn()) > 1 || Math.abs(to.getRow()-from.getRow())>1){
       return false;
     }
-    // Trying to move on a mountain
+    // Trying to move on a mountain or ocean
     if ((this.getTileAt(to).getTypeString() == GameConstants.MOUNTAINS || this.getTileAt(to).getTypeString() == GameConstants.OCEANS) && (unitType == GameConstants.ARCHER || unitType == GameConstants.LEGION || unitType == GameConstants.SETTLER)) {
+      return false;
+    }
+    //Moving Out of bounds
+    if (to.getRow() > 15 || to.getColumn() > 15){
+      return false;
+    }
+    if (to.getRow() < 0 || to.getColumn() < 0){
       return false;
     }
     //Initiating an attack

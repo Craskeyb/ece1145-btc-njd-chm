@@ -53,6 +53,8 @@ public interface Game {
    * @param p the position in the world.
    * @return the city at this position or null if no city here.
    */
+  void changeWorkForceFocusInCityAt(Position p, String balance);
+}
   City getCityAt(Position p);
 
   /** return the player that is 'in turn', that is, is able to

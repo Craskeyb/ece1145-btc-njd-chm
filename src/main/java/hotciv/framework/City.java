@@ -34,6 +34,10 @@ public interface City {
   /** return the owner of this city.
    * @return the player that controls this city.
    */
+  void setWorkForceFocus(String balance);
+  String getWorkforceFocus();
+  int getFoodProduction();
+  void increaseSize();
   Player getOwner();
   public void setOwner(Player owner);
   

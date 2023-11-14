@@ -9,7 +9,10 @@ public class CityImpl implements City{
     private Player owner;
     private int population;
     private int treasury;
-
+    private String workforceFocus;
+    private int foodProduction;
+    private int foodAccumulated;
+    private int size;
     private String focus;
     
     //For now, will only produce archers
@@ -20,6 +23,35 @@ public class CityImpl implements City{
         population = 1;
         treasury = 0;
         focus = GameConstants.productionFocus;
+        this.workforceFocus = GameConstants.foodFocus; // Default focus
+        this.foodProduction = 0;
+        this.foodAccumulated = 0;
+        this.size = 1; // Assuming initial size is 1
+    }
+    @Override
+    public String getWorkforceFocus() {
+        return workforceFocus;
+    }
+
+    @Override
+    public int getFoodProduction() {
+        return foodProduction;
+    }
+
+    @Override
+    public void increaseSize() {
+        if (size < 9) {
+            size++;
+            foodAccumulated = 0; // Reset food after growth
+        }
+    }
+
+    // Method to handle food accumulation
+    public void accumulateFood(int newFood) {
+        this.foodAccumulated += newFood;
+        if (this.foodAccumulated > 5 + (size * 3)) {
+            increaseSize();
+        }
     }
     public Player getOwner() { 
         return this.owner;

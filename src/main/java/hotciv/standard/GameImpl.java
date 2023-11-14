@@ -37,6 +37,7 @@ public class GameImpl implements Game {
 
 
   private Player playerInTurn;
+  private HashMap<Position, Tile> tileMap;
   private int gameAge;
   private GameSetupStrategy mapStrategy;
   private UnitActionStrategy unitStrategy;
@@ -63,7 +64,13 @@ public class GameImpl implements Game {
     //workforceStrategy = factory.createWorkforceStrategy();
     transcriptObserver = new TranscriptObserver();
   }
-
+  @Override
+  public void changeWorkForceFocusInCityAt(Position p, String balance) {
+    City city = getCityAt(p);
+    if (city != null) {
+      city.setWorkForceFocus(balance);
+    }
+  }
 
   public Tile getTileAt( Position p ) { 
     return mapStrategy.getTileMap().get(p);
@@ -158,6 +165,7 @@ public class GameImpl implements Game {
           }
         }
         }
+
       }
 
       //Transcript for if red ends their turn
@@ -205,8 +213,26 @@ public class GameImpl implements Game {
           }
         }
       }
+    for (Position p : cityMap.keySet()) {
+      CityImpl city = (CityImpl) getCityAt(p);
+      int foodFromTiles = calculateFoodFromSurroundingTiles(p); // Method to calculate food based on adjacent tiles
+      city.accumulateFood(foodFromTiles);
+    }
   }
-
+  private int calculateFoodFromSurroundingTiles(Position cityPosition) {
+    int totalFood = 0;
+    for (int dx = -1; dx <= 1; dx++) {
+      for (int dy = -1; dy <= 1; dy++) {
+        if (dx == 0 && dy == 0) continue; // Skip the city tile itself
+        Position adjacentPos = new Position(cityPosition.getRow() + dx, cityPosition.getColumn() + dy);
+        Tile tile = tileMap.get(adjacentPos);
+        if (tile != null) {
+          totalFood += ((TileImpl) tile).getFoodValue();
+        }
+      }
+    }
+    return totalFood;
+  }
   @Override
   public void changeWorkForceFocusInCityAt(Position p, String balance) {
       //Transcription for workforce focus change

@@ -240,4 +240,14 @@ class GameStubForBattleTesting implements Game {
   public void removeCity(Position p) {}
   public void toggleTranscripts() {}
   public Observer getTranscript() {return new TranscriptObserver();}
+  @Override
+  public void addObserver(GameObserver observer) {
+    // TODO Auto-generated method stub
+    throw new UnsupportedOperationException("Unimplemented method 'addObserver'");
+  }
+  @Override
+  public void setTileFocus(Position position) {
+    // TODO Auto-generated method stub
+    throw new UnsupportedOperationException("Unimplemented method 'setTileFocus'");
+  }
 }

@@ -299,8 +299,11 @@ public class GameImpl implements Game {
     }
   }
 
-  public Observer getTranscript(){
+  public TranscriptObserver getTranscript(){
     return (TranscriptObserver)transcriptObserver;
   }
+
+  public void addObserver(GameObserver observer){}
+  public void setTileFocus(Position position){}
 }
 

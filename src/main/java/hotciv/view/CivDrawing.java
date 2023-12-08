@@ -135,8 +135,14 @@ public class CivDrawing
   }
 
   protected ImageFigure turnShieldIcon;
+  protected ImageFigure unitShieldIcon;
+  protected ImageFigure cityShieldIcon;
+  protected ImageFigure workforceFocusIcon;
+  protected ImageFigure cityProductionIcon;
+  protected ImageFigure refreshButtonIcon;
+  protected TextFigure unitCountIcon;
+
   protected void defineIcons() {
-    // TODO: Further development to include rest of figures needed
     turnShieldIcon = 
       new ImageFigure( "redshield",
                        new Point( GfxConstants.TURN_SHIELD_X,
@@ -144,6 +150,30 @@ public class CivDrawing
     // insert in delegate figure list to ensure graphical
     // rendering.
     delegate.add(turnShieldIcon);
+
+    unitShieldIcon = new ImageFigure(GfxConstants.NOTHING,
+            new Point(GfxConstants.UNIT_SHIELD_X, GfxConstants.UNIT_SHIELD_Y));
+    delegate.add(unitShieldIcon);
+
+    cityShieldIcon = new ImageFigure(GfxConstants.NOTHING,
+            new Point(GfxConstants.CITY_SHIELD_X,GfxConstants.CITY_SHIELD_Y));
+    delegate.add(cityShieldIcon);
+
+    workforceFocusIcon = new ImageFigure(GfxConstants.NOTHING,
+            new Point(GfxConstants.WORKFORCEFOCUS_X, GfxConstants.WORKFORCEFOCUS_Y));
+    delegate.add(workforceFocusIcon);
+
+    cityProductionIcon = new ImageFigure(GfxConstants.NOTHING,
+            new Point(GfxConstants.CITY_PRODUCTION_X,GfxConstants.CITY_PRODUCTION_Y));
+    delegate.add(cityProductionIcon);
+
+    refreshButtonIcon = new ImageFigure(GfxConstants.NOTHING,
+            new Point(GfxConstants.REFRESH_BUTTON_X, GfxConstants.REFRESH_BUTTON_Y));
+    delegate.add(refreshButtonIcon);
+
+    unitCountIcon = new TextFigure("",
+            new Point(GfxConstants.UNIT_COUNT_X, GfxConstants.UNIT_COUNT_Y));
+    delegate.add(unitCountIcon);
   }
  
   // === Observer Methods ===
@@ -156,11 +186,12 @@ public class CivDrawing
     defineUnitMap();
 
     // TODO: Cities may change on position as well
+
   }
 
   public void turnEnds(Player nextPlayer, int age) {
     // TODO: Remove system.out debugging output
-    System.out.println( "CivDrawing: turnEnds at "+age+", next is "+nextPlayer );
+    //System.out.println( "CivDrawing: turnEnds at "+age+", next is "+nextPlayer );
     String playername = "red";
     if ( nextPlayer == Player.BLUE ) { playername = "blue"; }
     turnShieldIcon.set( playername+"shield",
@@ -170,8 +201,43 @@ public class CivDrawing
   }
 
   public void tileFocusChangedAt(Position position) {
-    // TODO: Implementation pending
-    System.out.println( "Fake it: tileFocusChangedAt "+position );
+    //Display Unit or City info
+    Unit unit = game.getUnitAt(position);
+    City city = game.getCityAt(position);
+    String shield  = GfxConstants.RED_SHIELD;
+    if (unit != null){
+      if (unit.getOwner() == Player.BLUE){
+        shield = GfxConstants.BLUE_SHIELD;
+      }
+      unitShieldIcon.set(shield,
+              new Point(GfxConstants.UNIT_SHIELD_X, GfxConstants.UNIT_SHIELD_Y));
+      int moveCount = unit.getMoveCount();
+      unitCountIcon.setText(""+moveCount);
+    }
+    else{
+      unitShieldIcon.set(GfxConstants.NOTHING,
+              new Point(GfxConstants.UNIT_SHIELD_X, GfxConstants.UNIT_SHIELD_Y));
+      unitCountIcon.setText("");
+    }
+    if (city != null){
+      if (city.getOwner() == Player.BLUE){
+        shield = GfxConstants.BLUE_SHIELD;
+      }
+      cityShieldIcon.set(shield,
+              new Point(GfxConstants.CITY_SHIELD_X,GfxConstants.CITY_SHIELD_Y));
+      cityProductionIcon.set(city.getProduction(),
+              new Point(GfxConstants.CITY_PRODUCTION_X,GfxConstants.CITY_PRODUCTION_Y));
+      workforceFocusIcon.set(city.getWorkforceFocus(),
+              new Point(GfxConstants.WORKFORCEFOCUS_X, GfxConstants.WORKFORCEFOCUS_Y));
+    }
+    else{
+      cityShieldIcon.set(GfxConstants.NOTHING,
+              new Point(GfxConstants.CITY_SHIELD_X,GfxConstants.CITY_SHIELD_Y));
+      cityProductionIcon.set(GfxConstants.NOTHING,
+              new Point(GfxConstants.CITY_PRODUCTION_X,GfxConstants.CITY_PRODUCTION_Y));
+      workforceFocusIcon.set(GfxConstants.NOTHING,
+              new Point(GfxConstants.WORKFORCEFOCUS_X, GfxConstants.WORKFORCEFOCUS_Y));
+    }
   }
 
   @Override

@@ -54,6 +54,7 @@ public class GameImpl implements Game {
   private int redAttacks = 0;
   private int blueAttacks = 0;
   private Boolean transcriptMode = false;
+  private Boolean observerMode = false;
   
   public GameImpl(AbstractFactory factory){
     playerInTurn = Player.RED;
@@ -141,8 +142,10 @@ public class GameImpl implements Game {
       String transcription = "Player " + getPlayerInTurn() + " moves " + getUnitAt(to).getTypeString() + " at (" + from.getRow() + "," + from.getColumn() + ") to (" + to.getRow() + "," + to.getColumn() + ")."; 
       transcriptObserver.update(transcription);
     }
-    gameObserver.worldChangedAt(from);
-    gameObserver.worldChangedAt(to);
+    if(observerMode == true){
+      gameObserver.worldChangedAt(from);
+      gameObserver.worldChangedAt(to);
+    }
     return true;
   }
 
@@ -280,15 +283,21 @@ public class GameImpl implements Game {
 
   public void createCity(Position p){
     mapStrategy.getCityMap().put(p,new CityImpl(playerInTurn));
-    gameObserver.worldChangedAt(p);
+    if(observerMode == true){
+      gameObserver.worldChangedAt(p);
+    }
   }
   public void removeUnit(Position p){
     mapStrategy.getUnitMap().remove(p);
-    gameObserver.worldChangedAt(p);
+    if(observerMode == true){
+      gameObserver.worldChangedAt(p);
+    }
   }
   public void removeCity(Position p){
     mapStrategy.getCityMap().remove(p);
-    gameObserver.worldChangedAt(p);
+    if(observerMode == true){
+      gameObserver.worldChangedAt(p);
+    }
   }
 
   public int getRedAttacks(){
@@ -316,6 +325,7 @@ public class GameImpl implements Game {
 
   public void addObserver(GameObserver observer){
     this.gameObserver = observer;
+    this.observerMode = true;
   }
   public void setTileFocus(Position position){}
 }

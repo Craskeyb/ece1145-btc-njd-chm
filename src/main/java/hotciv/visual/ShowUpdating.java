@@ -93,6 +93,61 @@ class UpdateTool extends NullTool {
       game.setTileFocus(new Position(4,3));
       break;
     }
+    case 7: {
+      editor.showStatus("State change: City added at (6,6)");
+      game.createCity(new Position(6,6));
+      break;
+    }
+    case 8: {
+      editor.showStatus("State change: Inspect city at (6,6)");
+      game.setTileFocus(new Position(6,6));
+      break;
+    }
+    case 9: {
+      editor.showStatus("State change: Blue unit added at (7,7)");
+      ((StubGame2)game).createUnit(new Position(7,7));
+      break;
+    }
+    case 10: {
+      editor.showStatus("State change: Inspect unit at (7,7)");
+      game.setTileFocus(new Position(7,7));
+      break;
+    }
+    case 11: {
+      editor.showStatus("State change: Blue Archer moved from (7,7) to (6,6) to conquer city");
+      game.moveUnit(new Position(7,7), new Position(6,6));
+      break;
+    }
+    case 12: {
+      editor.showStatus("State change: Blue archer moved off city");
+      game.moveUnit(new Position(6,6), new Position(7,7));
+      break;
+    }
+    case 13: {
+      editor.showStatus("State change: Inspecting city at (6,6)");
+      game.setTileFocus(new Position(6,6));
+      break;
+    }
+    case 14: {
+      editor.showStatus("State change: Removing unit at (7,7)");
+      game.removeUnit(new Position(7,7));
+      break;
+    }
+    case 15: {
+      editor.showStatus("State change: Removing city at (6,6)");
+      game.removeCity(new Position(6,6));
+      break;
+    }
+    case 16: {
+      editor.showStatus("State change: Inspecting tile at (7,7)");
+      game.setTileFocus(new Position(7,7));
+      break;
+    }
+    case 17: {
+      editor.showStatus("State change: Inspecting tile at (6,6)");
+      game.setTileFocus(new Position(6,6));
+      break;
+    }
     default: {
       editor.showStatus("No more changes in my list...");
     }

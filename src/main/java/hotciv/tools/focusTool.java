@@ -3,20 +3,21 @@ package hotciv.tools;
 import hotciv.framework.Game;
 import hotciv.view.GfxConstants;
 import minidraw.framework.DrawingEditor;
-import minidraw.standard.SelectionTool;
+import minidraw.standard.NullTool;
 
 
 import java.awt.event.MouseEvent;
 
-public class focusTool extends SelectionTool{
+public class focusTool extends NullTool{
     private Game game;
+    private DrawingEditor editor;
+
     public focusTool(DrawingEditor editor, Game game) {
-        super(editor);
+        this.editor = editor;
         this.game = game;
     }
-    @Override
-    public void mouseDown(MouseEvent e, int x, int y){
-        super.mouseDown(e,x,y);
+    
+    public void mouseUp(MouseEvent e, int x, int y){
         game.setTileFocus(GfxConstants.getPositionFromXY(x,y));
     }
 

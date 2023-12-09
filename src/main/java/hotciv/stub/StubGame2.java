@@ -42,6 +42,9 @@ public class StubGame2 implements Game {
   private Position pos_settler_red;
   private Position pos_ufo_red;
 
+  private Position city_pos;
+  private Position blue_unit_pos;
+
   private Unit red_archer;
 
   private TranscriptObserver transcriptObserver = new TranscriptObserver();
@@ -59,6 +62,9 @@ public class StubGame2 implements Game {
     if ( p.equals(pos_ufo_red) ) {
       return new StubUnit( ThetaConstants.UFO, Player.RED );
     }
+    if ( p. equals(blue_unit_pos)) {
+      return blueUnit;
+    }
     return null;
   }
 
@@ -67,6 +73,16 @@ public class StubGame2 implements Game {
     System.out.println( "-- StubGame2 / moveUnit called: "+from+"->"+to );
     if ( from.equals(pos_archer_red) ) {
       pos_archer_red = to;
+    }
+    if (from.equals(blue_unit_pos)) { 
+      blue_unit_pos = to;
+    }
+    if (to.equals(city_pos)) { 
+      if(getCityAt(city_pos).getOwner() != getUnitAt(to).getOwner()){
+        getCityAt(city_pos).setOwner(getUnitAt(to).getOwner());
+        getCityAt(city_pos).changeProduction("ufo");
+        getCityAt(city_pos).setWorkforceFocus(GameConstants.foodFocus);
+      }
     }
     // notify our observer(s) about the changes on the tiles
     gameObserver.worldChangedAt(from);
@@ -102,6 +118,9 @@ public class StubGame2 implements Game {
     pos_settler_red = new Position( 4, 3);
     pos_ufo_red = new Position( 6, 4);
 
+    city_pos = new Position(6,6);
+    blue_unit_pos = new Position(7,7);
+
     // the only one I need to store for this stub
     red_archer = new StubUnit( GameConstants.ARCHER, Player.RED );   
 
@@ -109,7 +128,11 @@ public class StubGame2 implements Game {
   }
 
   // A simple implementation to draw the map of DeltaCiv
-  protected Map<Position,Tile> world; 
+  protected Map<Position,Tile> world;
+  
+  private City redCity;
+  private Unit blueUnit;
+
   public Tile getTileAt( Position p ) { return world.get(p); }
 
 
@@ -128,7 +151,12 @@ public class StubGame2 implements Game {
   }
 
   // TODO: Add more stub behaviour to test MiniDraw updating
-  public City getCityAt( Position p ) { return null; }
+  public City getCityAt( Position p ) { 
+    if(p.equals(city_pos)){
+      return redCity;
+    }
+    return null;
+  }
   public Player getWinner() { return null; }
   public int getAge() { return 0; }  
   public void changeWorkForceFocusInCityAt( Position p, String balance ) {}
@@ -143,11 +171,35 @@ public class StubGame2 implements Game {
     gameObserver.tileFocusChangedAt(position);
   }
 
-  public void createCity(Position position){}
-  public void removeCity(Position position){}
+  public void createCity(Position position){
+    if(position.equals(city_pos)){
+      this.redCity = new StubCity(Player.RED);
+      gameObserver.worldChangedAt(position);
+    }
+  }
+
+  //Additional function included for testing functionality
+  public void createUnit(Position position){
+    if(position.equals(blue_unit_pos)){
+      this.blueUnit = new StubUnit(GameConstants.ARCHER, Player.BLUE);
+      gameObserver.worldChangedAt(position);
+    }
+  }
+
+  public void removeCity(Position position){
+    if(position.equals(city_pos)){
+      this.redCity = null;
+      gameObserver.worldChangedAt(position);
+    }
+  }
   public int getRedAttacks(){return -1;}
   public int getBlueAttacks(){return -1;}
-  public void removeUnit(Position position){}
+  public void removeUnit(Position position){
+    if(position.equals(blue_unit_pos)){
+      this.blueUnit = null;
+      gameObserver.worldChangedAt(position);
+    }
+  }
   public void setAttacks(int red, int blue){}
 
   public void toggleTranscripts(){}
@@ -179,4 +231,67 @@ class StubUnit implements  Unit {
   public void setAttackingStrength(int attStr){}
   public void decreaseMoveCount(){}
   public void resetMoveCount(){}
+}
+
+class StubCity implements City {
+
+  private Player owner;
+  private int population;
+  private int treasury;
+
+  private String focus;
+
+  private String production = GameConstants.ARCHER;
+
+  public StubCity(Player owner){
+    this.owner = owner;
+    population = 1;
+    treasury = 0;
+    focus = GameConstants.productionFocus;
+  }
+  @Override
+  public Player getOwner() {
+    return this.owner;
+  }
+  @Override
+  public void setOwner(Player owner) {
+    this.owner = owner;
+  }
+  @Override
+  public int getSize() {
+    return population;
+  }
+  @Override
+  public int getTreasury() {
+    return treasury;
+  }
+  @Override
+  public String getProduction() {
+    return production;
+  }
+  @Override
+  public void increaseTreasury() {
+    this.treasury += 6;
+  }
+  @Override
+  public void decreaseTreasury(int cost) {
+    this.treasury -= cost;
+  }
+  @Override
+  public void changeProduction(String type) {
+    this.production = type;
+  }
+  @Override
+  public void setTreasury(int value) {
+    this.treasury = value;
+  }
+  @Override
+  public void setWorkforceFocus(String balance) {
+    this.focus = balance;
+  }
+  @Override
+  public String getWorkforceFocus() {
+    return focus;
+  }
+  
 }

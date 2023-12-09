@@ -128,7 +128,12 @@ public class GameImpl implements Game {
     }
     //Initiating an attack
     if(this.getUnitAt(to) != null && this.getUnitAt(to).getOwner() != this.getPlayerInTurn()){
-      return attackStrategy.decideAttack(this, mapStrategy, to, from);
+      Boolean attackResult = attackStrategy.decideAttack(this,mapStrategy,to,from);
+      if(attackResult == true){
+        gameObserver.worldChangedAt(to);
+        this.getUnitAt(to).decreaseMoveCount();
+      }
+      return attackResult;
     }
     else{
       //Default case, will move the unit from original position to new position
@@ -216,6 +221,8 @@ public class GameImpl implements Game {
           }
         }
       }
+    
+      gameObserver.turnEnds(playerInTurn, gameAge);
   }
 
   @Override
@@ -327,6 +334,8 @@ public class GameImpl implements Game {
     this.gameObserver = observer;
     this.observerMode = true;
   }
-  public void setTileFocus(Position position){}
+  public void setTileFocus(Position position){
+    this.gameObserver.tileFocusChangedAt(position);
+  }
 }
 

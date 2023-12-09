@@ -126,11 +126,18 @@ public class GameImpl implements Game {
     if (to.getRow() < 0 || to.getColumn() < 0){
       return false;
     }
+    //Conquering City
+    if (this.getCityAt(to) != null && !(this.getCityAt(to).getOwner() == this.getPlayerInTurn())){
+      this.getCityAt(to).setOwner(this.getPlayerInTurn());
+      //mapStrategy.getCityMap().remove(to);
+    }
     //Initiating an attack
     if(this.getUnitAt(to) != null && this.getUnitAt(to).getOwner() != this.getPlayerInTurn()){
       Boolean attackResult = attackStrategy.decideAttack(this,mapStrategy,to,from);
       if(attackResult == true){
-        gameObserver.worldChangedAt(to);
+        if(observerMode == true) {
+          gameObserver.worldChangedAt(to);
+        }
         this.getUnitAt(to).decreaseMoveCount();
       }
       return attackResult;
@@ -141,6 +148,8 @@ public class GameImpl implements Game {
       mapStrategy.getUnitMap().remove(from);
       this.getUnitAt(to).decreaseMoveCount();
     }
+
+
 
     //Transcript for a successful move
     if(transcriptMode == true){
@@ -169,6 +178,9 @@ public class GameImpl implements Game {
               Position firstOpen = getOpenPosition(new Position(i, j));
               if (firstOpen.getColumn() != -1 && firstOpen.getRow() != -1) {
                 mapStrategy.getUnitMap().put(firstOpen, new UnitImpl(Player.RED, redCity.getProduction()));
+                if(observerMode == true) {
+                  gameObserver.worldChangedAt(firstOpen);
+                }
               }
             }
           }
@@ -196,6 +208,9 @@ public class GameImpl implements Game {
                 Position firstOpen = getOpenPosition(new Position(i, j));
                 if (firstOpen.getColumn() != -1 && firstOpen.getRow() != -1) {
                   mapStrategy.getUnitMap().put(firstOpen, new UnitImpl(Player.BLUE, blueCity.getProduction()));
+                  if(observerMode == true) {
+                    gameObserver.worldChangedAt(firstOpen);
+                  }
                 }
               }
             }
@@ -221,8 +236,10 @@ public class GameImpl implements Game {
           }
         }
       }
-    
+    if(observerMode == true) {
       gameObserver.turnEnds(playerInTurn, gameAge);
+    }
+
   }
 
   @Override
@@ -259,29 +276,32 @@ public class GameImpl implements Game {
     Position pos = new Position(-1,-1);
     int cityR = cityLoc.getRow();
     int cityC = cityLoc.getColumn();
-    if (this.getUnitAt(cityLoc) == null) {
+    if (this.getUnitAt(cityLoc) == null && !this.getTileAt(cityLoc).getTypeString().equals("mountain")) {
       return cityLoc;
     } else {
-      if (this.getUnitAt(new Position(cityR - 1, cityC)) == null) {
+      if (this.getUnitAt(new Position(cityR - 1, cityC)) == null && !this.getTileAt(new Position(cityR - 1, cityC)).getTypeString().equals("mountain")) {
         return new Position(cityR - 1, cityC);
       }
-      if(this.getUnitAt(new Position(cityR,cityC+1)) == null){
+      if(this.getUnitAt(new Position(cityR,cityC+1)) == null && !this.getTileAt(new Position(cityR , cityC+1)).getTypeString().equals("mountain")){
         return new Position(cityR,cityC+1);
       }
-      if(this.getUnitAt(new Position(cityR+1,cityC+1)) == null){
+      if(this.getUnitAt(new Position(cityR+1,cityC+1)) == null && !this.getTileAt(new Position(cityR + 1, cityC+1)).getTypeString().equals("mountain")){
         return new Position(cityR+1,cityC+1);
       }
-      if(this.getUnitAt(new Position(cityR+1,cityC)) == null){
+      if(this.getUnitAt(new Position(cityR+1,cityC)) == null && !this.getTileAt(new Position(cityR + 1, cityC)).getTypeString().equals("mountain")){
         return new Position(cityR+1,cityC);
       }
-      if(this.getUnitAt(new Position(cityR+1,cityC-1)) == null){
+      if(this.getUnitAt(new Position(cityR+1,cityC-1)) == null && !this.getTileAt(new Position(cityR + 1, cityC-1)).getTypeString().equals("mountain")){
         return new Position(cityR+1,cityC-1);
       }
-      if(this.getUnitAt(new Position(cityR,cityC-1)) == null){
+      if(this.getUnitAt(new Position(cityR,cityC-1)) == null && !this.getTileAt(new Position(cityR, cityC - 1)).getTypeString().equals("mountain")){
         return new Position(cityR,cityC-1);
       }
-      if(this.getUnitAt(new Position(cityR-1,cityC-1)) == null){
+      if(this.getUnitAt(new Position(cityR-1,cityC-1)) == null && !this.getTileAt(new Position(cityR - 1, cityC-1)).getTypeString().equals("mountain")){
         return new Position(cityR-1,cityC-1);
+      }
+      if(this.getUnitAt(new Position(cityR-1,cityC+1)) == null && !this.getTileAt(new Position(cityR - 1, cityC+1)).getTypeString().equals("mountain")){
+        return new Position(cityR-1,cityC+1);
       }
     }
     return pos;

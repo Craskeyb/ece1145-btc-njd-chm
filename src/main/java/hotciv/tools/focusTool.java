@@ -18,10 +18,7 @@ public class focusTool extends NullTool{
     }
 
     @Override
-    public void mouseUp(MouseEvent e, int x, int y){
-        super.mouseUp(e,x,y);
 
-    
     public void mouseUp(MouseEvent e, int x, int y){
 
         game.setTileFocus(GfxConstants.getPositionFromXY(x,y));

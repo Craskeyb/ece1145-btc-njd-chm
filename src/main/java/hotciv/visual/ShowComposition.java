@@ -10,6 +10,7 @@ import javax.swing.*;
 import hotciv.framework.*;
 import hotciv.view.*;
 import hotciv.stub.*;
+import hotciv.tools.*;
 
 /** Template code for exercise FRS 36.44.
 
@@ -37,8 +38,8 @@ public class ShowComposition {
                                new HotCivFactory4(game) );
     editor.open();
     editor.showStatus("Click and drag any item to see Game's proper response.");
-
+    game.createCity(new Position(6,6));
     // TODO: Replace the setting of the tool with your CompositionTool implementation.
-    editor.setTool( new NullTool() );
+    editor.setTool( new compositionTool(game, editor) );
   }
 }

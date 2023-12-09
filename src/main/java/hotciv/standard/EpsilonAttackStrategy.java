@@ -37,6 +37,7 @@ public class EpsilonAttackStrategy implements AttackStrategy {
             return true;
         }
         else{
+            mapStrategy.getUnitMap().remove(from);
             return false;
         }
     }

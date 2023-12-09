@@ -223,7 +223,12 @@ class StubUnit implements  Unit {
   }
   public String getTypeString() { return type; }
   public Player getOwner() { return owner; }
-  public int getMoveCount() { return 1; }
+  public int getMoveCount() { 
+    if(type == "ufo"){
+      return 2; 
+    }
+    return 1;
+  }
   public int getDefensiveStrength() { return 0; }
   public int getAttackingStrength() { return 0; }
 

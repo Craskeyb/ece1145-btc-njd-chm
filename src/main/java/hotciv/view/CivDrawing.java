@@ -48,6 +48,7 @@ public class CivDrawing
   protected Drawing delegate;
   /** store all moveable figures visible in this drawing = units */
   protected Map<Unit,UnitFigure> unitFigureMap;
+  protected Map<City, CityFigure> cityFigureMap;
 
   /** the Game instance that this CivDrawing is going to render units
    * from */
@@ -58,6 +59,7 @@ public class CivDrawing
     this.delegate = new StandardDrawing();
     this.game = game;
     this.unitFigureMap = new HashMap<>();
+    this.cityFigureMap = new HashMap<>();
 
     // register this unit drawing as listener to any game state
     // changes...
@@ -120,6 +122,45 @@ public class CivDrawing
     }
   }
 
+  /** erase the old list of cities, and build a completely new
+   * one from scratch by iterating over the game world and add
+   * Figure instances for each city in the world.
+   */
+  protected void defineCityMap() {
+    // ensure no units of the old list are accidental in
+    // the selection!
+    clearSelection();
+
+    // remove all city figures in this drawing
+    removeAllCityFigures();
+
+    // iterate world, and create a unit figure for
+    // each unit in the game world, as well as
+    // create an association between the unit and
+    // the unitFigure in 'cityFigureMap'.
+    Position p;
+    for ( int r = 0; r < GameConstants.WORLDSIZE; r++ ) {
+      for ( int c = 0; c < GameConstants.WORLDSIZE; c++ ) {
+        p = new Position(r,c);
+        City city = game.getCityAt(p);
+        if ( city != null ) {
+          // convert the unit's Position to (x,y) coordinates
+          Point point =   new Point( GfxConstants.getXFromColumn(p.getColumn()),
+                                   GfxConstants.getYFromRow(p.getRow()) );
+          CityFigure cityFigure =
+            new CityFigure( city, point);
+          cityFigure.addFigureChangeListener(this);
+          cityFigureMap.put(city, cityFigure);
+
+          // also insert in delegate list as it is
+          // this list that is iterated by the
+          // graphics rendering algorithms
+          delegate.add(cityFigure);
+        }
+      }
+    }
+  }
+
   /** remove all unit figures in this
    * drawing, and reset the map (unit->unitfigure).
    * It is important to actually remove the figures
@@ -132,6 +173,14 @@ public class CivDrawing
       delegate.remove(uf);
     }
     unitFigureMap.clear();
+  }
+
+  protected void removeAllCityFigures() {
+    for (City c : cityFigureMap.keySet()) {
+      CityFigure cf = cityFigureMap.get(c);
+      delegate.remove(cf);
+    }
+    cityFigureMap.clear();
   }
 
   protected ImageFigure turnShieldIcon;
@@ -181,11 +230,9 @@ public class CivDrawing
     // TODO: Remove system.out debugging output
     System.out.println( "CivDrawing: world changes at "+pos);
     // this is a really brute-force algorithm: destroy
-    // all known units and build up the entire set again
+    // all known units/cities and build up the entire set again
     defineUnitMap();
-
-    // TODO: Cities may change on position as well
-
+    defineCityMap();
   }
 
   public void turnEnds(Player nextPlayer, int age) {
@@ -245,8 +292,8 @@ public class CivDrawing
     // everything. We simply rebuild the
     // entire Drawing.
     defineUnitMap();
+    defineCityMap();
     defineIcons();
-    // TODO: Cities pending
   }
 
   @Override

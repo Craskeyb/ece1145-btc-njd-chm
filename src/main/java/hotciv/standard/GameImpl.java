@@ -1,6 +1,7 @@
 package hotciv.standard;
 
 import hotciv.framework.*;
+import hotciv.view.*;
 import java.util.HashMap;
 import java.lang.Math;
 import java.util.ArrayList;
@@ -44,7 +45,11 @@ public class GameImpl implements Game {
   private WinningStrategy winStrategy;
   private AttackStrategy attackStrategy;
   private ProductionChangeStrategy productionChangeStrategy;
+  
+  //Transcript observer and CivDrawing/GameObserver object
   private Observer transcriptObserver;
+  private GameObserver gameObserver;
+  
   //private WorkforceStrategy workforceStrategy;
   private int redAttacks = 0;
   private int blueAttacks = 0;
@@ -62,6 +67,7 @@ public class GameImpl implements Game {
     productionChangeStrategy = factory.createProductionChangeStrategy();
     //workforceStrategy = factory.createWorkforceStrategy();
     transcriptObserver = new TranscriptObserver();
+
   }
 
 
@@ -135,6 +141,8 @@ public class GameImpl implements Game {
       String transcription = "Player " + getPlayerInTurn() + " moves " + getUnitAt(to).getTypeString() + " at (" + from.getRow() + "," + from.getColumn() + ") to (" + to.getRow() + "," + to.getColumn() + ")."; 
       transcriptObserver.update(transcription);
     }
+    gameObserver.worldChangedAt(from);
+    gameObserver.worldChangedAt(to);
     return true;
   }
 
@@ -272,12 +280,15 @@ public class GameImpl implements Game {
 
   public void createCity(Position p){
     mapStrategy.getCityMap().put(p,new CityImpl(playerInTurn));
+    gameObserver.worldChangedAt(p);
   }
   public void removeUnit(Position p){
     mapStrategy.getUnitMap().remove(p);
+    gameObserver.worldChangedAt(p);
   }
   public void removeCity(Position p){
     mapStrategy.getCityMap().remove(p);
+    gameObserver.worldChangedAt(p);
   }
 
   public int getRedAttacks(){
@@ -303,7 +314,9 @@ public class GameImpl implements Game {
     return (TranscriptObserver)transcriptObserver;
   }
 
-  public void addObserver(GameObserver observer){}
+  public void addObserver(GameObserver observer){
+    this.gameObserver = observer;
+  }
   public void setTileFocus(Position position){}
 }
 

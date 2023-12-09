@@ -15,8 +15,8 @@ public class focusTool extends SelectionTool{
         this.game = game;
     }
     @Override
-    public void mouseDown(MouseEvent e, int x, int y){
-        super.mouseDown(e,x,y);
+    public void mouseUp(MouseEvent e, int x, int y){
+        super.mouseUp(e,x,y);
         game.setTileFocus(GfxConstants.getPositionFromXY(x,y));
     }
 

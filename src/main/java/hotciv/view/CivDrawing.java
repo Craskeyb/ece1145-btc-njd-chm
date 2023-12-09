@@ -223,7 +223,7 @@ public class CivDrawing
             new Point(GfxConstants.UNIT_COUNT_X, GfxConstants.UNIT_COUNT_Y));
     delegate.add(unitCountIcon);
 
-    ageIcon = new TextFigure("",
+    ageIcon = new TextFigure("4000 B.C.",
             new Point(GfxConstants.AGE_TEXT_X, GfxConstants.AGE_TEXT_Y));
     delegate.add(ageIcon);
   }

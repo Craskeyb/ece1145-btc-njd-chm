@@ -67,6 +67,7 @@ public class CivDrawing
     // ... and build up the set of figures associated with
     // units in the game.
     defineUnitMap();
+    defineCityMap();
     // and the set of 'icons' in the status panel
     defineIcons();
   }
@@ -223,7 +224,7 @@ public class CivDrawing
             new Point(GfxConstants.UNIT_COUNT_X, GfxConstants.UNIT_COUNT_Y));
     delegate.add(unitCountIcon);
 
-    ageIcon = new TextFigure("",
+    ageIcon = new TextFigure("4000 B.C.",
             new Point(GfxConstants.AGE_TEXT_X, GfxConstants.AGE_TEXT_Y));
     delegate.add(ageIcon);
   }

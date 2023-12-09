@@ -1,5 +1,6 @@
 package hotciv.tools;
 import hotciv.framework.Game;
+import hotciv.framework.Player;
 import hotciv.framework.Unit;
 import hotciv.view.GfxConstants;
 import minidraw.framework.DrawingEditor;
@@ -19,9 +20,10 @@ public class actionTool extends SelectionTool{
     public void mouseUp(MouseEvent e, int x, int y){
         //See if shift is down
         boolean shiftIsDown = e.isShiftDown();
-        if(shiftIsDown){
+        Player currentPlayer = game.getPlayerInTurn();
+        unit = game.getUnitAt(GfxConstants.getPositionFromXY(x,y));
+        if(shiftIsDown && unit.getOwner() == currentPlayer){
             game.performUnitActionAt(GfxConstants.getPositionFromXY(x,y));
-            unit = game.getUnitAt(GfxConstants.getPositionFromXY(x,y));
             String unitType = unit.getTypeString();
             System.out.println("Unit " + unitType + " Perfomed action at: " + GfxConstants.getPositionFromXY(x,y));
         }

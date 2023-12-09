@@ -16,8 +16,11 @@ public class focusTool extends NullTool{
         this.editor = editor;
         this.game = game;
     }
-    
+
+    @Override
+
     public void mouseUp(MouseEvent e, int x, int y){
+
         game.setTileFocus(GfxConstants.getPositionFromXY(x,y));
     }
 

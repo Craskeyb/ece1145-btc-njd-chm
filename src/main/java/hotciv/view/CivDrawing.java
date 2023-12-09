@@ -189,7 +189,7 @@ public class CivDrawing
   protected ImageFigure workforceFocusIcon;
   protected ImageFigure cityProductionIcon;
   protected ImageFigure refreshButtonIcon;
-  protected TextFigure unitCountIcon;
+  protected TextFigure unitCountIcon, ageIcon;
 
   protected void defineIcons() {
     turnShieldIcon = 
@@ -222,6 +222,10 @@ public class CivDrawing
     unitCountIcon = new TextFigure("",
             new Point(GfxConstants.UNIT_COUNT_X, GfxConstants.UNIT_COUNT_Y));
     delegate.add(unitCountIcon);
+
+    ageIcon = new TextFigure("",
+            new Point(GfxConstants.AGE_TEXT_X, GfxConstants.AGE_TEXT_Y));
+    delegate.add(ageIcon);
   }
  
   // === Observer Methods ===
@@ -236,15 +240,20 @@ public class CivDrawing
   }
 
   public void turnEnds(Player nextPlayer, int age) {
-    // TODO: Remove system.out debugging output
     //System.out.println( "CivDrawing: turnEnds at "+age+", next is "+nextPlayer );
     String playername = "red";
     if ( nextPlayer == Player.BLUE ) { playername = "blue"; }
     turnShieldIcon.set( playername+"shield",
                         new Point( GfxConstants.TURN_SHIELD_X,
                                    GfxConstants.TURN_SHIELD_Y ) );
-    // TODO: Age output pending
-  }
+    if (age < 0) {
+      ageIcon.setText("" + Math.abs(age) + " B.C.");
+    }
+    else{
+      ageIcon.setText("" + age + " A.D.");
+      }
+    }
+
 
   public void tileFocusChangedAt(Position position) {
     //Display Unit or City info

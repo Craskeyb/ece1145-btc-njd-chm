@@ -150,7 +150,6 @@ public class CivDrawing
     // insert in delegate figure list to ensure graphical
     // rendering.
     delegate.add(turnShieldIcon);
-
     unitShieldIcon = new ImageFigure(GfxConstants.NOTHING,
             new Point(GfxConstants.UNIT_SHIELD_X, GfxConstants.UNIT_SHIELD_Y));
     delegate.add(unitShieldIcon);

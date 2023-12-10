@@ -111,6 +111,10 @@ public class GameImpl implements Game {
     if(this.getUnitAt(from).getMoveCount() == 0){
       return false;
     }
+    //Trying to move onto your own units
+    if (this.getUnitAt(to) != null && this.getUnitAt(to).getOwner() == this.getPlayerInTurn()){
+      return false;
+    }
     //Trying to move more than one tile length away
     if(Math.abs(to.getColumn()-from.getColumn()) > 1 || Math.abs(to.getRow()-from.getRow())>1){
       return false;
@@ -135,10 +139,11 @@ public class GameImpl implements Game {
     if(this.getUnitAt(to) != null && this.getUnitAt(to).getOwner() != this.getPlayerInTurn()){
       Boolean attackResult = attackStrategy.decideAttack(this,mapStrategy,to,from);
       if(attackResult == true){
-        if(observerMode == true) {
-          gameObserver.worldChangedAt(to);
-        }
         this.getUnitAt(to).decreaseMoveCount();
+      }
+      if(observerMode == true) {
+          gameObserver.worldChangedAt(from);
+          gameObserver.worldChangedAt(to);
       }
       return attackResult;
     }

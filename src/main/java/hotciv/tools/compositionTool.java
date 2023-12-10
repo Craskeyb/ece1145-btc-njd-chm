@@ -54,7 +54,9 @@ public class compositionTool extends NullTool {
                 fTool.mouseUp(e, x, y);
             }
             else{
-                mTool.mouseUp(e, x, y);
+                if(game.getUnitAt(startPos) != null){
+                    mTool.mouseUp(e, x, y);
+                }
             }
         }
     }

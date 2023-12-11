@@ -4,12 +4,7 @@ import hotciv.tools.focusTool;
 import minidraw.standard.*;
 import minidraw.framework.*;
 
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
-
 import hotciv.framework.*;
-import hotciv.view.*;
 import hotciv.stub.*;
 
 /** Template code for exercise FRS 36.40.
@@ -39,6 +34,6 @@ public class ShowSetFocus {
     editor.open();
     editor.showStatus("Click a tile to see Game's setFocus method being called.");
 
-    editor.setTool( new focusTool(editor,game));
+    editor.setTool( new focusTool(game));
   }
 }

@@ -2,7 +2,6 @@ package hotciv.tools;
 
 import hotciv.framework.Game;
 import hotciv.view.GfxConstants;
-import minidraw.framework.DrawingEditor;
 import minidraw.standard.NullTool;
 
 
@@ -10,10 +9,8 @@ import java.awt.event.MouseEvent;
 
 public class focusTool extends NullTool{
     private Game game;
-    private DrawingEditor editor;
 
-    public focusTool(DrawingEditor editor, Game game) {
-        this.editor = editor;
+    public focusTool(Game game) {
         this.game = game;
     }
 

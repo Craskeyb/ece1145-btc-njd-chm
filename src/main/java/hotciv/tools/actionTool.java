@@ -3,17 +3,15 @@ import hotciv.framework.Game;
 import hotciv.framework.Player;
 import hotciv.framework.Unit;
 import hotciv.view.GfxConstants;
-import minidraw.framework.DrawingEditor;
-import minidraw.standard.SelectionTool;
+import minidraw.standard.NullTool;
 
 
 import java.awt.event.MouseEvent;
 
-public class actionTool extends SelectionTool{
+public class actionTool extends NullTool{
     private Game game;
     private Unit unit;
-    public actionTool(DrawingEditor editor, Game game) {
-        super(editor);
+    public actionTool(Game game) {
         this.game = game;
     }
     @Override

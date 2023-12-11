@@ -1,10 +1,7 @@
 package hotciv.standard;
 
 import hotciv.framework.*;
-import hotciv.view.*;
-import java.util.HashMap;
 import java.lang.Math;
-import java.util.ArrayList;
 
 /**
  * This is the hotfix for release 2.1

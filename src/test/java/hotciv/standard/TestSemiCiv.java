@@ -4,7 +4,6 @@ import hotciv.framework.*;
 
 import org.junit.*;
 
-import java.util.HashMap;
 
 import static org.junit.Assert.*;
 import static org.hamcrest.CoreMatchers.*;
@@ -118,11 +117,11 @@ public class TestSemiCiv {
     }
     @Test
     public void archerAction() {
-        Unit archer = game.getUnitAt(new Position(2,0));
+        Unit archer = game.getUnitAt(new Position(2,1));
         assertThat(archer.getDefensiveStrength(), is(3));
-        game.performUnitActionAt(new Position(2,0));
+        game.performUnitActionAt(new Position(2,1));
         assertThat(archer.getDefensiveStrength(),is(6));
-        game.performUnitActionAt(new Position(2,0));
+        game.performUnitActionAt(new Position(2,1));
         assertThat(archer.getDefensiveStrength(), is(3));
     }
 

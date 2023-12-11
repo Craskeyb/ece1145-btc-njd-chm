@@ -2,8 +2,6 @@ package hotciv.standard;
 
 import hotciv.framework.Tile;
 
-import java.util.HashMap;
-
 /* Skeleton implementation of HotCiv.*/
 
 

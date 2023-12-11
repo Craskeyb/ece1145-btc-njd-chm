@@ -1,13 +1,10 @@
 package hotciv.tools;
 
 import hotciv.framework.Game;
-import hotciv.framework.Unit;
 import hotciv.framework.Position;
 import hotciv.view.GfxConstants;
 import minidraw.framework.DrawingEditor;
-import minidraw.standard.SelectionTool;
 import minidraw.standard.NullTool;
-import hotciv.tools.*;
 
 
 import java.awt.event.MouseEvent;
@@ -26,10 +23,10 @@ public class compositionTool extends NullTool {
     public compositionTool(Game game, DrawingEditor editor){
         this.game = game;
         this.editor = editor;
-        this.aTool = new actionTool(editor, game);
+        this.aTool = new actionTool(game);
         this.eTool = new endOfTurnTool(game);
         this.mTool = new moveTool(game, editor);
-        this.fTool = new focusTool(editor, game);
+        this.fTool = new focusTool(game);
     }
 
     public void mouseDown(MouseEvent e, int x, int y){

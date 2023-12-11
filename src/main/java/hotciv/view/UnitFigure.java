@@ -1,7 +1,7 @@
 package hotciv.view;
 
 import hotciv.framework.*;
-import hotciv.view.GfxConstants;
+
 
 import java.awt.*;
 

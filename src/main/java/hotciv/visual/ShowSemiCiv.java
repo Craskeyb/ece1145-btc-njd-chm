@@ -3,14 +3,8 @@ package hotciv.visual;
 import minidraw.standard.*;
 import minidraw.framework.*;
 
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
-
 import hotciv.framework.*;
 import hotciv.standard.*;
-import hotciv.view.*;
-import hotciv.stub.*;
 import hotciv.tools.compositionTool;
 
 public class ShowSemiCiv {

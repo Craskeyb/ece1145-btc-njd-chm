@@ -2,7 +2,6 @@ package hotciv.standard;
 
 import hotciv.framework.*;
 
-import java.util.Iterator;
 
 /** Sep 2019: Updated the book's O computation utility
  * functions.

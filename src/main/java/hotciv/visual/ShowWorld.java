@@ -3,7 +3,7 @@ package hotciv.visual;
 import minidraw.standard.*;
 import minidraw.framework.*;
 
-import java.awt.*;
+
 import javax.swing.*;
 
 import hotciv.framework.*;

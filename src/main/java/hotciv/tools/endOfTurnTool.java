@@ -1,15 +1,7 @@
 package hotciv.tools;
 import hotciv.framework.Game;
-import hotciv.framework.Position;
-import hotciv.view.GfxConstants;
-import hotciv.view.UnitFigure;
-import minidraw.framework.Drawing;
-import minidraw.framework.DrawingEditor;
-import minidraw.framework.Figure;
-import minidraw.framework.Tool;
 import minidraw.standard.NullTool;
-import minidraw.standard.SelectionTool;
-import minidraw.standard.handlers.DragTracker;
+
 
 import java.awt.event.MouseEvent;
 

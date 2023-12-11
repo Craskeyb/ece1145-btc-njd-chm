@@ -12,32 +12,30 @@ public class DeltaMapImpl implements GameSetupStrategy {
 
     @Override
     public void setUpBoard() {
-        unitCosts.put(GameConstants.ARCHER,10);
-        unitCosts.put(GameConstants.LEGION,15);
-        unitCosts.put(GameConstants.SETTLER,30);
-        /** Define the world as the DeltaCiv layout */
-        // Basically we use a 'data driven' approach - code the
-        // layout in a simple semi-visual representation, and
-        // convert it to the actual Game representation.
-        String[] layout =
-                new String[]{
-                        "...ooMooooo.....",
-                        "..ohhoooofffoo..",
-                        ".oooooMooo...oo.",
-                        ".ooMMMoooo..oooo",
-                        "...ofooohhoooo..",
-                        ".ofoofooooohhoo.",
-                        "...ooo..........",
-                        ".ooooo.ooohooM..",
-                        ".ooooo.oohooof..",
-                        "offfoooo.offoooo",
-                        "oooooooo...ooooo",
-                        ".ooMMMoooo......",
-                        "..ooooooffoooo..",
-                        "....ooooooooo...",
-                        "..ooohhoo.......",
-                        ".....ooooooooo..",
-                };
+        unitCosts.put(GameConstants.ARCHER, 10);
+        unitCosts.put(GameConstants.LEGION, 15);
+        unitCosts.put(GameConstants.SETTLER, 30);
+
+        // Define the world as the DeltaCiv layout
+        String[] layout = new String[]{
+                "...ooMooooo.....",
+                "..ohhoooofffoo..",
+                ".oooooMooo...oo.",
+                ".ooMMMoooo..oooo",
+                "...ofooohhoooo..",
+                ".ofoofooooohhoo.",
+                "...ooo..........",
+                ".ooooo.ooohooM..",
+                ".ooooo.oohooof..",
+                "offfoooo.offoooo",
+                "oooooooo...ooooo",
+                ".ooMMMoooo......",
+                "..ooooooffoooo..",
+                "....ooooooooo...",
+                "..ooohhoo.......",
+                ".....ooooooooo..",
+        };
+
         // Conversion...
         String line;
         for (int r = 0; r < GameConstants.WORLDSIZE; r++) {
@@ -63,24 +61,24 @@ public class DeltaMapImpl implements GameSetupStrategy {
                 Position p = new Position(r, c);
                 tileMap.put(p, new TileImpl(type));
             }
-            for (int i = 0; i <= GameConstants.WORLDSIZE; i++) {
-                for (int j = 0; j <= GameConstants.WORLDSIZE; j++) {
-                    if (i == 2 && j == 0) {
-                        unitMap.put(new Position(i, j), new UnitImpl(Player.RED, GameConstants.ARCHER));
-                    } else if (i == 3 && j == 2) {
-                        unitMap.put(new Position(i, j), new UnitImpl(Player.BLUE, GameConstants.LEGION));
-                    } else if (i == 4 && j == 3) {
-                        unitMap.put(new Position(i, j), new UnitImpl(Player.RED, GameConstants.SETTLER));
-                    }
-                    if (i == 8 && j == 12) {
-                        cityMap.put(new Position(i, j), new CityImpl(Player.RED));
-                    } else if (i == 4 && j == 5) {
-                        cityMap.put(new Position(i, j), new CityImpl(Player.BLUE));
-                    }
+        }
+
+        for (int i = 0; i <= GameConstants.WORLDSIZE; i++) {
+            for (int j = 0; j <= GameConstants.WORLDSIZE; j++) {
+                if (i == 2 && j == 1) { // Archer placed at (2,1) instead of (2,0)
+                    unitMap.put(new Position(i, j), new UnitImpl(Player.RED, GameConstants.ARCHER));
+                } else if (i == 3 && j == 2) {
+                    unitMap.put(new Position(i, j), new UnitImpl(Player.BLUE, GameConstants.LEGION));
+                } else if (i == 4 && j == 3) {
+                    unitMap.put(new Position(i, j), new UnitImpl(Player.RED, GameConstants.SETTLER));
+                }
+                if (i == 8 && j == 12) {
+                    cityMap.put(new Position(i, j), new CityImpl(Player.RED));
+                } else if (i == 4 && j == 5) {
+                    cityMap.put(new Position(i, j), new CityImpl(Player.BLUE));
                 }
             }
         }
-
     }
 
     public HashMap<Position, City> getCityMap() {

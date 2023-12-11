@@ -236,8 +236,9 @@ public class CivDrawing
     System.out.println( "CivDrawing: world changes at "+pos);
     // this is a really brute-force algorithm: destroy
     // all known units/cities and build up the entire set again
-    defineUnitMap();
     defineCityMap();
+    defineUnitMap();
+
   }
 
   public void turnEnds(Player nextPlayer, int age) {

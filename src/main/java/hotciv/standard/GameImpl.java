@@ -132,8 +132,22 @@ public class GameImpl implements Game {
     }
     //Conquering City
     if (this.getCityAt(to) != null && !(this.getCityAt(to).getOwner() == this.getPlayerInTurn())){
-      this.getCityAt(to).setOwner(this.getPlayerInTurn());
-      //mapStrategy.getCityMap().remove(to);
+      //Check if there is an attack happening in the city, and the result determines whether or not its conquered
+      if(this.getUnitAt(to) != null && this.getUnitAt(to).getOwner() != this.getPlayerInTurn()){
+        Boolean attackResult = attackStrategy.decideAttack(this,mapStrategy,to,from);
+        if(attackResult == true){
+          this.getUnitAt(to).decreaseMoveCount();
+          this.getCityAt(to).setOwner(this.getPlayerInTurn());
+        }
+        if(observerMode == true) {
+          gameObserver.worldChangedAt(from);
+          gameObserver.worldChangedAt(to);
+        }
+        return attackResult;
+      }
+      else{
+        this.getCityAt(to).setOwner(this.getPlayerInTurn());
+      }
     }
     //Initiating an attack
     if(this.getUnitAt(to) != null && this.getUnitAt(to).getOwner() != this.getPlayerInTurn()){

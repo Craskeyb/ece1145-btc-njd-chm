@@ -35,5 +35,6 @@ public class ShowSetFocus {
     editor.showStatus("Click a tile to see Game's setFocus method being called.");
 
     editor.setTool( new focusTool(game));
+    game.createCity(new Position(6,6));
   }
 }
